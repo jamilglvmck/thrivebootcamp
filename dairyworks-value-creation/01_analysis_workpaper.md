@@ -130,3 +130,99 @@ _At constant FY21 share, market growth alone would add ~AED 770M over five years
 ---
 
 _Assumptions & caveats: Revenue is decomposed by source of growth (market capture vs share gain vs adjacencies) to avoid conflating "ride the market" with initiative-driven gains; the initiatives are the enablers of capturing growth Dairyworks currently forfeits. The margin bridge targets the lower peer range (≈SADAFCO 17%) in the base case, not peer median or best-in-class Almarai; cost and mix are shown net to avoid double-counting; A&M is set at a challenger level (3.3%). Capex (~AED 200–350M) and working capital (~AED 80–120M) are preliminary and to be sized in diligence. Market data is Euromonitor RSP (retail sell-out), used for growth rates/direction only, not as Dairyworks' own revenue base. FY2021 is the diagnostic base; "full potential" is a Year-5 target on a 5-year plan horizon._
+
+---
+
+# APPENDIX — Deep-dive analyses (A–F)
+
+_Six supporting analyses built to pressure-test the "bigger picture." Bottom line up front: they **sharpen and partly reframe the diagnosis but do not overturn the ~AED 445M / ~4× full-potential thesis**. The three narrative-relevant shifts are flagged ★._
+
+## A. EBITDA destruction decomposed — AED 362M → 111M (−AED 251M)
+
+Absolute EBITDA bridge, 2017→2021 (AED mn):
+
+| Driver | Impact on EBITDA | Note |
+|---|---|---|
+| Revenue | **−100** | volume −266, price +166 (see PVM) |
+| S&D | **−134** | the single largest destroyer — >½ of the fall |
+| COGS | **−39** | input inflation + scale/plant |
+| A&M | +1 | essentially flat |
+| G&A | +21 | modest efficiency |
+| **Total** | **−251** | 362 → 111 (−69%) |
+
+**Price–Volume–Mix (PVM) on revenue:** volume −13.3% (313→272kt) cost −AED 266M; realized price +9.6% (6.39→7.00k/ton) added +AED 166M → net −AED 100M.
+**Unit economics (AED'000/ton):** COGS/t +19.1% (3.79→4.51); **S&D/t +60.8%** (1.09→1.75); A&M/t +4.4% (flat).
+
+★ **So-what:** S&D did not just drift up as a ratio — it is the biggest *absolute* destroyer of EBITDA, and S&D **per ton** rose 61% vs COGS/ton 19%. Much of that is **operating deleverage**: fixed distribution spread over 13% fewer units. Fixing S&D and winning back volume are the **same** initiative, not two.
+
+## B. Market growth vs forfeited share (UAE, Euromonitor RSP, USD mn)
+
+| Category | 2017 | 2021 | 2026 | Hist CAGR | Fwd CAGR | Dairyworks own growth |
+|---|---|---|---|---|---|---|
+| Milk | 261 | 300 | 443 | +3.6% | **+8.1%** | **−1.7%** (losing share) |
+| Yogurt (all) | 261 | 307 | 435 | +4.1% | +7.2% | +4.2% (≈ holding share) |
+| Flavoured milk | 50 | 55 | 76 | +2.5% | +6.8% | — |
+| Sour milk | 152 | 172 | 258 | +3.0% | +8.5% | — |
+| Ice cream | 110 | 108 | 131 | −0.5% | +3.8% | **−9.5%** (abandoning) |
+| **Total dairy** | **1,162** | **1,277** | **1,772** | **+2.4%** | **+6.8%** | revenue −1.3% |
+
+★ **So-what:** the share loss is **concentrated**, not uniform. Dairyworks ≈ held share in **Yogurt** (+4.2% vs mkt +4.1%) but lost badly in **Milk** (−1.7 vs +3.6 = −5.3pp/yr gap) and **Ice cream** (−9.5 vs −0.5 = −9pp/yr gap). The forward market **accelerates to ~7%/yr** — the prize is bigger ahead than behind. (Value terms; market is RSP, Dairyworks is ex-factory — compared as a value-share proxy.)
+
+## C. Geography — the bleed is the UAE home market
+
+| Geography (revenue by destination) | Rev '17 | Rev '21 | CAGR | GP% '17 | GP% '21 |
+|---|---|---|---|---|---|
+| UAE | 1,200 | 1,064 | **−3.0%** | 41% | 35% |
+| KSA | 340 | 361 | +1.5% | 41% | 36% |
+| Qatar | 460 | 475 | +0.8% | 40% | 35% |
+| **Total** | **1,900** | **1,900** (2017 total 2,000) | — | 41% | 36% |
+
+**So-what:** the decline is a **home-market problem** — UAE revenue fell −3.0%/yr while GCC export markets held flat-to-up. Gross margin compressed ~6pp **uniformly across all three geographies**, consistent with industry-wide input inflation (exogenous), not a single-market failure.
+
+## D. Category mix & price realization
+
+| Category | Rev CAGR | GP% '17→'21 | Price/ton '17→'21 | Read |
+|---|---|---|---|---|
+| Milk (57% of rev) | −1.7% | 40→35% | +10.7% | Core melting; priced up into volume loss |
+| Yogurt | +4.2% | 40→35% | +11.2% | Growth engine; keep scaling |
+| Ice cream | −9.5% | **44→40% (highest)** | 0.0% (flat) | **Abandoning the highest-margin category** |
+
+**So-what:** Dairyworks is shrinking its **highest-GP** category (ice cream, 40%) just as that market is about to re-accelerate (+3.8% fwd), and defending commodity milk with price. Mix is moving the **wrong** way for margin.
+
+## E. Peer trend normalization — ★ the key reframe (pp change 2017→2021)
+
+| Company | COGS | S&D | A&M | EBITDA |
+|---|---|---|---|---|
+| **Dairyworks** | +5.2 | **+7.9** | 0.0 | **−12.3** |
+| Almarai | +10.3 | −1.3 | −0.6 | −7.5 |
+| SADAFCO | +6.1 | −0.2 | −0.4 | −4.3 |
+| NADEC | +7.0 | −2.0 | 0.0 | −6.0 |
+
+★ **So-what (the most important appendix):**
+- **COGS inflation is industry-wide and exogenous** — every peer's COGS rose, Almarai's by +10.3pp (*more* than Dairyworks' +5.2pp). Dairyworks is **not** the problem child on COGS trend. → de-prioritize chasing COGS.
+- **S&D is uniquely self-inflicted** — every peer **held or improved** S&D (−0.2 to −2.0pp) while Dairyworks blew up +7.9pp. This is the smoking gun and the #1 lever.
+- **Decomposition of the 12.3pp loss:** ~6pp is industry-wide margin compression peers also absorbed; ~6pp is self-inflicted, almost entirely S&D. The self-inflicted half is **fully addressable**.
+
+## F. Sensitivity / scenario on Year-5 EBITDA margin (base 16.5%)
+
+| Lever | Downside | Base | Upside | Swing |
+|---|---|---|---|---|
+| S&D turnaround | +4.0 | +8.4 | +10.0 | **widest** |
+| Gross-margin recovery (net) | +3.0 | +5.0 | +6.5 | medium |
+| Volume/operating leverage | −1.5 | incl. | +1.0 | medium |
+| Brand reinvestment (A&M) | −3.5 | −2.7 | −2.0 | narrow |
+| **Resulting EBITDA margin** | **~12.5%** | **16.5%** | **~18.3%** | |
+| **≈ EBITDA (AED mn)** | **~340** | **~445** | **~495** | |
+
+**So-what:** the outcome is **most sensitive to the S&D turnaround** — the same lever the diagnosis and peer-normalization identify. Even the **downside (~12.5% / ~AED 340M) is ~3× FY21**, so the plan's floor still beats inaction.
+
+---
+
+## Does the deep-dive change the narrative?
+
+**No reversal, but a meaningful sharpening and partial reframe:**
+1. **From "margin problem" → "a share-loss doom-loop."** Volume −13% in markets growing toward ~7%/yr; price (+9.6%) masked it and, by shrinking volume, detonated unit cost-to-serve (S&D/ton +61%). (A, B)
+2. **From "cut costs" → "fix S&D and win back volume" (one lever, not COGS).** Peer normalization proves COGS inflation is exogenous (peers worse) and S&D deterioration is uniquely Dairyworks'. ~half the margin loss is industry, ~half self-inflicted S&D. (E)
+3. **Concrete targets:** the bleed is **UAE + Milk + Ice cream**; Yogurt proves Dairyworks *can* grow with the market; ice cream (highest GP) is being abandoned into an accelerating market. (C, D)
+
+The ~AED 445M / ~4× full-potential prize is **unchanged**; the diagnosis behind it is now **board-defensible** and the initiative prioritization is sharper (S&D + volume #1; COGS explicitly a secondary, scale/inflation-limited lever).
