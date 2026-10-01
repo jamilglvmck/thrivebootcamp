@@ -1,6 +1,8 @@
 # Dairyworks: A 5-Year Value Creation Plan
 ## Restoring full potential — ~4.5x EBITDA to ~AED 495M by 2026
 
+> **Note (v1 — pre-challenge model):** This MCP-ready spec reflects the first-pass model. After a red-team review, the model was revised for the **HTML deck** (`dairyworks-value-creation-deck.html`) and the **analysis workpaper** (`01_analysis_workpaper.md`), which carry the current numbers: FY2021 base → **Year-5** target (not calendar 2026); full-potential EBITDA **~AED 445M (base, 16.5%; range 12.5–18.3%)**; revenue bridge **de-conflated** into market-capture vs share-gain; COGS/mix shown **net** (no double-count); **A&M raised to 3.3%**; and an added **investment/cash/risk** slide. Refer to those two files for the authoritative figures.
+
 > Deck slug: `2026-10-01_dairyworks-value-creation` · Framework: SCRA (Situation–Complication–Resolution–Ask) · Objective: Decision (secure CEO/board approval) · Audience: CEO + exec/board (high familiarity, client, small group) · Setting: Pre-read / SteerCo readout · Size: Standard (12 content slides + backup/appendix)
 
 ---

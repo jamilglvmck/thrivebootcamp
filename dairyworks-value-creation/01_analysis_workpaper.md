@@ -83,29 +83,38 @@ High-growth pockets (CAGR 21–26): **UAE organic milk +11.8%, plant-based milk 
 
 ## 6. Synthesis — the "one thing"
 
-> **Dairyworks' collapse is self-inflicted and reversible: margins fell 12pp in markets growing 5–8%. Fix distribution and cost, reinvest in brand, and tilt the portfolio to premium/health to roughly 4.5x EBITDA to ~AED 495M by Year 5.**
+> **Dairyworks' collapse is largely self-inflicted and reversible: margins fell 12pp in markets growing 5–8%. Fix distribution and cost, reinvest in brand, and tilt the portfolio to premium/health to lift EBITDA ~4x to ~AED 445M (base case) by Year 5 of a 5-year plan.**
+
+> **Time base (post-review correction):** FY2021 is the latest audited actuals and the diagnostic base. The plan runs 5 years (Year 1 → Year 5); "full potential" is a Year-5 target, not calendar 2026. Euromonitor CAGRs (2021–26) are used as the market-growth evidence base and directional proxy for the plan horizon.
 
 ## 7. Full-potential value creation plan (5-year)
 
-**Revenue bridge (AED mn):** 1,900 → **2,700** (CAGR +7.3%, in line with market)
+**Revenue bridge (AED mn), decomposed by _source_ of growth (not double-counted with initiatives):** 1,900 → **2,700** (CAGR +7.3%); vs. ~**1,780** if nothing changes (continued −1.3%/yr decline).
 
-| Lever | Uplift |
-|---|---|
-| Distribution reset — regain shelf & share in KSA/Qatar (fix outsourced networks) | +260 |
-| Premiumization — scale organic milk & flavored yogurt | +300 |
-| Core defense + modern/online channel growth (UAE) | +180 |
-| Adjacencies — plant-based & functional dairy entry | +60 |
+| Source of growth | Uplift | Note |
+|---|---|---|
+| Capture market growth (recover to / hold share) | +600 | The prize Dairyworks currently forfeits by losing share; _enabled_ by the distribution + brand initiatives |
+| Win share above market (KSA 2%→~3.5%, shelf regain) | +140 | Net of Almarai's expected competitive response |
+| Adjacencies — plant-based & functional dairy | +60 | New category entry |
 
-**EBITDA margin bridge (pp):** 5.8% → **18.3%**
+_At constant FY21 share, market growth alone would add ~AED 770M over five years; the plan assumes a 1–2 year ramp before full capture, partly offset by commodity-SKU rationalization. Euromonitor sizing is USD retail value (RSP), used for growth rates only and applied to AED ex-factory revenue holding the RSP→ex-factory ratio constant._
+
+**EBITDA margin bridge (pp) — base case:** 5.8% → **16.5%** (range 12.5% downside / 16.5% base / 18.3% upside)
 
 | Lever | Δ (pp) |
 |---|---|
-| Distribution / S&D turnaround (24.9%→16.5%) | +8.4 |
-| Manufacturing modernization + procurement scale (COGS 64.5%→60.0%) | +4.5 |
-| Portfolio mix / premiumization (GP uplift) | +1.5 |
-| Brand reinvestment (A&M 0.6%→2.5%) | −1.9 |
+| Distribution / S&D turnaround (24.9%→~16.5%, net of cost-to-grow) | +8.4 |
+| Gross-margin recovery — manufacturing + procurement + mix, **shown net to avoid double-counting** (COGS 64.5%→~59.5%) | +5.0 |
+| Brand reinvestment (A&M 0.6%→**3.3%**, challenger level) | −2.7 |
 
-**Full potential (Year 5): Revenue ~AED 2,700M, EBITDA ~AED 495M (18.3%) — +AED 384M EBITDA, ~4.5x 2021.**
+**Full potential (Year 5): Revenue ~AED 2,700M, EBITDA ~AED 445M (16.5% base; range ~AED 340–495M) — +AED 335M EBITDA, ~4x FY21.** Approaches the peer range (SADAFCO 17%, NADEC 19%); does not assume best-in-class Almarai (27%, scale-driven).
+
+### Investment, cash & risk (preliminary — to size in diligence)
+- **Capex:** ~AED 200–350M to modernize the 3 UAE plants, phased over Years 2–4.
+- **Working capital:** ~AED 80–120M to fund +42% revenue (fresh-dairy receivables + inventory).
+- **Funding:** largely self-funding — S&D + procurement quick wins free ~AED 50–70M/yr from Year 1; peak external need ~AED 100–150M (phased) at the Year 2–3 capex peak; payback <4 years.
+- **Risks:** Almarai competitive response (40% KSA share, 27% margin); exogenous dairy-input/energy inflation and FX (part of the COGS drag is not controllable); distribution-insourcing and capex execution risk.
+- **Strategic choices:** shift from price-led to volume/share-led; resolve KSA make-vs-buy route-to-market (the binary behind +AED 140M).
 
 ### Four strategic initiatives
 1. **Distribution turnaround** — insource/renegotiate KSA & Qatar, rebuild UAE route-to-market, win back shelf. (Largest single EBITDA lever.)
@@ -120,4 +129,4 @@ High-growth pockets (CAGR 21–26): **UAE organic milk +11.8%, plant-based milk 
 
 ---
 
-_Assumptions & caveats: Revenue uplifts are initiative-based and additive to a 2021 base; they assume share recovery toward market growth and successful distribution/brand execution. Margin bridge targets peer-median economics (SADAFCO/NADEC) rather than best-in-class Almarai. Capex and working-capital needs to be sized in due diligence. Market data is Euromonitor RSP (retail sell-out), used for growth/direction, not as Dairyworks' own revenue base._
+_Assumptions & caveats: Revenue is decomposed by source of growth (market capture vs share gain vs adjacencies) to avoid conflating "ride the market" with initiative-driven gains; the initiatives are the enablers of capturing growth Dairyworks currently forfeits. The margin bridge targets the lower peer range (≈SADAFCO 17%) in the base case, not peer median or best-in-class Almarai; cost and mix are shown net to avoid double-counting; A&M is set at a challenger level (3.3%). Capex (~AED 200–350M) and working capital (~AED 80–120M) are preliminary and to be sized in diligence. Market data is Euromonitor RSP (retail sell-out), used for growth rates/direction only, not as Dairyworks' own revenue base. FY2021 is the diagnostic base; "full potential" is a Year-5 target on a 5-year plan horizon._
