@@ -129,6 +129,18 @@
   .bpcard .bpco{font-family:var(--serif);font-weight:700;font-size:14px;color:var(--navy)}
   .bpcard .bpr{font-size:12px;color:var(--ink);margin-top:4px;line-height:1.32}
   .bpcard .bpr b{color:var(--peri);font-weight:800}
+  .mcard{position:relative;margin-bottom:11px;padding:9px 12px 10px;border:1px solid var(--line);border-radius:3px;background:#fff}
+  .mcard .mhd{display:flex;align-items:center;gap:9px}
+  .rbadge{display:inline-flex;align-items:center;justify-content:center;width:23px;height:23px;border-radius:50%;
+    background:var(--navy);color:#fff;font-weight:800;font-size:12.5px;flex:0 0 auto}
+  .mname{font-family:var(--serif);font-size:16.5px;font-weight:700;color:var(--navy)}
+  .mrank{margin-left:auto;font-size:11.5px;color:var(--grey);font-weight:700}
+  .mrank b{color:var(--navy)}
+  .gbar{position:relative;height:18px;margin-top:8px;margin-bottom:6px}
+  .gbar .seg{position:absolute;top:0;height:100%}
+  .gbar .glab{position:absolute;top:50%;transform:translateY(-50%);font-size:11.5px;font-weight:700;color:var(--ink);white-space:nowrap}
+  .mprod{font-size:11px;color:var(--grey);line-height:1.3}
+  .mprod b{color:var(--ink)}
   .bplead{position:absolute;background:var(--lgrey);border-left:4px solid var(--peri);border-radius:2px;
     padding:10px 14px;font-size:12.5px;line-height:1.38;color:var(--ink)}
   .bplead b{color:var(--navy)}
@@ -406,35 +418,61 @@
 <!-- ========================= 7 — LEVER 5: NEW MARKETS ========================= -->
 <section class="slide">
   <div class="crumb">Value creation  ›  <b>Lever 5 of 5 · New markets</b></div>
-  <h1 class="title">Lever 5 — Our home market is one of the smaller pools; the prize is scaling KSA and entering North Africa</h1>
-  <div class="subt" style="top:112px">Total dairy market size by geography, USD mn retail value (RSP), 2021</div>
+  <h1 class="title">Lever 5 — A market-entry scorecard ranks Tunisia, Egypt and Morocco as the priority new markets to enter now</h1>
+  <div class="subt" style="top:112px">Portfolio-relevant dairy market, 2022 → 2026E (USD mn), and 14-factor entry-scorecard rank — KSA, UAE &amp; Qatar already penetrated</div>
   <div class="hrule" style="top:138px"></div>
 
-  <div class="chartlab" style="left:52px;top:166px;font-size:14px">Dairy market size by geography — 2021 (USD mn RSP) · growth to 2026E</div>
-  <div class="hbwrap" style="left:52px;top:202px;width:560px">
-    <div class="hbrow"><div class="hblab">Saudi Arabia</div><div class="hbtrack"><div class="hbfill" style="width:360px;background:var(--peri)"></div><div class="hbval" style="left:368px">3,522 · +5.0%</div></div></div>
-    <div class="hbrow"><div class="hblab">Algeria</div><div class="hbtrack"><div class="hbfill" style="width:245px;background:var(--peri2)"></div><div class="hbval" style="left:253px">2,399 · +2.9%</div></div></div>
-    <div class="hbrow"><div class="hblab">Morocco</div><div class="hbtrack"><div class="hbfill" style="width:242px;background:var(--peri)"></div><div class="hbval" style="left:250px">2,370 · +5.6%</div></div></div>
-    <div class="hbrow"><div class="hblab">Egypt</div><div class="hbtrack"><div class="hbfill" style="width:181px;background:var(--peri)"></div><div class="hbval" style="left:189px">1,776 · +6.8%</div></div></div>
-    <div class="hbrow"><div class="hblab" style="color:var(--navy);font-weight:800">UAE (home)</div><div class="hbtrack"><div class="hbfill" style="width:132px;background:var(--navy)"></div><div class="hbval" style="left:140px">1,290 · +6.8%</div></div></div>
-    <div class="hbrow"><div class="hblab">Tunisia</div><div class="hbtrack"><div class="hbfill" style="width:49px;background:var(--peri2)"></div><div class="hbval" style="left:57px">481 · +8.8%</div></div></div>
+  <div class="chartlab" style="left:52px;top:164px;font-size:14px">Priority entry markets — portfolio market 2022 → 2026E (USD mn)</div>
+  <div class="legend" style="left:52px;top:190px;font-size:11.5px">
+    <div class="it"><span class="sq navy"></span>2022 market</div>
+    <div class="it"><span class="sq peri"></span>Growth to 2026E</div>
+  </div>
+
+  <div style="position:absolute;left:52px;top:214px;width:566px">
+    <div class="mcard">
+      <div class="mhd"><span class="rbadge">1</span><span class="mname">Tunisia</span><span class="mrank">Score <b>77.3</b> · Rank <b>#1</b></span></div>
+      <div class="gbar">
+        <div class="seg" style="left:0;width:117px;background:var(--navy);border-radius:2px 0 0 2px"></div>
+        <div class="seg" style="left:117px;width:62px;background:var(--peri);border-radius:0 2px 2px 0"></div>
+        <div class="glab" style="left:187px">612 → 936 <span style="color:var(--grey)">USD mn</span> · <b style="color:var(--green)">+11.2%/yr</b></div>
+      </div>
+      <div class="mprod">Fastest growth of any market. Standouts: <b>Ice cream +16.3%</b> · <b>Flavoured yoghurt +15.5%</b> · Plain yoghurt +11.2%</div>
+    </div>
+    <div class="mcard">
+      <div class="mhd"><span class="rbadge">2</span><span class="mname">Egypt</span><span class="mrank">Score <b>75.4</b> · Rank <b>#2</b></span></div>
+      <div class="gbar">
+        <div class="seg" style="left:0;width:305px;background:var(--navy);border-radius:2px 0 0 2px"></div>
+        <div class="seg" style="left:305px;width:95px;background:var(--peri);border-radius:0 2px 2px 0"></div>
+        <div class="glab" style="left:408px">1,592 → 2,089 · <b style="color:var(--green)">+7.0%/yr</b></div>
+      </div>
+      <div class="mprod">Best balance of size &amp; growth (largest unpenetrated base). Large in <b>Plain yoghurt 503</b> · <b>Ice cream 550</b> · Milk 506</div>
+    </div>
+    <div class="mcard">
+      <div class="mhd"><span class="rbadge">3</span><span class="mname">Morocco</span><span class="mrank">Score <b>60.4</b> · Rank #5 overall · <b>#3 unpenetrated</b></span></div>
+      <div class="gbar">
+        <div class="seg" style="left:0;width:298px;background:var(--navy);border-radius:2px 0 0 2px"></div>
+        <div class="seg" style="left:298px;width:86px;background:var(--peri);border-radius:0 2px 2px 0"></div>
+        <div class="glab" style="left:392px">1,555 → 2,003 · <b style="color:var(--green)">+6.5%/yr</b></div>
+      </div>
+      <div class="mprod">Large base, steady growth. Standouts: <b>Ice cream +9.7%</b> · Flavoured yoghurt +7.4% (already ~479 in size)</div>
+    </div>
   </div>
 
   <div class="hbar2" style="left:652px;top:166px;width:576px">What we will do</div>
-  <ul class="moves" style="left:652px;top:216px;width:576px">
-    <li><b>Scale KSA</b> — the region's largest dairy market (3,522), where we are sub-scale today</li>
-    <li><b>Enter North Africa</b> — prioritise <b>Egypt</b> (fastest-growing, ~+12%/yr historically) and <b>Morocco</b> (large, +5.6%)</li>
+  <ul class="moves" style="left:652px;top:214px;width:576px">
+    <li><b>Enter in scorecard order</b> — <b>Tunisia</b> (#1, fastest-growth play), then <b>Egypt</b> (#2, best size-and-growth balance), then <b>Morocco</b> (#3, large &amp; steady)</li>
+    <li><b>Lead with the standout categories</b> per market — ice cream &amp; yoghurt, where portfolio growth is highest</li>
     <li><b>Asset-light entry</b> — distributor / export model off existing plants before any local capex</li>
     <li><b>Localise</b> the proposition (halal, taste, pack, price) market by market</li>
   </ul>
-  <div class="bplead" style="left:652px;top:420px;width:576px"><b>Best practice — Almarai:</b> scaled from a single KSA base to the region's largest dairy via vertical integration and distributor-led export across the GCC &amp; MENA before localising.</div>
-  <div class="prize" style="left:652px;top:500px;width:576px;padding:10px 18px">
+  <div class="bplead" style="left:652px;top:430px;width:576px"><b>Best practice — Almarai:</b> scaled from a single base to the region's largest dairy via distributor-led export across the GCC &amp; MENA before localising. <b>KSA, UAE &amp; Qatar are already penetrated</b> — defended / scaled under Lever 2, not counted here.</div>
+  <div class="prize" style="left:652px;top:512px;width:576px;padding:10px 18px">
     <div class="pz-v" style="font-size:22px">+~AED 120M revenue</div>
     <div class="pz-l">Longer-horizon; sequence after the home-market turnaround (Horizon 3).</div>
   </div>
 
-  <div class="sowhat2"><span class="lab">So what:</span> Growth is not capped by the UAE — KSA and North Africa are multiples of our home market, and an export model reaches them without heavy capital.</div>
-  <div class="src" style="width:1176px">Source: Euromonitor total dairy retail value (RSP) by geography, 2021 &amp; 2026E. Market sizes shown as relative opportunity (USD RSP vs. Dairyworks AED ex-factory not directly comparable).</div>
+  <div class="sowhat2"><span class="lab">So what:</span> With the GCC home markets already penetrated, the next leg of growth is a disciplined, scorecard-led entry into North Africa — led by Tunisia and Egypt.</div>
+  <div class="src" style="width:1176px">Source: Team market-entry scorecard (14-factor; scores B21:O34, ranking B37:H49) and portfolio-relevant dairy market size &amp; CAGR, 2022–26E. KSA, UAE &amp; Qatar excluded as already penetrated.</div>
   <div class="pageno">7</div>
 </section>
 
