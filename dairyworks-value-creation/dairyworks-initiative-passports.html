@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dairyworks — Initiative Passports</title>
+<style>
+  :root{
+    --ink:#191B3A; --navy:#2B2E86; --navy2:#23265f; --peri:#6F74DB; --peri2:#9497E8;
+    --grey:#6A6E7E; --mgrey:#AEB2C0; --line:#CBCFDA; --lgrey:#EEF0F7; --white:#fff;
+    --red:#C03A2B; --green:#2E8B57; --amber:#B8860B;
+    --serif:Georgia,'Times New Roman',serif; --sans:Arial,Helvetica,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:#53586a;font-family:var(--sans);color:var(--ink)}
+  .deck{padding:24px 0}
+  .slide{position:relative;width:1280px;height:720px;background:#fff;margin:0 auto 24px;overflow:hidden;
+    box-shadow:0 2px 14px rgba(0,0,0,.35)}
+  .accent{position:absolute;left:0;top:0;width:10px;height:720px;background:var(--navy)}
+
+  .crumb{position:absolute;right:40px;top:18px;font-size:12px;color:var(--grey);letter-spacing:.02em}
+  .crumb b{color:var(--ink);font-weight:700}
+  .eyebrow{position:absolute;left:40px;top:20px;font-size:11px;font-weight:800;letter-spacing:.14em;
+    color:var(--peri);text-transform:uppercase}
+  h1.ptitle{position:absolute;left:40px;top:36px;width:1000px;font-family:var(--serif);
+    font-size:21px;line-height:1.14;color:var(--ink);font-weight:700;margin:0}
+  .gatechip{position:absolute;right:40px;top:40px;background:var(--navy);color:#fff;border-radius:3px;
+    padding:6px 12px;font-size:12px;font-weight:800;letter-spacing:.03em;text-align:center}
+  .gatechip small{display:block;font-size:8px;font-weight:700;letter-spacing:.1em;opacity:.75;margin-bottom:2px}
+
+  /* metadata band */
+  .meta{position:absolute;left:40px;top:88px;width:1200px;background:var(--lgrey);
+    border:1px solid var(--line);border-radius:3px;padding:7px 8px;display:flex;flex-wrap:wrap}
+  .mf{padding:3px 8px;width:20%;border-left:1px solid var(--line)}
+  .mf:first-child{border-left:none}
+  .mf.w2{width:40%}
+  .mf.nb{border-left:none}
+  .mf .k{font-size:8px;text-transform:uppercase;letter-spacing:.05em;color:var(--grey);font-weight:700}
+  .mf .v{font-size:11px;color:var(--ink);font-weight:700;line-height:1.2;margin-top:2px}
+  .mf .v.rev{color:var(--navy)}
+
+  /* sections */
+  .sec{position:absolute}
+  .sh{font-size:11px;font-weight:800;color:var(--navy);letter-spacing:.03em;text-transform:uppercase;
+    border-bottom:1.5px solid var(--navy);padding-bottom:3px;margin-bottom:6px}
+  .sh .n{display:inline-block;background:var(--navy);color:#fff;width:15px;height:15px;border-radius:50%;
+    text-align:center;line-height:15px;font-size:9px;margin-right:6px;vertical-align:1px}
+  .sl{font-weight:800;color:var(--navy);font-size:9.5px;text-transform:uppercase;letter-spacing:.03em;margin-top:5px}
+  .bt{font-size:10.5px;line-height:1.4;color:var(--ink);margin-top:2px}
+  .bt b{color:var(--navy)}
+  ul.bl{margin:3px 0 0;padding-left:14px}
+  ul.bl li{font-size:10.3px;line-height:1.38;margin-bottom:3px}
+  ul.bl li b{color:var(--navy)}
+
+  /* business case grid */
+  .bcgrid{display:flex;flex-wrap:wrap;gap:6px}
+  .bccell{width:187px;background:var(--lgrey);border-left:3px solid var(--peri);padding:5px 8px;border-radius:2px}
+  .bccell .k{font-size:8px;text-transform:uppercase;letter-spacing:.04em;color:var(--grey);font-weight:700}
+  .bccell .v{font-size:10.5px;color:var(--ink);font-weight:700;line-height:1.22;margin-top:1px}
+  .bccell.hero{border-left-color:var(--navy);background:#E9EBFb}
+  .bccell.hero .v{color:var(--navy)}
+
+  /* tables */
+  table.rt,table.rkt{width:100%;border-collapse:collapse;margin-top:4px}
+  .rt th,.rkt th{background:var(--navy);color:#fff;text-align:left;padding:4px 5px;font-size:8.3px;
+    text-transform:uppercase;letter-spacing:.03em;font-weight:700}
+  .rt td,.rkt td{padding:3px 5px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.22;font-size:9.3px}
+  .rt tr.money td{background:#E9EBFb}
+  .rt .yes{color:var(--navy);font-weight:800}
+  .rt .no{color:var(--grey)}
+  .st-done{color:var(--green);font-weight:700}
+  .st-track{color:var(--navy);font-weight:700}
+  .st-plan{color:var(--grey)}
+  .sev-h{color:var(--red);font-weight:800}
+  .sev-m{color:var(--amber);font-weight:800}
+  .sev-l{color:var(--green);font-weight:800}
+
+  /* sign-offs */
+  .sign{display:flex;align-items:center;font-size:9.5px;color:var(--ink);margin-top:6px}
+  .sign .role{width:150px;font-weight:700;color:var(--navy)}
+  .sign .ln{flex:1;border-bottom:1px solid var(--mgrey);height:12px;margin:0 8px}
+  .sign .dt{width:70px;color:var(--grey)}
+  .sign .box{width:96px;color:var(--grey);text-align:right}
+
+  .ftr{position:absolute;left:40px;bottom:16px;width:1200px;font-size:9px;color:var(--grey);line-height:1.4}
+  .pageno{position:absolute;right:16px;bottom:10px;font-size:11px;color:var(--mgrey)}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- ======================= PASSPORT 1 — PRICING ======================= -->
+<section class="slide">
+  <div class="accent"></div>
+  <div class="eyebrow">Initiative Passport</div>
+  <div class="crumb">Dairyworks value creation  ›  <b>Initiative 1 of 5</b></div>
+  <h1 class="ptitle">Commodity price recovery &amp; revenue management</h1>
+  <div class="gatechip"><small>CURRENT GATE</small>L3 · Planned</div>
+
+  <div class="meta">
+    <div class="mf"><div class="k">Initiative ID</div><div class="v">REV-01</div></div>
+    <div class="mf w2"><div class="k">Initiative Name</div><div class="v">Commodity price recovery &amp; revenue management</div></div>
+    <div class="mf"><div class="k">Workstream</div><div class="v">Pricing &amp; Revenue Mgmt</div></div>
+    <div class="mf"><div class="k">Value Driver</div><div class="v rev">Revenue (margin-accretive)</div></div>
+    <div class="mf nb"><div class="k">Initiative Owner</div><div class="v">Head of Revenue Mgmt</div></div>
+    <div class="mf"><div class="k">Workstream Sponsor</div><div class="v">CFO / Commercial Director</div></div>
+    <div class="mf"><div class="k">P&amp;L / Cost Center</div><div class="v">Net Revenue · Gross Margin</div></div>
+    <div class="mf"><div class="k">Target L4 Date</div><div class="v">2026-06-30</div></div>
+    <div class="mf"><div class="k">Target L5 Date</div><div class="v">2026-12-31</div></div>
+  </div>
+
+  <!-- LEFT -->
+  <div class="sec" style="left:40px;top:172px;width:585px">
+    <div class="sh"><span class="n">2</span>Strategic context &amp; problem statement</div>
+    <div class="sl">Current situation / pain point</div>
+    <div class="bt">Every commodity SKU carries the <b>identical list price in 2017 and 2021</b>. Five years of input-cost inflation was absorbed into margin — commodity <b>GP% fell ~40%→30%</b>. Net price is further diluted by a <b>24.9%-of-revenue S&amp;D / trade line</b> with unmanaged promotions.</div>
+    <div class="sl">Target future state &amp; scope</div>
+    <div class="bt">Phased list-price recovery across standard milk, yogurt &amp; ice cream to rebuild GP toward 40%; <b>price-pack architecture</b> (entry / core / premium, smaller packs at higher price/kg); <b>trade-spend reset</b> managing net price. Scope: UAE domestic commodity portfolio (export pricing sits in Initiative 5).</div>
+  </div>
+
+  <div class="sec" style="left:40px;top:330px;width:585px">
+    <div class="sh"><span class="n">3</span>Financial &amp; operational business case</div>
+    <div class="bcgrid">
+      <div class="bccell"><div class="k">Baseline metric</div><div class="v">Commodity GP ~30% · price flat 5 yrs</div></div>
+      <div class="bccell"><div class="k">Target metric</div><div class="v">Commodity GP ~38–40% · +7–17%/line</div></div>
+      <div class="bccell hero"><div class="k">Run-rate net benefit</div><div class="v">~AED 200M / yr (recurring)</div></div>
+      <div class="bccell"><div class="k">Cost-to-achieve</div><div class="v">Opex ~AED 2–4M · minimal capex</div></div>
+      <div class="bccell"><div class="k">Net Year 1</div><div class="v">~AED 60–90M in-year (phased)</div></div>
+      <div class="bccell"><div class="k">Impact type</div><div class="v">Recurring</div></div>
+    </div>
+    <div class="sl">Calculation logic &amp; key assumptions</div>
+    <ul class="bl">
+      <li><b>Formula:</b> Δprice% × recoverable volume base (~190 kt commodity) → revenue; GP uplift ≈ price Δ less variable cost.</li>
+      <li><b>Assumption 1:</b> phased single-to-mid-teens increases hold ~90% of volume (volume lost to elasticity saves its own variable cost).</li>
+      <li><b>Assumption 2:</b> trade-spend reset recovers ~2–3pp of net price without distribution loss.</li>
+    </ul>
+  </div>
+
+  <div class="sec" style="left:40px;top:548px;width:585px">
+    <div class="sh"><span class="n">5</span>Performance metrics &amp; KPIs</div>
+    <div class="bt"><b>Leading:</b> # SKUs repriced · promo-ROI approvals · price-list go-live %.</div>
+    <div class="bt"><b>Lagging:</b> realised net price vs baseline · commodity GP%.</div>
+    <div class="bt"><b>Sustained:</b> GP% ≥38% held 2 consecutive quarters · price-pack compliance &gt;95%.</div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="sec" style="left:660px;top:172px;width:580px">
+    <div class="sh"><span class="n">4</span>Implementation roadmap &amp; the "money step"</div>
+    <table class="rt">
+      <tr><th style="width:16px">#</th><th>Milestone</th><th style="width:74px">Owner</th><th style="width:40px">Date</th><th style="width:46px">Money?</th><th style="width:56px">Status</th></tr>
+      <tr><td>1</td><td>Line-by-line price &amp; elasticity diagnostic</td><td>RGM</td><td>Wk 3</td><td class="no">No</td><td class="st-track">On Track</td></tr>
+      <tr><td>2</td><td>Price-pack architecture &amp; promo redesign</td><td>RGM / Category</td><td>Wk 6</td><td class="no">No</td><td class="st-plan">Planned</td></tr>
+      <tr><td>3</td><td>Customer negotiations &amp; trade-terms reset</td><td>Sales</td><td>Wk 9</td><td class="no">No</td><td class="st-plan">Planned</td></tr>
+      <tr class="money"><td>4</td><td>New price list live + ERP price tables updated</td><td>RGM / Finance</td><td>Wk 10</td><td class="yes">[YES]</td><td class="st-plan">Planned</td></tr>
+      <tr><td>5</td><td>First invoice audit at new net prices</td><td>Finance</td><td>Wk 16</td><td class="no">No (L5)</td><td class="st-plan">Planned</td></tr>
+    </table>
+  </div>
+
+  <div class="sec" style="left:660px;top:388px;width:580px">
+    <div class="sh"><span class="n">6</span>Cross-functional dependencies &amp; enablers</div>
+    <div class="bt"><b>Technology / IT:</b> ERP price tables &amp; promo engine updated before go-live (Wk 10).</div>
+    <div class="bt"><b>Legal / Regulatory:</b> customer price-change notice periods; consumer price-marking rules.</div>
+    <div class="bt"><b>Commercial / Ops:</b> sales-force briefing; retailer negotiation mandate secured.</div>
+  </div>
+
+  <div class="sec" style="left:660px;top:486px;width:580px">
+    <div class="sh"><span class="n">7</span>Risk register &amp; mitigation</div>
+    <table class="rkt">
+      <tr><th>Risk</th><th style="width:40px">Sev</th><th style="width:46px">Likely</th><th style="width:230px">Mitigation</th></tr>
+      <tr><td>Retailer pushback / de-listing threat</td><td class="sev-h">High</td><td class="sev-m">Med</td><td>Phase increases; bundle with premium NPD; lead with top-3 accounts</td></tr>
+      <tr><td>Volume loss above elasticity assumption</td><td class="sev-m">Med</td><td class="sev-m">Med</td><td>Entry price-pack options protect opening price points</td></tr>
+      <tr><td>Trade spend creeps back</td><td class="sev-m">Med</td><td class="sev-h">High</td><td>Zero-based promo calendar; monthly net-price governance</td></tr>
+    </table>
+  </div>
+
+  <div class="sec" style="left:660px;top:612px;width:580px">
+    <div class="sh"><span class="n">8</span>Formal gate sign-offs</div>
+    <div class="sign"><span class="role">Initiative Owner</span><span class="ln"></span><span class="dt">Date ____</span><span class="box">☐ Approved</span></div>
+    <div class="sign"><span class="role">Workstream Sponsor</span><span class="ln"></span><span class="dt">Date ____</span><span class="box">☐ Approved</span></div>
+    <div class="sign"><span class="role">TO / Finance Lead</span><span class="ln"></span><span class="dt">Date ____</span><span class="box">☐ Approved</span></div>
+  </div>
+
+  <div class="ftr">Source: Dairyworks product &amp; geography sales and GP (2017–2021); value-creation model. Gate scale: L1 Idea · L2 Validated · L3 Planned · L4 Implemented · L5 Value realised. Owners/dates indicative, to confirm at L3.</div>
+  <div class="pageno">1 / 5</div>
+</section>
+
+<!-- ======================= PASSPORT 2 — SHARE RECOVERY ======================= -->
+<section class="slide">
+  <div class="accent"></div>
+  <div class="eyebrow">Initiative Passport</div>
+  <div class="crumb">Dairyworks value creation  ›  <b>Initiative 2 of 5</b></div>
+  <h1 class="ptitle">UAE share recovery — distribution &amp; brand</h1>
+  <div class="gatechip"><small>CURRENT GATE</small>L2 · Validated</div>
+
+  <div class="meta">
+    <div class="mf"><div class="k">Initiative ID</div><div class="v">REV-02</div></div>
+    <div class="mf w2"><div class="k">Initiative Name</div><div class="v">UAE share recovery — distribution &amp; brand</div></div>
+    <div class="mf"><div class="k">Workstream</div><div class="v">Commercial / Marketing</div></div>
+    <div class="mf"><div class="k">Value Driver</div><div class="v rev">Revenue</div></div>
+    <div class="mf nb"><div class="k">Initiative Owner</div><div class="v">Commercial Director</div></div>
+    <div class="mf"><div class="k">Workstream Sponsor</div><div class="v">CEO</div></div>
+    <div class="mf"><div class="k">P&amp;L / Cost Center</div><div class="v">Net Revenue · A&amp;M</div></div>
+    <div class="mf"><div class="k">Target L4 Date</div><div class="v">2027-06-30</div></div>
+    <div class="mf"><div class="k">Target L5 Date</div><div class="v">2028-06-30</div></div>
+  </div>
+
+  <div class="sec" style="left:40px;top:172px;width:585px">
+    <div class="sh"><span class="n">2</span>Strategic context &amp; problem statement</div>
+    <div class="sl">Current situation / pain point</div>
+    <div class="bt">Our volumes fell while the UAE category grew <b>~4%/yr</b> — we lost share every year across milk, yogurt &amp; ice cream. On-shelf availability &amp; distribution reach slipped; the brand is under-fuelled (<b>A&amp;M ~0.6% of revenue vs 2–3% for peers</b>; ~1 in 5 shoppers recognise us); KSA &amp; Qatar listings were lost.</div>
+    <div class="sl">Target future state &amp; scope</div>
+    <div class="bt">Rebuild UAE route-to-market (availability + reach); <b>step up brand investment to peer levels</b> and relaunch; win back export listings; optimise modern-trade + e-/quick-commerce execution. Target: grow <b>at least in line with the market</b>, then recover share. This is the <b>largest single pool</b>.</div>
+  </div>
+
+  <div class="sec" style="left:40px;top:330px;width:585px">
+    <div class="sh"><span class="n">3</span>Financial &amp; operational business case</div>
+    <div class="bcgrid">
+      <div class="bccell"><div class="k">Baseline metric</div><div class="v">Volume declining vs market +~4%/yr · A&amp;M 0.6%</div></div>
+      <div class="bccell"><div class="k">Target metric</div><div class="v">Grow ≥ market · A&amp;M ~3% · reach at parity</div></div>
+      <div class="bccell hero"><div class="k">Run-rate net benefit</div><div class="v">~AED 250M / yr (recurring)</div></div>
+      <div class="bccell"><div class="k">Cost-to-achieve</div><div class="v">Opex: A&amp;M step-up + RTM · low capex</div></div>
+      <div class="bccell"><div class="k">Net Year 1</div><div class="v">~Neutral (investment year)</div></div>
+      <div class="bccell"><div class="k">Impact type</div><div class="v">Recurring</div></div>
+    </div>
+    <div class="sl">Calculation logic &amp; key assumptions</div>
+    <ul class="bl">
+      <li><b>Formula:</b> recovered volume (gap-to-market) × net price → revenue.</li>
+      <li><b>Assumption 1:</b> distribution fix restores availability to competitive parity within ~18 months.</li>
+      <li><b>Assumption 2:</b> A&amp;M at peer levels lifts recognition &amp; pulls demand (brand response in line with peers).</li>
+    </ul>
+  </div>
+
+  <div class="sec" style="left:40px;top:548px;width:585px">
+    <div class="sh"><span class="n">5</span>Performance metrics &amp; KPIs</div>
+    <div class="bt"><b>Leading:</b> numeric &amp; weighted distribution · perfect-store score · media reach · listings regained.</div>
+    <div class="bt"><b>Lagging:</b> volume vs market growth · market share · aided / unaided brand recognition.</div>
+    <div class="bt"><b>Sustained:</b> share flat-to-growing 4 consecutive quarters · distribution ≥ parity.</div>
+  </div>
+
+  <div class="sec" style="left:660px;top:172px;width:580px">
+    <div class="sh"><span class="n">4</span>Implementation roadmap &amp; the "money step"</div>
+    <table class="rt">
+      <tr><th style="width:16px">#</th><th>Milestone</th><th style="width:74px">Owner</th><th style="width:40px">Date</th><th style="width:46px">Money?</th><th style="width:56px">Status</th></tr>
+      <tr><td>1</td><td>Availability &amp; distribution gap audit (census)</td><td>Sales Ops</td><td>Wk 4</td><td class="no">No</td><td class="st-track">On Track</td></tr>
+      <tr><td>2</td><td>RTM redesign + perfect-store standards</td><td>Commercial</td><td>Wk 10</td><td class="no">No</td><td class="st-plan">Planned</td></tr>
+      <tr><td>3</td><td>Brand relaunch &amp; A&amp;M step-up (creative + media)</td><td>Marketing</td><td>Wk 16</td><td class="no">No</td><td class="st-plan">Planned</td></tr>
+      <tr class="money"><td>4</td><td>Win-back KSA &amp; Qatar listings signed</td><td>Export</td><td>Mo 6</td><td class="yes">[YES]</td><td class="st-plan">Planned</td></tr>
+      <tr><td>5</td><td>Share tracking vs market confirms uplift</td><td>Insights</td><td>Mo 12</td><td class="no">No (L5)</td><td class="st-plan">Planned</td></tr>
+    </table>
+  </div>
+
+  <div class="sec" style="left:660px;top:388px;width:580px">
+    <div class="sh"><span class="n">6</span>Cross-functional dependencies &amp; enablers</div>
+    <div class="bt"><b>Technology / IT:</b> retail-execution app / sales-force automation; e-commerce content &amp; listings.</div>
+    <div class="bt"><b>Legal / Regulatory:</b> export registrations &amp; halal certs for KSA / Qatar relisting.</div>
+    <div class="bt"><b>Ops / HR:</b> field-sales headcount &amp; incentives; media / creative agency onboarding.</div>
+  </div>
+
+  <div class="sec" style="left:660px;top:486px;width:580px">
+    <div class="sh"><span class="n">7</span>Risk register &amp; mitigation</div>
+    <table class="rkt">
+      <tr><th>Risk</th><th style="width:40px">Sev</th><th style="width:46px">Likely</th><th style="width:230px">Mitigation</th></tr>
+      <tr><td>Brand spend doesn't convert to share</td><td class="sev-h">High</td><td class="sev-m">Med</td><td>Test-and-learn; retail media + sampling; ROAS gates on spend</td></tr>
+      <tr><td>Distributor / retailer slot constraints</td><td class="sev-m">Med</td><td class="sev-m">Med</td><td>Anchor key retailers first; lead with category-captain data</td></tr>
+      <tr><td>Export re-registration delays</td><td class="sev-m">Med</td><td class="sev-h">High</td><td>Start regulatory track early; experienced local partner</td></tr>
+    </table>
+  </div>
+
+  <div class="sec" style="left:660px;top:612px;width:580px">
+    <div class="sh"><span class="n">8</span>Formal gate sign-offs</div>
+    <div class="sign"><span class="role">Initiative Owner</span><span class="ln"></span><span class="dt">Date ____</span><span class="box">☐ Approved</span></div>
+    <div class="sign"><span class="role">Workstream Sponsor</span><span class="ln"></span><span class="dt">Date ____</span><span class="box">☐ Approved</span></div>
+    <div class="sign"><span class="role">TO / Finance Lead</span><span class="ln"></span><span class="dt">Date ____</span><span class="box">☐ Approved</span></div>
+  </div>
+
+  <div class="ftr">Source: Dairyworks product &amp; geography volumes (2017–2021); Euromonitor UAE retail value; 2019 Nielsen brand recognition; peer A&amp;M benchmark. Gate scale: L1 Idea · L2 Validated · L3 Planned · L4 Implemented · L5 Value realised.</div>
+  <div class="pageno">2 / 5</div>
+</section>
+
+<!-- ======================= PASSPORT 3 — MIX & PREMIUMIZATION ======================= -->
+<section class="slide">
+  <div class="accent"></div>
+  <div class="eyebrow">Initiative Passport</div>
+  <div class="crumb">Dairyworks value creation  ›  <b>Initiative 3 of 5</b></div>
+  <h1 class="ptitle">Portfolio premiumization &amp; ice-cream relaunch</h1>
+  <div class="gatechip"><small>CURRENT GATE</small>L2 · Validated</div>
+
+  <div class="meta">
+    <div class="mf"><div class="k">Initiative ID</div><div class="v">REV-03</div></div>
+    <div class="mf w2"><div class="k">Initiative Name</div><div class="v">Portfolio premiumization &amp; ice-cream relaunch</div></div>
+    <div class="mf"><div class="k">Workstream</div><div class="v">Category / Marketing</div></div>
+    <div class="mf"><div class="k">Value Driver</div><div class="v rev">Revenue (margin-accretive)</div></div>
+    <div class="mf nb"><div class="k">Initiative Owner</div><div class="v">Category Director</div></div>
+    <div class="mf"><div class="k">Workstream Sponsor</div><div class="v">Commercial Director</div></div>
+    <div class="mf"><div class="k">P&amp;L / Cost Center</div><div class="v">Net Revenue · Gross Margin</div></div>
+    <div class="mf"><div class="k">Target L4 Date</div><div class="v">2027-09-30</div></div>
+    <div class="mf"><div class="k">Target L5 Date</div><div class="v">2029-03-31</div></div>
+  </div>
+
+  <div class="sec" style="left:40px;top:172px;width:585px">
+    <div class="sh"><span class="n">2</span>Strategic context &amp; problem statement</div>
+    <div class="sl">Current situation / pain point</div>
+    <div class="bt">The portfolio skews to <b>declining commodity lines</b> (−4% to −10% rev CAGR at ~30% GP) while <b>premium is under-resourced</b> (organic milk +9%, flavoured yogurt +17%, both at 40% GP). Ice cream — our <b>highest-GP category</b> — is declining fastest.</div>
+    <div class="sl">Target future state &amp; scope</div>
+    <div class="bt">Tilt volume, A&amp;M &amp; shelf toward premium winners; <b>premiumize &amp; relaunch ice cream</b>; add premium formats (high-protein, single-serve, gifting); manage the commodity tail deliberately for cash. The one lever that lifts <b>top line and blended gross margin together</b>.</div>
+  </div>
+
+  <div class="sec" style="left:40px;top:330px;width:585px">
+    <div class="sh"><span class="n">3</span>Financial &amp; operational business case</div>
+    <div class="bcgrid">
+      <div class="bccell"><div class="k">Baseline metric</div><div class="v">Premium ~43% of revenue · blended GP ~mid-30s%</div></div>
+      <div class="bccell"><div class="k">Target metric</div><div class="v">Premium &gt;55% of revenue · blended GP +2–3pp</div></div>
+      <div class="bccell hero"><div class="k">Run-rate net benefit</div><div class="v">~AED 120M / yr · margin-accretive</div></div>
+      <div class="bccell"><div class="k">Cost-to-achieve</div><div class="v">Opex: A&amp;M reallocation + NPD · modest capex</div></div>
+      <div class="bccell"><div class="k">Net Year 1</div><div class="v">Small; compounds H2–H3</div></div>
+      <div class="bccell"><div class="k">Impact type</div><div class="v">Recurring</div></div>
+    </div>
+    <div class="sl">Calculation logic &amp; key assumptions</div>
+    <ul class="bl">
+      <li><b>Formula:</b> premium volume growth × premium net price + gross-margin mix uplift.</li>
+      <li><b>Assumption 1:</b> premium lines sustain double-digit growth with volume, A&amp;M &amp; shelf support.</li>
+      <li><b>Assumption 2:</b> ice-cream relaunch arrests decline and returns the category to growth.</li>
+    </ul>
+  </div>
+
+  <div class="sec" style="left:40px;top:548px;width:585px">
+    <div class="sh"><span class="n">5</span>Performance metrics &amp; KPIs</div>
+    <div class="bt"><b>Leading:</b> NPD pipeline value · premium distribution points · relaunch sell-in.</div>
+    <div class="bt"><b>Lagging:</b> premium % of revenue · blended GP% · ice-cream growth rate.</div>
+    <div class="bt"><b>Sustained:</b> premium mix &gt;55% held · blended GP uplift sustained 2+ quarters.</div>
+  </div>
+
+  <div class="sec" style="left:660px;top:172px;width:580px">
+    <div class="sh"><span class="n">4</span>Implementation roadmap &amp; the "money step"</div>
+    <table class="rt">
+      <tr><th style="width:16px">#</th><th>Milestone</th><th style="width:74px">Owner</th><th style="width:40px">Date</th><th style="width:46px">Money?</th><th style="width:56px">Status</th></tr>
+      <tr><td>1</td><td>Portfolio &amp; margin-pool analysis; SKU rationalisation</td><td>Category</td><td>Wk 4</td><td class="no">No</td><td class="st-track">On Track</td></tr>
+      <tr><td>2</td><td>Premium range &amp; format roadmap (NPD)</td><td>R&amp;D / Category</td><td>Mo 3</td><td class="no">No</td><td class="st-plan">Planned</td></tr>
+      <tr><td>3</td><td>Ice-cream relaunch (recipe, pack, price)</td><td>Marketing</td><td>Mo 6</td><td class="no">No</td><td class="st-plan">Planned</td></tr>
+      <tr class="money"><td>4</td><td>National listing of premium range live</td><td>Sales</td><td>Mo 9</td><td class="yes">[YES]</td><td class="st-plan">Planned</td></tr>
+      <tr><td>5</td><td>Mix &amp; GP tracking confirms margin uplift</td><td>Finance</td><td>Mo 12</td><td class="no">No (L5)</td><td class="st-plan">Planned</td></tr>
+    </table>
+  </div>
+
+  <div class="sec" style="left:660px;top:388px;width:580px">
+    <div class="sh"><span class="n">6</span>Cross-functional dependencies &amp; enablers</div>
+    <div class="bt"><b>Technology / IT:</b> PLM / NPD workflow; demand planning for new SKUs.</div>
+    <div class="bt"><b>Legal / Regulatory:</b> labelling-claim approvals (organic, high-protein).</div>
+    <div class="bt"><b>Operations:</b> production capability for premium formats; chilled capacity.</div>
+  </div>
+
+  <div class="sec" style="left:660px;top:486px;width:580px">
+    <div class="sh"><span class="n">7</span>Risk register &amp; mitigation</div>
+    <table class="rkt">
+      <tr><th>Risk</th><th style="width:40px">Sev</th><th style="width:46px">Likely</th><th style="width:230px">Mitigation</th></tr>
+      <tr><td>NPD slippage / taste fails at test</td><td class="sev-m">Med</td><td class="sev-m">Med</td><td>Stage-gate process; consumer testing before scale</td></tr>
+      <tr><td>Cannibalisation of existing lines</td><td class="sev-l">Low</td><td class="sev-m">Med</td><td>Portfolio architecture &amp; clear price ladders</td></tr>
+      <tr><td>Commodity de-listing from range cuts</td><td class="sev-m">Med</td><td class="sev-m">Med</td><td>Manage tail deliberately; retain key volume SKUs</td></tr>
+    </table>
+  </div>
+
+  <div class="sec" style="left:660px;top:612px;width:580px">
+    <div class="sh"><span class="n">8</span>Formal gate sign-offs</div>
+    <div class="sign"><span class="role">Initiative Owner</span><span class="ln"></span><span class="dt">Date ____</span><span class="box">☐ Approved</span></div>
+    <div class="sign"><span class="role">Workstream Sponsor</span><span class="ln"></span><span class="dt">Date ____</span><span class="box">☐ Approved</span></div>
+    <div class="sign"><span class="role">TO / Finance Lead</span><span class="ln"></span><span class="dt">Date ____</span><span class="box">☐ Approved</span></div>
+  </div>
+
+  <div class="ftr">Source: Dairyworks product &amp; geography sales and GP (2017–2021); value-creation model. Gate scale: L1 Idea · L2 Validated · L3 Planned · L4 Implemented · L5 Value realised.</div>
+  <div class="pageno">3 / 5</div>
+</section>
+
+<!-- ======================= PASSPORT 4 — NEW CATEGORIES ======================= -->
+<section class="slide">
+  <div class="accent"></div>
+  <div class="eyebrow">Initiative Passport</div>
+  <div class="crumb">Dairyworks value creation  ›  <b>Initiative 4 of 5</b></div>
+  <h1 class="ptitle">Adjacency entry — plant-based &amp; sour-milk categories</h1>
+  <div class="gatechip"><small>CURRENT GATE</small>L1 · Idea</div>
+
+  <div class="meta">
+    <div class="mf"><div class="k">Initiative ID</div><div class="v">REV-04</div></div>
+    <div class="mf w2"><div class="k">Initiative Name</div><div class="v">Adjacency entry — plant-based &amp; sour-milk</div></div>
+    <div class="mf"><div class="k">Workstream</div><div class="v">Innovation / New Business</div></div>
+    <div class="mf"><div class="k">Value Driver</div><div class="v rev">Revenue</div></div>
+    <div class="mf nb"><div class="k">Initiative Owner</div><div class="v">Head of Innovation</div></div>
+    <div class="mf"><div class="k">Workstream Sponsor</div><div class="v">CEO</div></div>
+    <div class="mf"><div class="k">P&amp;L / Cost Center</div><div class="v">Net Revenue · New category</div></div>
+    <div class="mf"><div class="k">Target L4 Date</div><div class="v">2028-03-31</div></div>
+    <div class="mf"><div class="k">Target L5 Date</div><div class="v">2029-06-30</div></div>
+  </div>
+
+  <div class="sec" style="left:40px;top:172px;width:585px">
+    <div class="sh"><span class="n">2</span>Strategic context &amp; problem statement</div>
+    <div class="sl">Current situation / pain point</div>
+    <div class="bt">Dairyworks has <b>zero presence</b> in high-growth UAE adjacencies — plant-based milk (<b>+9.9%/yr</b>), sour-milk (+8.5%), flavoured milk drinks (+6.8%), drinking yogurt (+6.2%) — all growing faster than our current categories.</div>
+    <div class="sl">Target future state &amp; scope</div>
+    <div class="bt">Enter plant-based &amp; sour-milk on a <b>best-practice playbook</b> (Oatly: taste-led brand · Chobani: household recruitment + retail media · Halo Top: lead-retailer + sampling). Leverage <b>existing chilled distribution &amp; supply chain</b> for low incremental cost. Scope: 2 adjacencies piloted, then scaled nationally.</div>
+  </div>
+
+  <div class="sec" style="left:40px;top:330px;width:585px">
+    <div class="sh"><span class="n">3</span>Financial &amp; operational business case</div>
+    <div class="bcgrid">
+      <div class="bccell"><div class="k">Baseline metric</div><div class="v">AED 0 — no presence today</div></div>
+      <div class="bccell"><div class="k">Target metric</div><div class="v">Meaningful share of 2 adjacencies</div></div>
+      <div class="bccell hero"><div class="k">Run-rate net benefit</div><div class="v">~AED 110M / yr (recurring)</div></div>
+      <div class="bccell"><div class="k">Cost-to-achieve</div><div class="v">Opex: launch A&amp;M + sampling · modest capex</div></div>
+      <div class="bccell"><div class="k">Net Year 1</div><div class="v">Negative (pilot / investment)</div></div>
+      <div class="bccell"><div class="k">Impact type</div><div class="v">Recurring</div></div>
+    </div>
+    <div class="sl">Calculation logic &amp; key assumptions</div>
+    <ul class="bl">
+      <li><b>Formula:</b> adjacency market size × target share × net price.</li>
+      <li><b>Assumption 1:</b> entry on a clear, better-for-you, taste-led proposition drives trial &amp; repeat.</li>
+      <li><b>Assumption 2:</b> existing chilled RTM carries the new range (low incremental distribution cost).</li>
+    </ul>
+  </div>
+
+  <div class="sec" style="left:40px;top:548px;width:585px">
+    <div class="sh"><span class="n">5</span>Performance metrics &amp; KPIs</div>
+    <div class="bt"><b>Leading:</b> trial / sampling rates · repeat-purchase rate · lead-retailer sell-through.</div>
+    <div class="bt"><b>Lagging:</b> adjacency revenue · category share · new-household penetration.</div>
+    <div class="bt"><b>Sustained:</b> repeat rate above threshold · positive category contribution margin.</div>
+  </div>
+
+  <div class="sec" style="left:660px;top:172px;width:580px">
+    <div class="sh"><span class="n">4</span>Implementation roadmap &amp; the "money step"</div>
+    <table class="rt">
+      <tr><th style="width:16px">#</th><th>Milestone</th><th style="width:74px">Owner</th><th style="width:40px">Date</th><th style="width:46px">Money?</th><th style="width:56px">Status</th></tr>
+      <tr><td>1</td><td>Adjacency prioritisation &amp; proposition test</td><td>Innovation</td><td>Mo 2</td><td class="no">No</td><td class="st-track">On Track</td></tr>
+      <tr><td>2</td><td>Product development &amp; lead-retailer agreement</td><td>R&amp;D / Sales</td><td>Mo 5</td><td class="no">No</td><td class="st-plan">Planned</td></tr>
+      <tr><td>3</td><td>Pilot launch (one retailer) + sampling</td><td>Marketing</td><td>Mo 8</td><td class="no">No</td><td class="st-plan">Planned</td></tr>
+      <tr class="money"><td>4</td><td>National rollout decision &amp; listings secured</td><td>CEO / Sales</td><td>Mo 14</td><td class="yes">[YES]</td><td class="st-plan">Planned</td></tr>
+      <tr><td>5</td><td>Category P&amp;L review confirms contribution</td><td>Finance</td><td>Mo 20</td><td class="no">No (L5)</td><td class="st-plan">Planned</td></tr>
+    </table>
+  </div>
+
+  <div class="sec" style="left:660px;top:388px;width:580px">
+    <div class="sh"><span class="n">6</span>Cross-functional dependencies &amp; enablers</div>
+    <div class="bt"><b>Technology / IT:</b> new-SKU setup; e-commerce / quick-commerce listings.</div>
+    <div class="bt"><b>Legal / Regulatory:</b> plant-based labelling &amp; claims; new-ingredient approvals.</div>
+    <div class="bt"><b>Operations:</b> plant-based process capability (new line / co-man); ingredient sourcing.</div>
+  </div>
+
+  <div class="sec" style="left:660px;top:486px;width:580px">
+    <div class="sh"><span class="n">7</span>Risk register &amp; mitigation</div>
+    <table class="rkt">
+      <tr><th>Risk</th><th style="width:40px">Sev</th><th style="width:46px">Likely</th><th style="width:230px">Mitigation</th></tr>
+      <tr><td>New-capability gap (plant-based process)</td><td class="sev-h">High</td><td class="sev-m">Med</td><td>Co-man / partner or licence before committing capex</td></tr>
+      <tr><td>Trial doesn't convert to repeat</td><td class="sev-h">High</td><td class="sev-m">Med</td><td>Lead on taste; sampling; iterate recipe fast</td></tr>
+      <tr><td>Competitive / MNC response</td><td class="sev-m">Med</td><td class="sev-m">Med</td><td>Move fast with lead retailer; own the better-for-you niche</td></tr>
+    </table>
+  </div>
+
+  <div class="sec" style="left:660px;top:612px;width:580px">
+    <div class="sh"><span class="n">8</span>Formal gate sign-offs</div>
+    <div class="sign"><span class="role">Initiative Owner</span><span class="ln"></span><span class="dt">Date ____</span><span class="box">☐ Approved</span></div>
+    <div class="sign"><span class="role">Workstream Sponsor</span><span class="ln"></span><span class="dt">Date ____</span><span class="box">☐ Approved</span></div>
+    <div class="sign"><span class="role">TO / Finance Lead</span><span class="ln"></span><span class="dt">Date ____</span><span class="box">☐ Approved</span></div>
+  </div>
+
+  <div class="ftr">Source: Euromonitor UAE retail value (2021–26E); best-practice case studies (Oatly, Chobani, Halo Top); value-creation model. Gate scale: L1 Idea · L2 Validated · L3 Planned · L4 Implemented · L5 Value realised.</div>
+  <div class="pageno">4 / 5</div>
+</section>
+
+<!-- ======================= PASSPORT 5 — NEW MARKETS ======================= -->
+<section class="slide">
+  <div class="accent"></div>
+  <div class="eyebrow">Initiative Passport</div>
+  <div class="crumb">Dairyworks value creation  ›  <b>Initiative 5 of 5</b></div>
+  <h1 class="ptitle">Geographic expansion — KSA scale-up &amp; North Africa entry</h1>
+  <div class="gatechip"><small>CURRENT GATE</small>L1 · Idea</div>
+
+  <div class="meta">
+    <div class="mf"><div class="k">Initiative ID</div><div class="v">REV-05</div></div>
+    <div class="mf w2"><div class="k">Initiative Name</div><div class="v">Geographic expansion — KSA scale-up &amp; North Africa entry</div></div>
+    <div class="mf"><div class="k">Workstream</div><div class="v">International / Export</div></div>
+    <div class="mf"><div class="k">Value Driver</div><div class="v rev">Revenue</div></div>
+    <div class="mf nb"><div class="k">Initiative Owner</div><div class="v">Head of International</div></div>
+    <div class="mf"><div class="k">Workstream Sponsor</div><div class="v">CEO</div></div>
+    <div class="mf"><div class="k">P&amp;L / Cost Center</div><div class="v">Export Revenue</div></div>
+    <div class="mf"><div class="k">Target L4 Date</div><div class="v">2028-09-30</div></div>
+    <div class="mf"><div class="k">Target L5 Date</div><div class="v">2029-12-31</div></div>
+  </div>
+
+  <div class="sec" style="left:40px;top:172px;width:585px">
+    <div class="sh"><span class="n">2</span>Strategic context &amp; problem statement</div>
+    <div class="sl">Current situation / pain point</div>
+    <div class="bt">The UAE home market (~USD 1.29bn) is one of the <b>smaller regional pools</b>. Growth is capped by playing mainly at home while <b>KSA (3,522)</b>, Algeria (2,399), Morocco (2,370) &amp; Egypt (1,776) are multiples larger. We are sub-scale in KSA and absent from North Africa.</div>
+    <div class="sl">Target future state &amp; scope</div>
+    <div class="bt">Scale KSA (largest regional market) and enter North Africa — prioritise <b>Egypt</b> (fastest-growing) &amp; <b>Morocco</b> (+5.6%) — via an <b>asset-light distributor / export model</b> off existing plants, localising proposition (halal, taste, pack, price). Local capex only after proof. Best practice: <b>Almarai</b> scaled from a single KSA base via distributor-led export across GCC / MENA.</div>
+  </div>
+
+  <div class="sec" style="left:40px;top:330px;width:585px">
+    <div class="sh"><span class="n">3</span>Financial &amp; operational business case</div>
+    <div class="bcgrid">
+      <div class="bccell"><div class="k">Baseline metric</div><div class="v">Sub-scale KSA · AED 0 North Africa</div></div>
+      <div class="bccell"><div class="k">Target metric</div><div class="v">Distributor presence: KSA + 2 NA markets</div></div>
+      <div class="bccell hero"><div class="k">Run-rate net benefit</div><div class="v">~AED 120M / yr (recurring)</div></div>
+      <div class="bccell"><div class="k">Cost-to-achieve</div><div class="v">Opex: export setup, registration, listings · low capex</div></div>
+      <div class="bccell"><div class="k">Net Year 1</div><div class="v">Negative (setup)</div></div>
+      <div class="bccell"><div class="k">Impact type</div><div class="v">Recurring</div></div>
+    </div>
+    <div class="sl">Calculation logic &amp; key assumptions</div>
+    <ul class="bl">
+      <li><b>Formula:</b> target market size × share × ex-factory price, net of distributor margin.</li>
+      <li><b>Assumption 1:</b> asset-light distributor model reaches markets without local-plant capex.</li>
+      <li><b>Assumption 2:</b> existing plants have exportable spare capacity &amp; adequate shelf-life.</li>
+    </ul>
+  </div>
+
+  <div class="sec" style="left:40px;top:548px;width:585px">
+    <div class="sh"><span class="n">5</span>Performance metrics &amp; KPIs</div>
+    <div class="bt"><b>Leading:</b> registrations completed · distributor contracts signed · listings secured.</div>
+    <div class="bt"><b>Lagging:</b> export revenue by market · market share · distributor sell-through.</div>
+    <div class="bt"><b>Sustained:</b> positive market contribution · repeat orders growing quarter-on-quarter.</div>
+  </div>
+
+  <div class="sec" style="left:660px;top:172px;width:580px">
+    <div class="sh"><span class="n">4</span>Implementation roadmap &amp; the "money step"</div>
+    <table class="rt">
+      <tr><th style="width:16px">#</th><th>Milestone</th><th style="width:74px">Owner</th><th style="width:40px">Date</th><th style="width:46px">Money?</th><th style="width:56px">Status</th></tr>
+      <tr><td>1</td><td>Market prioritisation &amp; entry-model design</td><td>International</td><td>Mo 3</td><td class="no">No</td><td class="st-track">On Track</td></tr>
+      <tr><td>2</td><td>Distributor selection &amp; product registration</td><td>Export / Reg</td><td>Mo 7</td><td class="no">No</td><td class="st-plan">Planned</td></tr>
+      <tr><td>3</td><td>KSA scale-up plan + first NA market launch</td><td>International</td><td>Mo 12</td><td class="no">No</td><td class="st-plan">Planned</td></tr>
+      <tr class="money"><td>4</td><td>Distributor contracts signed &amp; first shipments</td><td>CEO / Export</td><td>Mo 15</td><td class="yes">[YES]</td><td class="st-plan">Planned</td></tr>
+      <tr><td>5</td><td>Market P&amp;L &amp; expansion review</td><td>Finance</td><td>Mo 24</td><td class="no">No (L5)</td><td class="st-plan">Planned</td></tr>
+    </table>
+  </div>
+
+  <div class="sec" style="left:660px;top:388px;width:580px">
+    <div class="sh"><span class="n">6</span>Cross-functional dependencies &amp; enablers</div>
+    <div class="bt"><b>Technology / IT:</b> export order management; multi-currency pricing &amp; invoicing.</div>
+    <div class="bt"><b>Legal / Regulatory:</b> halal certification; product registration per market; export licences.</div>
+    <div class="bt"><b>Operations:</b> exportable capacity; cold-chain logistics; shelf-life for distance.</div>
+  </div>
+
+  <div class="sec" style="left:660px;top:486px;width:580px">
+    <div class="sh"><span class="n">7</span>Risk register &amp; mitigation</div>
+    <table class="rkt">
+      <tr><th>Risk</th><th style="width:40px">Sev</th><th style="width:46px">Likely</th><th style="width:230px">Mitigation</th></tr>
+      <tr><td>Regulatory / registration delays</td><td class="sev-h">High</td><td class="sev-h">High</td><td>Start regulatory track first; experienced local partner</td></tr>
+      <tr><td>Distributor underperformance</td><td class="sev-m">Med</td><td class="sev-m">Med</td><td>Clear KPIs &amp; incentives; dual-source key markets</td></tr>
+      <tr><td>FX / trade-barrier exposure</td><td class="sev-m">Med</td><td class="sev-m">Med</td><td>Price in hard currency; hedge; phase commitments</td></tr>
+    </table>
+  </div>
+
+  <div class="sec" style="left:660px;top:612px;width:580px">
+    <div class="sh"><span class="n">8</span>Formal gate sign-offs</div>
+    <div class="sign"><span class="role">Initiative Owner</span><span class="ln"></span><span class="dt">Date ____</span><span class="box">☐ Approved</span></div>
+    <div class="sign"><span class="role">Workstream Sponsor</span><span class="ln"></span><span class="dt">Date ____</span><span class="box">☐ Approved</span></div>
+    <div class="sign"><span class="role">TO / Finance Lead</span><span class="ln"></span><span class="dt">Date ____</span><span class="box">☐ Approved</span></div>
+  </div>
+
+  <div class="ftr">Source: Euromonitor total dairy retail value (RSP) by geography, 2021 &amp; 2026E; value-creation model. Market sizes shown as relative opportunity (USD RSP vs. Dairyworks AED ex-factory not directly comparable). Gate scale: L1 Idea · L2 Validated · L3 Planned · L4 Implemented · L5 Value realised.</div>
+  <div class="pageno">5 / 5</div>
+</section>
+
+</div>
+
+<!-- live-reload: polls this file's Last-Modified and reloads on change -->
+<script>
+(function(){
+  var last=null;
+  setInterval(function(){
+    fetch(location.pathname,{method:'HEAD',cache:'no-store'}).then(function(r){
+      var lm=r.headers.get('Last-Modified');
+      if(last && lm && lm!==last){ location.reload(); }
+      last=lm;
+    }).catch(function(){});
+  },1000);
+})();
+</script>
+</body>
+</html>
