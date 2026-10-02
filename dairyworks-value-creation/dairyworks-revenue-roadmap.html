@@ -41,6 +41,14 @@
 
   /* stacked bar chart (slide 1) */
   .chartlab{position:absolute;font-family:var(--serif);font-weight:700;font-size:16px;color:var(--ink)}
+  .gaplab{position:absolute;font-family:var(--serif);font-weight:700;font-size:15px;color:var(--grey);
+    text-transform:uppercase;letter-spacing:.08em}
+  .gap{display:flex;gap:16px;align-items:flex-start;margin-bottom:20px}
+  .gic{flex:0 0 52px;width:52px;height:52px;border-radius:50%;background:var(--lgrey);
+    display:flex;align-items:center;justify-content:center}
+  .gtx{flex:1;padding-top:2px}
+  .gtx .gt{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--navy);line-height:1.15}
+  .gtx .gd{font-size:13px;color:var(--ink);line-height:1.42;margin-top:4px}
   .plot{position:absolute}
   .bars{position:absolute;display:flex;align-items:flex-end;gap:24px}
   .col{position:relative;width:68px;display:flex;flex-direction:column;justify-content:flex-end}
@@ -273,24 +281,41 @@
 <section class="slide">
   <div class="crumb">Value creation  ›  <b>Lever 2 of 5 · Share recovery (distribution &amp; brand)</b></div>
   <h1 class="title">Lever 2 — We shrank while the market grew; closing the volume gap through distribution and brand is the single largest pool</h1>
-  <div class="subt" style="top:112px">UAE volume growth, Dairyworks vs. the market, 2017–2021</div>
+  <div class="subt" style="top:112px">Four gaps opened up while the market moved on — each one is ours to close</div>
   <div class="hrule" style="top:138px"></div>
 
-  <div class="chartlab" style="left:52px;top:166px;font-size:14px">Volume CAGR 2017–21, UAE</div>
-  <table class="mt" style="left:52px;top:196px;width:560px">
-    <tr><th style="width:150px">UAE category</th><th>Our volume<br>CAGR</th><th>Market<br>CAGR</th><th>Growth gap<br>(per year)</th></tr>
-    <tr><td>Milk</td><td class="redn">−5.2%</td><td class="grnn">+3.6%</td><td class="redn">~9pp</td></tr>
-    <tr><td>Yogurt</td><td class="redn">−0.8%</td><td class="grnn">+4.1%</td><td class="redn">~5pp</td></tr>
-    <tr><td>Ice cream</td><td class="redn">−13.1%</td><td>−0.5%</td><td class="redn">~13pp</td></tr>
-  </table>
-  <div style="position:absolute;left:52px;top:318px;width:560px">
-    <div class="bplead" style="position:relative"><b>Brand is under-fuelled:</b> only ~1 in 5 shoppers recognise Dairyworks, and A&amp;M is just <b>0.6% of revenue vs 2–3% for peers</b> — demand is not being pulled while availability slips.</div>
+  <div class="gaplab" style="left:52px;top:164px">Where we lost ground</div>
+  <div style="position:absolute;left:52px;top:198px;width:566px">
+    <div class="gap">
+      <div class="gic">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2B2E86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M20 4 13 11"/><path d="M4 14v6h6"/><path d="M4 20 11 13"/></svg>
+      </div>
+      <div class="gtx"><div class="gt">The market grew — we shrank</div><div class="gd">Milk, yogurt and ice cream all kept expanding, yet our volumes fell. We handed over share, year after year.</div></div>
+    </div>
+    <div class="gap">
+      <div class="gic">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2B2E86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 5 4h14l2 5"/><path d="M3 9v11h18V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></svg>
+      </div>
+      <div class="gtx"><div class="gt">We slipped off the shelf</div><div class="gd">Distribution reach and on-shelf availability eroded — shoppers simply can't buy a product they can't find.</div></div>
+    </div>
+    <div class="gap">
+      <div class="gic">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2B2E86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2h4l9 5V6L7 11H3z"/><path d="M18 9a4 4 0 0 1 0 6"/></svg>
+      </div>
+      <div class="gtx"><div class="gt">The brand runs on empty</div><div class="gd">Marketing is a fraction of what peers spend and few shoppers recognise us — there is nothing pulling demand through.</div></div>
+    </div>
+    <div class="gap">
+      <div class="gic">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2B2E86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18"/></svg>
+      </div>
+      <div class="gtx"><div class="gt">We gave up export shelf</div><div class="gd">Listings surrendered in KSA and Qatar handed distribution — and the shopper relationship — straight to competitors.</div></div>
+    </div>
   </div>
 
   <div class="hbar2" style="left:652px;top:166px;width:576px">What we will do</div>
   <ul class="moves" style="left:652px;top:216px;width:576px">
     <li><b>Rebuild UAE route-to-market</b> — fix on-shelf availability and distribution reach (the core of the S&amp;D problem)</li>
-    <li><b>Reset A&amp;M 0.6%→~3%</b> and relaunch the brand to lift recognition and pull demand</li>
+    <li><b>Step up brand investment to peer levels</b> and relaunch to lift recognition and pull demand</li>
     <li><b>Win back KSA &amp; Qatar listings</b> — regain distribution lost in export markets</li>
     <li><b>Optimise channels</b> — modern-trade execution plus e-/quick-commerce, where share is won cheaply</li>
   </ul>
