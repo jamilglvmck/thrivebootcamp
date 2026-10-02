@@ -141,8 +141,11 @@
   .gbar .glab{position:absolute;top:50%;transform:translateY(-50%);font-size:11.5px;font-weight:700;color:var(--ink);white-space:nowrap}
   .mprod{font-size:11px;color:var(--grey);line-height:1.3}
   .mprod b{color:var(--ink)}
-  .sdesc{font-size:12.5px;color:var(--ink);line-height:1.4;margin-top:6px}
+  .sdesc{font-size:12px;color:var(--ink);line-height:1.38;margin-top:5px}
   .sdesc b{color:var(--navy)}
+  .scard-row{display:flex;align-items:flex-start;gap:13px}
+  .sgic{width:44px;height:44px;flex:0 0 44px;margin-top:2px}
+  .scard-tx{flex:1}
   .bplead{position:absolute;background:var(--lgrey);border-left:4px solid var(--peri);border-radius:2px;
     padding:10px 14px;font-size:12.5px;line-height:1.38;color:var(--ink)}
   .bplead b{color:var(--navy)}
@@ -252,22 +255,36 @@
 
   <!-- LEFT: the solutions -->
   <div class="hbar2" style="left:52px;top:166px;width:560px">The solutions</div>
-  <div style="position:absolute;left:52px;top:210px;width:560px">
+  <div style="position:absolute;left:52px;top:208px;width:560px">
     <div class="mcard">
-      <div class="mhd"><span class="rbadge">1</span><span class="mname" style="font-size:15.5px">Recover list price</span></div>
-      <div class="sdesc">Phase modest increases — single-digit to mid-teens — across commodity lines to rebuild gross margin toward 40%.</div>
+      <div class="scard-row">
+        <div class="gic sgic"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#2B2E86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 7-7"/><path d="M21 8V3h-5"/></svg></div>
+        <div class="scard-tx">
+          <div class="mname" style="font-size:15.5px">1 · Recover list price</div>
+          <div class="sdesc"><b>What:</b> Phase modest increases — single-digit to mid-teens — across commodity lines.</div>
+          <div class="sdesc" style="margin-top:3px"><b>Why:</b> Price has been frozen five years; cost inflation cut commodity GP from 40%→30%, so this is pure recoverable margin.</div>
+        </div>
+      </div>
     </div>
     <div class="mcard">
-      <div class="mhd"><span class="rbadge">2</span><span class="mname" style="font-size:15.5px">Reset trade spend</span></div>
-      <div class="sdesc">Manage <i>net</i> price inside the 24.9%-of-revenue S&amp;D line and cut promotions that don't pay back.</div>
+      <div class="scard-row">
+        <div class="gic sgic"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#2B2E86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="7" height="11" rx="1"/><rect x="14" y="5" width="7" height="16" rx="1"/></svg></div>
+        <div class="scard-tx">
+          <div class="mname" style="font-size:15.5px">2 · Price-pack architecture</div>
+          <div class="sdesc"><b>What:</b> Entry, core and premium price points; smaller packs at a higher price per kg.</div>
+          <div class="sdesc" style="margin-top:3px"><b>Why:</b> Lifts effective price without a sticker-shock increase, and keeps an opening price point for value shoppers.</div>
+        </div>
+      </div>
     </div>
     <div class="mcard">
-      <div class="mhd"><span class="rbadge">3</span><span class="mname" style="font-size:15.5px">Price-pack architecture</span></div>
-      <div class="sdesc">Entry, core and premium price points; smaller packs at a higher price per kg.</div>
-    </div>
-    <div class="mcard">
-      <div class="mhd"><span class="rbadge">4</span><span class="mname" style="font-size:15.5px">Premium price ladders</span></div>
-      <div class="sdesc">Raise prices on organic and flavoured lines, where willingness-to-pay is proven.</div>
+      <div class="scard-row">
+        <div class="gic sgic"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#2B2E86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4v-4h4v-4h4v-4h4"/></svg></div>
+        <div class="scard-tx">
+          <div class="mname" style="font-size:15.5px">3 · Premium price ladders</div>
+          <div class="sdesc"><b>What:</b> Raise prices on organic and flavoured lines.</div>
+          <div class="sdesc" style="margin-top:3px"><b>Why:</b> They already grow double-digit at 40% GP — willingness-to-pay is proven, so the headroom is real.</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -275,9 +292,9 @@
   <div class="hbar2" style="left:652px;top:166px;width:576px">The impact</div>
   <div class="chartlab" style="left:652px;top:204px;font-size:13px">Revenue uplift by Year 5 — AED Mn (illustrative)</div>
   <div class="hbwrap" style="left:652px;top:234px;width:576px">
-    <div class="hbrow"><div class="hblab">Price recovery</div><div class="hbtrack"><div class="hbfill" style="width:338px;background:var(--navy)"></div><div class="hbval" style="left:346px">~AED 130M</div></div></div>
-    <div class="hbrow"><div class="hblab">Trade-spend reset</div><div class="hbtrack"><div class="hbfill" style="width:117px;background:var(--peri)"></div><div class="hbval" style="left:125px">~AED 45M</div></div></div>
-    <div class="hbrow"><div class="hblab">Mix &amp; ladders</div><div class="hbtrack"><div class="hbfill" style="width:65px;background:var(--peri2)"></div><div class="hbval" style="left:73px">~AED 25M</div></div></div>
+    <div class="hbrow"><div class="hblab">Price recovery</div><div class="hbtrack"><div class="hbfill" style="width:340px;background:var(--navy)"></div><div class="hbval" style="left:348px">~AED 150M</div></div></div>
+    <div class="hbrow"><div class="hblab">Price-pack</div><div class="hbtrack"><div class="hbfill" style="width:68px;background:var(--peri)"></div><div class="hbval" style="left:76px">~AED 30M</div></div></div>
+    <div class="hbrow"><div class="hblab">Premium ladders</div><div class="hbtrack"><div class="hbfill" style="width:45px;background:var(--peri2)"></div><div class="hbval" style="left:53px">~AED 20M</div></div></div>
   </div>
 
   <div style="position:absolute;left:652px;top:362px;width:576px;background:var(--lgrey);border-left:4px solid var(--peri);border-radius:2px;padding:9px 14px;font-size:13px;line-height:1.38">
