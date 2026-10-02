@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "commspro-deck-crafter": {
+      "url": "https://api.slide-ai.mckinsey.com/mcp/",
+      "auth": {
+        "CLIENT_ID": "a48ad964-8bf0-416f-9642-0c10a2e6ca49",
+        "scopes": ["openid", "profile", "email", "offline_access"]
+      },
+      "headers": {}
+    }
+  }
+}
