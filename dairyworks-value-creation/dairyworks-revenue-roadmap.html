@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dairyworks — Revenue levers & Roadmap (house style)</title>
+<style>
+  :root{
+    --ink:#191B3A;          /* near-black navy: titles & text */
+    --navy:#2B2E86;         /* primary indigo: revenue/commodity bars, pills, phase headers */
+    --navy2:#23265f;
+    --peri:#6F74DB;         /* periwinkle: EBITDA/premium bars */
+    --peri2:#9497E8;        /* lighter periwinkle */
+    --grey:#6A6E7E;
+    --mgrey:#AEB2C0;
+    --line:#CBCFDA;
+    --lgrey:#EEF0F7;
+    --white:#fff;
+    --serif:Georgia,'Times New Roman',serif;
+    --sans:Arial,Helvetica,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#53586a;font-family:var(--sans);color:var(--ink)}
+  .deck{display:flex;flex-direction:column;align-items:center;gap:26px;padding:60px 10px 80px}
+  .slide{position:relative;width:1280px;height:720px;background:#fff;overflow:hidden;
+    box-shadow:0 10px 36px rgba(0,0,0,.45);flex:0 0 auto}
+  @media (max-width:1340px){ .slide{transform:scale(calc((100vw - 24px)/1280));transform-origin:top center;
+    margin-bottom:calc((100vw - 24px)/1280 * 720 - 720px)} }
+
+  /* ---- shared chrome ---- */
+  .crumb{position:absolute;right:40px;top:20px;font-size:12px;color:var(--grey);letter-spacing:.02em}
+  .crumb b{color:var(--ink);font-weight:700}
+  h1.title{position:absolute;left:52px;top:34px;width:1120px;font-family:var(--serif);
+    font-size:27px;line-height:1.16;color:var(--ink);font-weight:700}
+  .subt{position:absolute;left:52px;font-size:14.5px;font-style:italic;color:var(--grey)}
+  .hrule{position:absolute;left:52px;width:1176px;height:1px;background:var(--line)}
+  .src{position:absolute;left:52px;bottom:34px;font-size:10.5px;color:var(--grey);width:1070px;line-height:1.45}
+  .note{position:absolute;left:52px;bottom:52px;font-size:10.5px;color:var(--grey);width:1070px;line-height:1.45}
+  .mck{position:absolute;right:40px;bottom:20px;font-size:11px;color:var(--mgrey)}
+  .pageno{position:absolute;right:40px;bottom:20px;font-size:11px;color:var(--mgrey)}
+
+  /* ---- legend ---- */
+  .legend{position:absolute;display:flex;align-items:center;gap:22px;font-size:13px;color:var(--ink)}
+  .legend .it{display:flex;align-items:center;gap:7px}
+  .sq{width:14px;height:14px;display:inline-block;border-radius:2px}
+  .sq.navy{background:var(--navy)} .sq.peri{background:var(--peri)}
+  .pillmini{display:inline-flex;align-items:center;justify-content:center;background:var(--navy);
+    color:#fff;font-size:10px;font-weight:700;width:30px;height:17px;border-radius:9px}
+
+  /* ---- chart ---- */
+  .chartlab{position:absolute;font-family:var(--serif);font-weight:700;font-size:16px;color:var(--ink)}
+  .plot{position:absolute}
+  .bars{position:absolute;display:flex;align-items:flex-end;gap:24px}
+  .col{position:relative;width:68px;display:flex;flex-direction:column;justify-content:flex-end}
+  .seg{width:100%;position:relative}
+  .seg.c{background:var(--navy)}
+  .seg.p{background:var(--peri)}
+  .seglab{position:absolute;left:0;right:0;text-align:center;color:#fff;font-size:12px;font-weight:700;
+    top:50%;transform:translateY(-50%)}
+  .tot{position:absolute;top:-22px;left:0;right:0;text-align:center;font-size:13px;font-weight:700;color:var(--ink)}
+  .pill{position:absolute;top:-50px;left:50%;transform:translateX(-50%);
+    background:var(--navy);color:#fff;font-size:13px;font-weight:700;
+    width:54px;height:26px;border-radius:13px;display:flex;align-items:center;justify-content:center}
+  .xlab{position:absolute;text-align:center;width:68px;font-size:13px;font-weight:700;color:var(--ink)}
+  .baseline{position:absolute;height:1px;background:var(--ink)}
+
+  /* ---- CAGR comparison block ---- */
+  .cbox{position:absolute}
+  .ctag{font-size:12px;color:var(--grey);letter-spacing:.04em}
+  .chead{font-family:var(--serif);font-weight:700;font-size:18px;color:var(--ink);text-align:center}
+  .crow-lab{font-weight:700;font-size:15px;color:var(--ink);line-height:1.15}
+  .cnum{font-size:30px;font-weight:800;text-align:center;letter-spacing:-.01em}
+  .cnum.peri{color:var(--peri)} .cnum.navy{color:var(--navy)}
+  .cnum.red{color:#C03A2B} .cnum.grn{color:#2E8B57}
+
+  /* ---- right rail bullets ---- */
+  .vr{position:absolute;width:1px;background:var(--line)}
+  ul.rail{position:absolute;list-style:none;width:300px}
+  ul.rail li{position:relative;padding-left:15px;margin-bottom:16px;font-size:13.5px;line-height:1.4;color:var(--ink)}
+  ul.rail li:before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--navy)}
+  ul.rail li b{font-weight:700}
+  .peritxt{color:var(--peri);font-weight:700}
+  .navytxt{color:var(--navy);font-weight:700}
+
+  /* ---- roadmap ---- */
+  .phase{position:absolute;height:46px;background:var(--navy);color:#fff;border-radius:3px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .phase .ph-k{font-size:11px;font-weight:700;letter-spacing:.08em;opacity:.8}
+  .phase .ph-t{font-size:14px;font-weight:700;font-family:var(--serif)}
+  .wslab{position:absolute;font-size:13px;font-weight:700;color:var(--ink);line-height:1.15}
+  .band-sep{position:absolute;width:1px;background:var(--line)}
+  .rbar{position:absolute;height:34px;border-radius:4px;display:flex;align-items:center;
+    padding:0 12px;color:#fff;font-size:12px;font-weight:700;line-height:1.1;overflow:hidden}
+  .rbar.solid{background:var(--navy)}
+  .rbar.soft{background:var(--peri)}
+  .rbar.soft2{background:var(--peri2)}
+  .mstone{position:absolute;background:var(--lgrey);border-radius:3px;padding:8px 10px;
+    font-size:11.5px;color:var(--ink);line-height:1.25}
+  .mstone .mt{font-weight:700;color:var(--navy);display:block;margin-bottom:2px;font-size:11px}
+  .kpi-strip{position:absolute;display:flex;align-items:center;font-size:12px;color:var(--grey)}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- ========================= SLIDE 1 — REVENUE ========================= -->
+<section class="slide">
+  <div class="crumb">Current state assessment  ›  <b>Revenue levers</b></div>
+  <h1 class="title">Revenue is down ~1% a year since 2017 — entirely volume, with no price taken in five years; premiumization is the one lever already working</h1>
+  <div class="subt" style="top:112px">Dairyworks revenue by portfolio tier, and where the recoverable growth sits, 2017–2021</div>
+  <div class="hrule" style="top:138px"></div>
+
+  <!-- legend -->
+  <div class="legend" style="right:44px;top:150px">
+    <div class="it"><span class="sq navy"></span>Commodity</div>
+    <div class="it"><span class="sq peri"></span>Premium</div>
+    <div class="it"><span class="pillmini">%</span>Premium&nbsp;%&nbsp;of&nbsp;revenue</div>
+  </div>
+
+  <!-- chart -->
+  <div class="chartlab" style="left:52px;top:172px">Revenue by portfolio tier, AED Mn</div>
+  <div class="plot" style="left:60px;top:238px;width:470px;height:414px">
+    <div class="bars" style="left:18px;bottom:40px">
+      <!-- 2017 -->
+      <div class="col">
+        <div class="pill">26%</div><div class="tot">2,000</div>
+        <div class="seg p" style="height:83px"><span class="seglab">520</span></div>
+        <div class="seg c" style="height:237px"><span class="seglab">1,480</span></div>
+      </div>
+      <!-- 2018 -->
+      <div class="col">
+        <div class="pill">29%</div><div class="tot">2,020</div>
+        <div class="seg p" style="height:94px"><span class="seglab">585</span></div>
+        <div class="seg c" style="height:230px"><span class="seglab">1,435</span></div>
+      </div>
+      <!-- 2019 -->
+      <div class="col">
+        <div class="pill">37%</div><div class="tot">2,010</div>
+        <div class="seg p" style="height:119px"><span class="seglab">743</span></div>
+        <div class="seg c" style="height:203px"><span class="seglab">1,267</span></div>
+      </div>
+      <!-- 2020 -->
+      <div class="col">
+        <div class="pill">42%</div><div class="tot">1,960</div>
+        <div class="seg p" style="height:132px"><span class="seglab">822</span></div>
+        <div class="seg c" style="height:182px"><span class="seglab">1,138</span></div>
+      </div>
+      <!-- 2021 -->
+      <div class="col">
+        <div class="pill">43%</div><div class="tot">1,900</div>
+        <div class="seg p" style="height:131px"><span class="seglab">817</span></div>
+        <div class="seg c" style="height:173px"><span class="seglab">1,083</span></div>
+      </div>
+    </div>
+    <div class="baseline" style="left:18px;bottom:40px;width:440px"></div>
+    <div class="xlab" style="left:14px;bottom:14px">2017</div>
+    <div class="xlab" style="left:106px;bottom:14px">2018</div>
+    <div class="xlab" style="left:198px;bottom:14px">2019</div>
+    <div class="xlab" style="left:290px;bottom:14px">2020</div>
+    <div class="xlab" style="left:382px;bottom:14px">2021</div>
+  </div>
+
+  <!-- CAGR comparison -->
+  <div class="cbox" style="left:560px;top:214px;width:330px">
+    <div class="ctag" style="position:absolute;left:0;top:6px">CAGR 2017–21</div>
+    <div class="chead peri" style="position:absolute;left:150px;top:0;width:90px;color:var(--peri)">Premium</div>
+    <div class="chead navy" style="position:absolute;left:245px;top:0;width:95px;color:var(--navy)">Commodity</div>
+
+    <div class="crow-lab" style="position:absolute;left:0;top:70px">Revenue<br>growth</div>
+    <div class="cnum peri" style="position:absolute;left:150px;top:66px;width:90px">+12%</div>
+    <div class="cnum navy" style="position:absolute;left:245px;top:66px;width:95px">−8%</div>
+
+    <div class="crow-lab" style="position:absolute;left:0;top:150px">Volume<br>growth</div>
+    <div class="cnum peri" style="position:absolute;left:150px;top:146px;width:90px">+11%</div>
+    <div class="cnum navy" style="position:absolute;left:245px;top:146px;width:95px">−8%</div>
+
+    <div class="crow-lab" style="position:absolute;left:0;top:230px">Price<br>growth</div>
+    <div class="cnum peri" style="position:absolute;left:150px;top:226px;width:90px">0%</div>
+    <div class="cnum navy" style="position:absolute;left:245px;top:226px;width:95px">0%</div>
+
+    <div style="position:absolute;left:0;top:300px;width:330px;font-size:11.5px;color:var(--grey);font-style:italic;line-height:1.35">
+      Price per SKU is identical in 2017 and 2021 — every dirham of decline is lost volume.</div>
+  </div>
+
+  <!-- right rail -->
+  <div class="vr" style="left:928px;top:208px;height:420px"></div>
+  <ul class="rail" style="left:952px;top:214px">
+    <li><b>Price frozen for 5 years.</b> Every SKU holds its 2017 price; on commodity lines cost inflation cut <span class="navytxt">GP% from 40%→30%</span> — <b>pricing/revenue-management is untapped and pure margin.</b></li>
+    <li><b>Volume lost to the market.</b> UAE volume fell ~5%/yr in milk and ~13%/yr in ice cream while the market grew ~4%/yr — <b>share recovery (distribution + brand) is the largest pool.</b></li>
+    <li><b>Mix is already winning.</b> Premium rose <span class="peritxt">26%→43% of revenue</span> at ~+12%/yr and holds 40% GP — <b>accelerate premiumization, manage commodity for cash, enter adjacencies</b> (plant-based +10%/yr, sour milk +8.5%/yr).</li>
+  </ul>
+
+  <div class="note">Note: Premium = organic milk + flavoured yogurt; Commodity = standard milk, standard yogurt, ice cream. Price = revenue ÷ volume per SKU. CAGR = compound annual growth rate 2017–21.</div>
+  <div class="src">Source: Dairyworks product &amp; geography sales and GP (2017–2021); Euromonitor UAE retail value (RSP).</div>
+  <div class="pageno">1</div>
+</section>
+
+<!-- ========================= SLIDE 2 — ROADMAP ========================= -->
+<section class="slide">
+  <div class="crumb">The plan  ›  <b>Roadmap</b></div>
+  <h1 class="title">A three-horizon roadmap turns the levers into value — each phase self-funds the next, lifting EBITDA margin from 5.8% to ~16.5%</h1>
+  <div class="subt" style="top:112px">Sequenced workstreams across five years: stop the bleed, build the engine, reach full potential</div>
+  <div class="hrule" style="top:138px"></div>
+
+  <!-- phase headers -->
+  <div class="phase" style="left:250px;top:152px;width:316px"><span class="ph-k">HORIZON 1</span><span class="ph-t">Stop the bleed · 0–12m</span></div>
+  <div class="phase" style="left:574px;top:152px;width:322px"><span class="ph-k">HORIZON 2</span><span class="ph-t">Build the engine · 12–36m</span></div>
+  <div class="phase" style="left:904px;top:152px;width:324px"><span class="ph-k">HORIZON 3</span><span class="ph-t">Full potential · 36–60m</span></div>
+
+  <!-- band separators -->
+  <div class="band-sep" style="left:574px;top:152px;height:400px"></div>
+  <div class="band-sep" style="left:904px;top:152px;height:400px"></div>
+  <div class="band-sep" style="left:250px;top:152px;height:400px"></div>
+  <div class="band-sep" style="left:1228px;top:152px;height:400px"></div>
+
+  <!-- workstream rows -->
+  <!-- r1 Pricing -->
+  <div class="wslab" style="left:52px;top:220px">1 · Pricing &amp;<br>revenue mgmt</div>
+  <div class="rbar solid" style="left:254px;top:214px;width:308px">List-price recovery + promo reset</div>
+  <div class="rbar soft" style="left:578px;top:214px;width:314px">Price-pack architecture</div>
+
+  <!-- r2 Distribution -->
+  <div class="wslab" style="left:52px;top:276px">2 · Distribution &amp;<br>route-to-market</div>
+  <div class="rbar solid" style="left:254px;top:270px;width:308px">Renegotiate / insource KSA &amp; Qatar</div>
+  <div class="rbar soft" style="left:578px;top:270px;width:314px">Rebuild UAE RTM + modern / online</div>
+
+  <!-- r3 Brand -->
+  <div class="wslab" style="left:52px;top:332px">3 · Brand &amp;<br>demand reset</div>
+  <div class="rbar soft" style="left:578px;top:326px;width:646px">A&amp;M reset 0.6%→~3%; relaunch &amp; always-on campaign</div>
+
+  <!-- r4 Portfolio -->
+  <div class="wslab" style="left:52px;top:388px">4 · Portfolio &amp;<br>premiumization</div>
+  <div class="rbar soft" style="left:578px;top:382px;width:314px">Scale organic &amp; flavoured; relaunch ice cream</div>
+  <div class="rbar soft2" style="left:908px;top:382px;width:316px">Premium mix embedded</div>
+
+  <!-- r5 New categories -->
+  <div class="wslab" style="left:52px;top:444px">5 · New categories<br>&amp; channels</div>
+  <div class="rbar soft2" style="left:908px;top:438px;width:316px">Enter plant-based &amp; sour milk; lead e-/quick-commerce</div>
+
+  <!-- milestones -->
+  <div class="mstone" style="left:254px;top:500px;width:308px"><span class="mt">MILESTONE · Year 1</span>Break-even protected; S&amp;D −3pp; price recovered on commodity lines</div>
+  <div class="mstone" style="left:578px;top:500px;width:314px"><span class="mt">MILESTONE · Year 3</span>EBITDA margin ~12%; UAE share stabilised; KSA recovering</div>
+  <div class="mstone" style="left:908px;top:500px;width:316px"><span class="mt">MILESTONE · Year 5</span>Revenue ~AED 2.7bn; EBITDA margin ~16.5% (~AED 445M)</div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip" style="left:52px;top:566px;width:1176px">
+    <span style="font-weight:700;color:var(--ink)">EBITDA margin trajectory:</span>
+    <span style="margin-left:12px;color:var(--navy);font-weight:800;font-size:14px">5.8%</span>
+    <span style="margin:0 8px">→</span>
+    <span style="color:var(--peri);font-weight:800;font-size:14px">~12%</span>
+    <span style="margin:0 8px">→</span>
+    <span style="color:var(--navy);font-weight:800;font-size:14px">~16.5%</span>
+    <span style="margin-left:14px;font-style:italic">each horizon funds the investment of the next</span>
+  </div>
+
+  <div class="src">Source: Team value-creation plan; Dairyworks P&amp;L and peer benchmark; initiative economics from the value-creation model. Timeframes indicative.</div>
+  <div class="pageno">2</div>
+</section>
+
+</div>
+
+<!-- live-reload: polls this file's Last-Modified and reloads on change -->
+<script>
+(function(){
+  var last=null;
+  setInterval(function(){
+    fetch(location.pathname,{method:'HEAD',cache:'no-store'}).then(function(r){
+      var lm=r.headers.get('Last-Modified');
+      if(last && lm && lm!==last){ location.reload(); }
+      last=lm;
+    }).catch(function(){});
+  },1000);
+})();
+</script>
+</body>
+</html>
