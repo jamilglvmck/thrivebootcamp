@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dairyworks — Revenue levers & Implementation roadmap (value creation)</title>
+<style>
+  :root{
+    --ink:#191B3A; --navy:#2B2E86; --navy2:#23265f; --peri:#6F74DB; --peri2:#9497E8;
+    --grey:#6A6E7E; --mgrey:#AEB2C0; --line:#CBCFDA; --lgrey:#EEF0F7; --white:#fff;
+    --red:#C03A2B; --green:#2E8B57;
+    --serif:Georgia,'Times New Roman',serif; --sans:Arial,Helvetica,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#53586a;font-family:var(--sans);color:var(--ink)}
+  .deck{display:flex;flex-direction:column;align-items:center;gap:26px;padding:60px 10px 80px}
+  .slide{position:relative;width:1280px;height:720px;background:#fff;overflow:hidden;
+    box-shadow:0 10px 36px rgba(0,0,0,.45);flex:0 0 auto}
+  @media (max-width:1340px){ .slide{transform:scale(calc((100vw - 24px)/1280));transform-origin:top center;
+    margin-bottom:calc((100vw - 24px)/1280 * 720 - 720px)} }
+
+  /* chrome */
+  .crumb{position:absolute;right:40px;top:20px;font-size:12px;color:var(--grey);letter-spacing:.02em}
+  .crumb b{color:var(--ink);font-weight:700}
+  h1.title{position:absolute;left:52px;top:34px;width:1120px;font-family:var(--serif);
+    font-size:26px;line-height:1.16;color:var(--ink);font-weight:700}
+  .subt{position:absolute;left:52px;font-size:14px;font-style:italic;color:var(--grey)}
+  .hrule{position:absolute;left:52px;width:1176px;height:1px;background:var(--line)}
+  .src{position:absolute;left:52px;bottom:34px;font-size:10.5px;color:var(--grey);width:1070px;line-height:1.45}
+  .note{position:absolute;left:52px;bottom:52px;font-size:10.5px;color:var(--grey);width:1070px;line-height:1.45}
+  .mck{position:absolute;right:40px;bottom:20px;font-size:11px;color:var(--mgrey)}
+  .pageno{position:absolute;right:40px;bottom:20px;font-size:11px;color:var(--mgrey)}
+
+  /* legend */
+  .legend{position:absolute;display:flex;align-items:center;gap:22px;font-size:13px;color:var(--ink)}
+  .legend .it{display:flex;align-items:center;gap:7px}
+  .sq{width:14px;height:14px;display:inline-block;border-radius:2px}
+  .sq.navy{background:var(--navy)} .sq.peri{background:var(--peri)}
+  .pillmini{display:inline-flex;align-items:center;justify-content:center;background:var(--navy);
+    color:#fff;font-size:10px;font-weight:700;width:30px;height:17px;border-radius:9px}
+
+  /* stacked bar chart (slide 1) */
+  .chartlab{position:absolute;font-family:var(--serif);font-weight:700;font-size:16px;color:var(--ink)}
+  .gaplab{position:absolute;font-family:var(--serif);font-weight:700;font-size:15px;color:var(--grey);
+    text-transform:uppercase;letter-spacing:.08em}
+  .gap{display:flex;gap:16px;align-items:flex-start;margin-bottom:20px}
+  .gic{flex:0 0 52px;width:52px;height:52px;border-radius:50%;background:var(--lgrey);
+    display:flex;align-items:center;justify-content:center}
+  .gtx{flex:1;padding-top:2px}
+  .gtx .gt{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--navy);line-height:1.15}
+  .gtx .gd{font-size:13px;color:var(--ink);line-height:1.42;margin-top:4px}
+  .plot{position:absolute}
+  .bars{position:absolute;display:flex;align-items:flex-end;gap:24px}
+  .col{position:relative;width:68px;display:flex;flex-direction:column;justify-content:flex-end}
+  .seg{width:100%;position:relative}
+  .seg.c{background:var(--navy)} .seg.p{background:var(--peri)}
+  .seglab{position:absolute;left:0;right:0;text-align:center;color:#fff;font-size:12px;font-weight:700;top:50%;transform:translateY(-50%)}
+  .tot{position:absolute;top:-22px;left:0;right:0;text-align:center;font-size:13px;font-weight:700;color:var(--ink)}
+  .pill{position:absolute;top:-50px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;
+    font-size:13px;font-weight:700;width:54px;height:26px;border-radius:13px;display:flex;align-items:center;justify-content:center}
+  .xlab{position:absolute;text-align:center;width:68px;font-size:13px;font-weight:700;color:var(--ink)}
+  .baseline{position:absolute;height:1px;background:var(--ink)}
+
+  /* CAGR compare (slide 1) */
+  .ctag{font-size:12px;color:var(--grey);letter-spacing:.04em}
+  .chead{font-family:var(--serif);font-weight:700;font-size:18px}
+  .crow-lab{font-weight:700;font-size:15px;color:var(--ink);line-height:1.15}
+  .cnum{font-size:30px;font-weight:800;text-align:center}
+  .cnum.peri{color:var(--peri)} .cnum.navy{color:var(--navy)}
+  .vr{position:absolute;width:1px;background:var(--line)}
+  ul.rail{position:absolute;list-style:none;width:300px}
+  ul.rail li{position:relative;padding-left:15px;margin-bottom:16px;font-size:13.5px;line-height:1.4;color:var(--ink)}
+  ul.rail li:before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--navy)}
+  .peritxt{color:var(--peri);font-weight:700} .navytxt{color:var(--navy);font-weight:700}
+
+  /* overview table */
+  table.ov{position:absolute;border-collapse:collapse;font-size:14px}
+  table.ov th{background:var(--navy);color:#fff;font-weight:700;padding:9px 12px;text-align:left;font-size:13px}
+  table.ov td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+  table.ov tr:nth-child(even) td{background:var(--lgrey)}
+  table.ov tr.tot td{background:var(--navy2);color:#fff;font-weight:700}
+  .lvn{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;
+    background:var(--peri);color:#fff;font-size:12px;font-weight:800;margin-right:8px}
+  .prz{color:var(--navy);font-weight:800;white-space:nowrap}
+  table.ov tr.tot .prz{color:#fff}
+
+  /* build bar */
+  .build{position:absolute;display:flex;align-items:stretch;height:34px}
+  .bseg{height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;border-right:1px solid #fff}
+  .bseg.base{background:var(--navy)} .bseg.inc{background:var(--peri)} .bseg.inc2{background:var(--peri2)}
+  .blab{position:absolute;font-size:11px;color:var(--grey);text-align:center;line-height:1.2}
+  .btot{position:absolute;font-weight:800;color:var(--navy);font-size:15px}
+
+  /* deep-dive lever slides */
+  .hbar2{position:absolute;background:var(--navy);color:#fff;font-size:13px;font-weight:700;letter-spacing:.04em;
+    padding:8px 14px;text-transform:uppercase;border-radius:3px}
+  ul.moves{position:absolute;list-style:none;width:540px}
+  ul.moves li{position:relative;padding-left:16px;margin-bottom:13px;font-size:14px;line-height:1.36;color:var(--ink)}
+  ul.moves li:before{content:"";position:absolute;left:0;top:6px;width:6px;height:6px;border-radius:50%;background:var(--peri)}
+  ul.moves li b{font-weight:700}
+  .prize{position:absolute;background:var(--navy);color:#fff;border-radius:3px;padding:14px 18px}
+  .prize .pz-v{font-size:28px;font-weight:800;line-height:1}
+  .prize .pz-l{font-size:12.5px;opacity:.9;margin-top:6px;line-height:1.35}
+  .sowhat2{position:absolute;left:52px;top:610px;width:1176px;background:var(--peri);color:#fff;padding:12px 18px;
+    font-size:14.5px;border-radius:3px;line-height:1.35}
+  .sowhat2 b{font-weight:800;color:#fff}
+  .sowhat2 .lab{font-weight:800;color:#fff;margin-right:6px}
+
+  /* mini table */
+  table.mt{position:absolute;border-collapse:collapse;font-size:13px}
+  table.mt th{background:var(--navy);color:#fff;font-weight:700;padding:7px 10px;text-align:center;font-size:12px}
+  table.mt th:first-child{text-align:left}
+  table.mt td{padding:7px 10px;text-align:center;border-bottom:1px solid var(--line)}
+  table.mt td:first-child{text-align:left;font-weight:600}
+  table.mt tr:nth-child(even) td{background:var(--lgrey)}
+  .redn{color:var(--navy);font-weight:700} .grnn{color:var(--navy);font-weight:700}
+  .flat{color:var(--navy);font-weight:800}
+
+  /* horizontal bars (market data) */
+  .hbwrap{position:absolute}
+  .hbrow{position:relative;height:26px;margin-bottom:12px;display:flex;align-items:center}
+  .hblab{width:118px;font-size:13px;font-weight:600;color:var(--ink);flex:0 0 auto}
+  .hbtrack{position:relative;height:22px;flex:1}
+  .hbfill{position:absolute;left:0;top:0;height:100%;border-radius:2px}
+  .hbval{position:absolute;top:50%;transform:translateY(-50%);font-size:12px;font-weight:700;color:var(--ink);white-space:nowrap}
+
+  /* best-practice cards */
+  .bpcard{position:absolute;background:#fff;border:1px solid var(--line);border-radius:3px;padding:11px 13px}
+  .bpcard .bpco{font-family:var(--serif);font-weight:700;font-size:14px;color:var(--navy)}
+  .bpcard .bpr{font-size:12px;color:var(--ink);margin-top:4px;line-height:1.32}
+  .bpcard .bpr b{color:var(--peri);font-weight:800}
+  .mcard{position:relative;margin-bottom:11px;padding:9px 12px 10px;border:1px solid var(--line);border-radius:3px;background:#fff}
+  .mcard .mhd{display:flex;align-items:center;gap:9px}
+  .rbadge{display:inline-flex;align-items:center;justify-content:center;width:23px;height:23px;border-radius:50%;
+    background:var(--navy);color:#fff;font-weight:800;font-size:12.5px;flex:0 0 auto}
+  .mname{font-family:var(--serif);font-size:16.5px;font-weight:700;color:var(--navy)}
+  .mrank{margin-left:auto;font-size:11.5px;color:var(--grey);font-weight:700}
+  .mrank b{color:var(--navy)}
+  .gbar{position:relative;height:18px;margin-top:8px;margin-bottom:6px}
+  .gbar .seg{position:absolute;top:0;height:100%}
+  .gbar .glab{position:absolute;top:50%;transform:translateY(-50%);font-size:11.5px;font-weight:700;color:var(--ink);white-space:nowrap}
+  .mprod{font-size:11px;color:var(--grey);line-height:1.3}
+  .mprod b{color:var(--ink)}
+  .sdesc{font-size:12px;color:var(--ink);line-height:1.46;margin-top:5px}
+  .sdesc b{color:var(--navy)}
+  .scard-row{display:flex;align-items:center;gap:15px;width:100%}
+  .sgic{width:46px;height:46px;flex:0 0 46px}
+  .scard-tx{flex:1}
+  .bplead{position:absolute;background:var(--lgrey);border-left:4px solid var(--peri);border-radius:2px;
+    padding:10px 14px;font-size:12.5px;line-height:1.38;color:var(--ink)}
+  .bplead b{color:var(--navy)}
+
+  /* roadmap */
+  .phase{position:absolute;height:46px;background:var(--navy);color:#fff;border-radius:3px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .phase .ph-k{font-size:11px;font-weight:700;letter-spacing:.08em;opacity:.8}
+  .phase .ph-t{font-size:14px;font-weight:700;font-family:var(--serif)}
+  .wslab{position:absolute;font-size:12.5px;font-weight:700;color:var(--ink);line-height:1.15}
+  .band-sep{position:absolute;width:1px;background:var(--line)}
+  .rbar{position:absolute;height:32px;border-radius:4px;display:flex;align-items:center;padding:0 12px;
+    color:#fff;font-size:11.5px;font-weight:700;line-height:1.1;overflow:hidden}
+  .rbar.solid{background:var(--navy)} .rbar.soft{background:var(--peri)} .rbar.soft2{background:var(--peri2)}
+  .mstone{position:absolute;background:var(--lgrey);border-radius:3px;padding:8px 10px;font-size:11px;color:var(--ink);line-height:1.25}
+  .mstone .mt2{font-weight:700;color:var(--navy);display:block;margin-bottom:2px;font-size:10.5px}
+  .kpi-strip{position:absolute;display:flex;align-items:center;font-size:12px;color:var(--grey)}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- ========================= 1 — REVENUE UPSIDE ========================= -->
+<section class="slide">
+  <div class="crumb">Value creation  ›  <b>Revenue growth</b></div>
+  <h1 class="title">Premium already grows ~12% a year, and we have not raised price in five years</h1>
+  <div class="subt" style="top:112px">Revenue by portfolio tier, 2017–2021</div>
+  <div class="hrule" style="top:138px"></div>
+
+  <div class="legend" style="right:44px;top:150px">
+    <div class="it"><span class="sq navy"></span>Commodity</div>
+    <div class="it"><span class="sq peri"></span>Premium</div>
+    <div class="it"><span class="pillmini">%</span>Premium&nbsp;%&nbsp;of&nbsp;revenue</div>
+  </div>
+
+  <div class="chartlab" style="left:52px;top:172px">Revenue by portfolio tier, AED Mn</div>
+  <div class="plot" style="left:60px;top:238px;width:470px;height:414px">
+    <div class="bars" style="left:18px;bottom:40px">
+      <div class="col"><div class="pill">26%</div><div class="tot">2,000</div><div class="seg p" style="height:83px"><span class="seglab">520</span></div><div class="seg c" style="height:237px"><span class="seglab">1,480</span></div></div>
+      <div class="col"><div class="pill">29%</div><div class="tot">2,020</div><div class="seg p" style="height:94px"><span class="seglab">585</span></div><div class="seg c" style="height:230px"><span class="seglab">1,435</span></div></div>
+      <div class="col"><div class="pill">37%</div><div class="tot">2,010</div><div class="seg p" style="height:119px"><span class="seglab">743</span></div><div class="seg c" style="height:203px"><span class="seglab">1,267</span></div></div>
+      <div class="col"><div class="pill">42%</div><div class="tot">1,960</div><div class="seg p" style="height:132px"><span class="seglab">822</span></div><div class="seg c" style="height:182px"><span class="seglab">1,138</span></div></div>
+      <div class="col"><div class="pill">43%</div><div class="tot">1,900</div><div class="seg p" style="height:131px"><span class="seglab">817</span></div><div class="seg c" style="height:173px"><span class="seglab">1,083</span></div></div>
+    </div>
+    <div class="baseline" style="left:18px;bottom:40px;width:440px"></div>
+    <div class="xlab" style="left:14px;bottom:14px">2017</div>
+    <div class="xlab" style="left:106px;bottom:14px">2018</div>
+    <div class="xlab" style="left:198px;bottom:14px">2019</div>
+    <div class="xlab" style="left:290px;bottom:14px">2020</div>
+    <div class="xlab" style="left:382px;bottom:14px">2021</div>
+  </div>
+
+  <div style="position:absolute;left:560px;top:214px;width:330px">
+    <div class="ctag" style="position:absolute;left:0;top:6px">CAGR 2017–21</div>
+    <div class="chead" style="position:absolute;left:150px;top:0;width:90px;text-align:center;color:var(--peri)">Premium</div>
+    <div class="chead" style="position:absolute;left:245px;top:0;width:95px;text-align:center;color:var(--navy)">Commodity</div>
+    <div class="crow-lab" style="position:absolute;left:0;top:70px">Revenue<br>growth</div>
+    <div class="cnum peri" style="position:absolute;left:150px;top:66px;width:90px">+12%</div>
+    <div class="cnum navy" style="position:absolute;left:245px;top:66px;width:95px">−8%</div>
+    <div class="crow-lab" style="position:absolute;left:0;top:150px">Volume<br>growth</div>
+    <div class="cnum peri" style="position:absolute;left:150px;top:146px;width:90px">+11%</div>
+    <div class="cnum navy" style="position:absolute;left:245px;top:146px;width:95px">−8%</div>
+    <div class="crow-lab" style="position:absolute;left:0;top:230px">Price<br>growth</div>
+    <div class="cnum peri" style="position:absolute;left:150px;top:226px;width:90px">0%</div>
+    <div class="cnum navy" style="position:absolute;left:245px;top:226px;width:95px">0%</div>
+    <div style="position:absolute;left:0;top:300px;width:330px;font-size:11.5px;color:var(--grey);font-style:italic;line-height:1.35">Price per SKU is identical in 2017 and 2021 — every dirham of decline is lost volume.</div>
+  </div>
+
+  <div class="vr" style="left:928px;top:208px;height:420px"></div>
+  <ul class="rail" style="left:952px;top:214px">
+    <li><b>Price frozen for 5 years.</b> Every SKU holds its 2017 price; on commodity lines cost inflation cut <span class="navytxt">GP% from 40%→30%</span> — pricing is untapped and pure margin.</li>
+    <li><b>Volume lost to the market.</b> Our volume fell while the category grew ~4%/yr — <b>share recovery is the largest pool.</b></li>
+    <li><b>Mix is already winning.</b> Premium rose <span class="peritxt">26%→43% of revenue</span> at ~+12%/yr and holds 40% GP.</li>
+  </ul>
+
+  <div class="note">Note: Premium = organic milk + flavoured yogurt; Commodity = standard milk, standard yogurt, ice cream. Price = revenue ÷ volume per SKU. CAGR = compound annual growth rate 2017–21.</div>
+  <div class="src">Source: Dairyworks product &amp; geography sales and GP (2017–2021); Euromonitor UAE retail value (RSP).</div>
+  <div class="pageno">1</div>
+</section>
+
+<!-- ========================= 2 — FIVE-LEVER OVERVIEW ========================= -->
+<section class="slide">
+  <div class="crumb">Value creation  ›  <b>Revenue levers overview</b></div>
+  <h1 class="title">Five levers rebuild revenue to ~AED 2.7bn by Year 5</h1>
+  <div class="subt" style="top:112px">Sequenced from the fastest, self-funding levers to longer-horizon growth; impact ranges illustrative</div>
+  <div class="hrule" style="top:138px"></div>
+
+  <table class="ov" style="left:52px;top:166px;width:1176px">
+    <tr><th style="width:230px">Revenue lever</th><th>What we will do</th><th style="width:140px;text-align:right">Value captured (Year 5)</th></tr>
+    <tr><td><span class="lvn">1</span>Pricing &amp; revenue mgmt</td><td>Recover five years of untaken price; price-pack architecture; trade-spend reset</td><td style="text-align:right"><span class="prz">+~AED 200M</span></td></tr>
+    <tr><td><span class="lvn">2</span>Share recovery</td><td>Rebuild UAE route-to-market, reset A&amp;M 0.6%→~3%, win back KSA &amp; Qatar listings</td><td style="text-align:right"><span class="prz">+~AED 250M</span></td></tr>
+    <tr><td><span class="lvn">3</span>Mix &amp; premiumization</td><td>Scale organic milk &amp; flavoured yogurt; premiumize and relaunch ice cream</td><td style="text-align:right"><span class="prz">+~AED 120M</span></td></tr>
+    <tr><td><span class="lvn">4</span>New categories</td><td>Enter plant-based &amp; sour-milk adjacencies on a proven best-practice playbook</td><td style="text-align:right"><span class="prz">+~AED 110M</span></td></tr>
+    <tr><td><span class="lvn">5</span>New markets</td><td>Scale KSA and enter North Africa (Egypt, Morocco) via export / distributor model</td><td style="text-align:right"><span class="prz">+~AED 120M</span></td></tr>
+  </table>
+
+  <div class="src">Impact ranges are illustrative, from the team value-creation model. Source: Dairyworks product &amp; geography sales and GP (2017–2021); Euromonitor; peer benchmark.</div>
+  <div class="pageno">2</div>
+</section>
+
+<!-- ========================= 3 — LEVER 1: PRICING ========================= -->
+<section class="slide">
+  <div class="crumb">Value creation  ›  <b>Lever 1 of 5 · Pricing &amp; revenue management</b></div>
+  <h1 class="title">Lever 1 — Price has been flat for five years; a modest rise restores commodity margin</h1>
+  <div class="subt" style="top:112px">The pricing solutions, and the revenue and margin they unlock</div>
+  <div class="hrule" style="top:138px"></div>
+
+  <!-- LEFT: the solutions -->
+  <div class="hbar2" style="left:52px;top:166px;width:560px">The solutions</div>
+  <div style="position:absolute;left:52px;top:216px;width:560px">
+    <div class="mcard" style="margin-bottom:22px;padding:16px 18px">
+      <div class="scard-row">
+        <div class="gic sgic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B2E86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 7-7"/><path d="M21 8V3h-5"/></svg></div>
+        <div class="scard-tx">
+          <div class="mname" style="font-size:15.5px">1 · Recover list price</div>
+          <div class="sdesc"><b>What:</b> Phase modest increases — single-digit to mid-teens — across commodity lines.</div>
+          <div class="sdesc"><b>Why:</b> Price frozen five years; cost inflation cut commodity GP from 40%→30% — pure recoverable margin.</div>
+        </div>
+      </div>
+    </div>
+    <div class="mcard" style="margin-bottom:22px;padding:16px 18px">
+      <div class="scard-row">
+        <div class="gic sgic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B2E86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="7" height="11" rx="1"/><rect x="14" y="5" width="7" height="16" rx="1"/></svg></div>
+        <div class="scard-tx">
+          <div class="mname" style="font-size:15.5px">2 · Price-pack architecture</div>
+          <div class="sdesc"><b>What:</b> Entry, core and premium price points; smaller packs at a higher price per kg.</div>
+          <div class="sdesc"><b>Why:</b> Lifts effective price without sticker shock, and keeps an opening price point for value shoppers.</div>
+        </div>
+      </div>
+    </div>
+    <div class="mcard" style="padding:16px 18px">
+      <div class="scard-row">
+        <div class="gic sgic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B2E86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4v-4h4v-4h4v-4h4"/></svg></div>
+        <div class="scard-tx">
+          <div class="mname" style="font-size:15.5px">3 · Premium price ladders</div>
+          <div class="sdesc"><b>What:</b> Raise prices on organic and flavoured lines.</div>
+          <div class="sdesc"><b>Why:</b> They already grow double-digit at 40% GP — willingness-to-pay is proven, so the headroom is real.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: the impact -->
+  <div class="hbar2" style="left:652px;top:166px;width:576px">The impact</div>
+  <div class="chartlab" style="left:652px;top:216px;font-size:13px">Revenue uplift by Year 5 — AED Mn (illustrative)</div>
+  <div class="hbwrap" style="left:652px;top:252px;width:576px">
+    <div class="hbrow" style="margin-bottom:20px"><div class="hblab">Price recovery</div><div class="hbtrack"><div class="hbfill" style="width:340px;background:var(--navy)"></div><div class="hbval" style="left:348px">~AED 150M</div></div></div>
+    <div class="hbrow" style="margin-bottom:20px"><div class="hblab">Price-pack</div><div class="hbtrack"><div class="hbfill" style="width:68px;background:var(--peri)"></div><div class="hbval" style="left:76px">~AED 30M</div></div></div>
+    <div class="hbrow" style="margin-bottom:20px"><div class="hblab">Premium ladders</div><div class="hbtrack"><div class="hbfill" style="width:45px;background:var(--peri2)"></div><div class="hbval" style="left:53px">~AED 20M</div></div></div>
+  </div>
+
+  <div style="position:absolute;left:652px;top:400px;width:576px;background:var(--lgrey);border-left:4px solid var(--peri);border-radius:2px;padding:12px 16px;font-size:13px;line-height:1.42">
+    Commodity gross margin <b style="color:var(--navy)">30% → ~40%</b> — nearly all of the price increase drops straight through to profit.</div>
+
+  <div class="prize" style="left:652px;top:470px;width:576px;padding:16px 20px">
+    <div class="pz-v">+~AED 200M revenue</div>
+    <div class="pz-l">~90% flows to gross profit. Fastest, lowest-capital lever — start in Horizon 1.</div>
+  </div>
+
+  <div class="sowhat2"><span class="lab">So what:</span> Pricing is the fastest win and nearly all margin — flat prices leave ~half the commodity GP erosion on the table.</div>
+  <div class="src" style="width:1176px">Source: Dairyworks product &amp; geography sales and GP (2017–2021); impact split illustrative, from the value-creation model. Price = revenue ÷ volume per SKU.</div>
+  <div class="pageno">3</div>
+</section>
+
+<!-- ========================= 4 — LEVER 2: SHARE ========================= -->
+<section class="slide">
+  <div class="crumb">Value creation  ›  <b>Lever 2 of 5 · Share recovery (distribution &amp; brand)</b></div>
+  <h1 class="title">Lever 2 — We shrank while the market grew; closing the gap is the biggest prize</h1>
+  <div class="subt" style="top:112px">We shrank while the market grew — distribution and brand win it back</div>
+  <div class="hrule" style="top:138px"></div>
+
+  <!-- LEFT: the solutions -->
+  <div class="hbar2" style="left:52px;top:166px;width:560px">The solutions</div>
+  <div style="position:absolute;left:52px;top:216px;width:560px">
+    <div class="mcard" style="margin-bottom:22px;padding:16px 18px">
+      <div class="scard-row">
+        <div class="gic sgic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B2E86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 5 4h14l2 5"/><path d="M3 9v11h18V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></svg></div>
+        <div class="scard-tx">
+          <div class="mname" style="font-size:15.5px">1 · Rebuild route-to-market</div>
+          <div class="sdesc"><b>What:</b> Fix on-shelf availability, distribution reach and modern-trade + online execution.</div>
+          <div class="sdesc"><b>Why:</b> Availability slipped while the market grew — shoppers can't buy what they can't find.</div>
+        </div>
+      </div>
+    </div>
+    <div class="mcard" style="margin-bottom:22px;padding:16px 18px">
+      <div class="scard-row">
+        <div class="gic sgic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B2E86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2h4l9 5V6L7 11H3z"/><path d="M18 9a4 4 0 0 1 0 6"/></svg></div>
+        <div class="scard-tx">
+          <div class="mname" style="font-size:15.5px">2 · Relaunch the brand</div>
+          <div class="sdesc"><b>What:</b> Step up marketing to peer levels and relaunch to lift recognition.</div>
+          <div class="sdesc"><b>Why:</b> Spend is a fraction of peers and few shoppers recognise us — nothing pulls demand.</div>
+        </div>
+      </div>
+    </div>
+    <div class="mcard" style="padding:16px 18px">
+      <div class="scard-row">
+        <div class="gic sgic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B2E86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18"/></svg></div>
+        <div class="scard-tx">
+          <div class="mname" style="font-size:15.5px">3 · Win back export listings</div>
+          <div class="sdesc"><b>What:</b> Regain the KSA &amp; Qatar listings we lost.</div>
+          <div class="sdesc"><b>Why:</b> We handed shelf — and the shopper relationship — straight to competitors.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: the impact -->
+  <div class="hbar2" style="left:652px;top:166px;width:576px">The impact</div>
+  <div class="chartlab" style="left:652px;top:216px;font-size:13px">Revenue uplift by Year 5 — AED Mn (illustrative)</div>
+  <div class="hbwrap" style="left:652px;top:252px;width:576px">
+    <div class="hbrow" style="margin-bottom:20px"><div class="hblab">Distribution &amp; channels</div><div class="hbtrack"><div class="hbfill" style="width:340px;background:var(--navy)"></div><div class="hbval" style="left:348px">~AED 120M</div></div></div>
+    <div class="hbrow" style="margin-bottom:20px"><div class="hblab">Brand relaunch</div><div class="hbtrack"><div class="hbfill" style="width:226px;background:var(--peri)"></div><div class="hbval" style="left:234px">~AED 80M</div></div></div>
+    <div class="hbrow" style="margin-bottom:20px"><div class="hblab">Export listings</div><div class="hbtrack"><div class="hbfill" style="width:142px;background:var(--peri2)"></div><div class="hbval" style="left:150px">~AED 50M</div></div></div>
+  </div>
+
+  <div style="position:absolute;left:652px;top:400px;width:576px;background:var(--lgrey);border-left:4px solid var(--peri);border-radius:2px;padding:12px 16px;font-size:13px;line-height:1.42">
+    Just growing <b style="color:var(--navy)">with the market (~4%/yr)</b> — not even gaining share — stabilises then recovers share.</div>
+
+  <div class="prize" style="left:652px;top:470px;width:576px;padding:16px 20px">
+    <div class="pz-v">+~AED 250M revenue</div>
+    <div class="pz-l">The largest pool — build through Horizons 1–2.</div>
+  </div>
+
+  <div class="sowhat2"><span class="lab">So what:</span> Just growing <i>with</i> the market — not even gaining share — wins back the most revenue; distribution and brand are how.</div>
+  <div class="src" style="width:1176px">Source: Dairyworks product &amp; geography volumes (2017–2021); Euromonitor UAE retail value; 2019 Nielsen brand recognition; peer A&amp;M benchmark.</div>
+  <div class="pageno">4</div>
+</section>
+
+<!-- ========================= 5 — LEVER 3: MIX ========================= -->
+<section class="slide">
+  <div class="crumb">Value creation  ›  <b>Lever 3 of 5 · Mix &amp; premiumization</b></div>
+  <h1 class="title">Lever 3 — Shift the mix to premium; it lifts revenue and margin at once</h1>
+  <div class="subt" style="top:112px">Premium already grew from 26% to 43% of revenue — push it further</div>
+  <div class="hrule" style="top:138px"></div>
+
+  <!-- LEFT: the solutions -->
+  <div class="hbar2" style="left:52px;top:166px;width:560px">The solutions</div>
+  <div style="position:absolute;left:52px;top:216px;width:560px">
+    <div class="mcard" style="margin-bottom:22px;padding:16px 18px">
+      <div class="scard-row">
+        <div class="gic sgic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B2E86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></div>
+        <div class="scard-tx">
+          <div class="mname" style="font-size:15.5px">1 · Scale the premium winners</div>
+          <div class="sdesc"><b>What:</b> Put volume, marketing and shelf behind organic milk &amp; flavoured yogurt.</div>
+          <div class="sdesc"><b>Why:</b> They grow double-digit at 40% margin — the mix already shifts our way.</div>
+        </div>
+      </div>
+    </div>
+    <div class="mcard" style="margin-bottom:22px;padding:16px 18px">
+      <div class="scard-row">
+        <div class="gic sgic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B2E86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a4 4 0 0 1 4 4c0 1.5-1 2.5-1 4H9c0-1.5-1-2.5-1-4a4 4 0 0 1 4-4z"/><path d="M8 11h8l-1 7a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2z"/></svg></div>
+        <div class="scard-tx">
+          <div class="mname" style="font-size:15.5px">2 · Premiumize &amp; relaunch ice cream</div>
+          <div class="sdesc"><b>What:</b> Re-platform our highest-margin category and relaunch it premium.</div>
+          <div class="sdesc"><b>Why:</b> It earns 40% margin yet is declining fastest — the biggest self-help gap.</div>
+        </div>
+      </div>
+    </div>
+    <div class="mcard" style="padding:16px 18px">
+      <div class="scard-row">
+        <div class="gic sgic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B2E86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M3 12h18"/><circle cx="12" cy="12" r="9"/></svg></div>
+        <div class="scard-tx">
+          <div class="mname" style="font-size:15.5px">3 · Add premium formats</div>
+          <div class="sdesc"><b>What:</b> Launch high-protein, single-serve and gifting packs.</div>
+          <div class="sdesc"><b>Why:</b> New formats recruit new shoppers at premium price points.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: the impact -->
+  <div class="hbar2" style="left:652px;top:166px;width:576px">The impact</div>
+  <div class="chartlab" style="left:652px;top:216px;font-size:13px">Revenue uplift by Year 5 — AED Mn (illustrative)</div>
+  <div class="hbwrap" style="left:652px;top:252px;width:576px">
+    <div class="hbrow" style="margin-bottom:20px"><div class="hblab">Scale winners</div><div class="hbtrack"><div class="hbfill" style="width:308px;background:var(--navy)"></div><div class="hbval" style="left:316px">~AED 55M</div></div></div>
+    <div class="hbrow" style="margin-bottom:20px"><div class="hblab">Ice-cream relaunch</div><div class="hbtrack"><div class="hbfill" style="width:224px;background:var(--peri)"></div><div class="hbval" style="left:232px">~AED 40M</div></div></div>
+    <div class="hbrow" style="margin-bottom:20px"><div class="hblab">Premium formats</div><div class="hbtrack"><div class="hbfill" style="width:140px;background:var(--peri2)"></div><div class="hbval" style="left:148px">~AED 25M</div></div></div>
+  </div>
+
+  <div style="position:absolute;left:652px;top:400px;width:576px;background:var(--lgrey);border-left:4px solid var(--peri);border-radius:2px;padding:12px 16px;font-size:13px;line-height:1.42">
+    Premium rises <b style="color:var(--navy)">43% → &gt;55% of revenue</b> — blended gross margin up <b style="color:var(--navy)">2–3pp</b>.</div>
+
+  <div class="prize" style="left:652px;top:470px;width:576px;padding:16px 20px">
+    <div class="pz-v">+~AED 120M revenue · margin-accretive</div>
+    <div class="pz-l">Compounds over Horizons 2–3 as the mix shifts.</div>
+  </div>
+
+  <div class="sowhat2"><span class="lab">So what:</span> Mix is the one lever that lifts revenue <i>and</i> margin at once — and the trend is already with us.</div>
+  <div class="src" style="width:1176px">Source: Dairyworks product &amp; geography sales and GP (2017–2021); impact split illustrative, from the value-creation model.</div>
+  <div class="pageno">5</div>
+</section>
+
+<!-- ========================= 6 — LEVER 4: NEW CATEGORIES (BEST PRACTICE) ========================= -->
+<section class="slide">
+  <div class="crumb">Value creation  ›  <b>Lever 4 of 5 · New categories</b></div>
+  <h1 class="title">Lever 4 — Enter fast-growing categories we are missing, using a proven playbook</h1>
+  <div class="subt" style="top:112px">What has worked for other brands — and the adjacencies to copy it into</div>
+  <div class="hrule" style="top:138px"></div>
+
+  <!-- LEFT: best practice -->
+  <div class="hbar2" style="left:52px;top:166px;width:560px">Best practice — proven by other brands</div>
+  <div class="bpcard" style="left:52px;top:216px;width:560px">
+    <div class="bpco">Oatly — plant-based</div>
+    <div class="bpr">Bold rebrand + taste-led, packaging-as-media → <b>+700% demand, 21% CAGR</b>. Lesson: lead on <b>taste</b>, not just health.</div>
+  </div>
+  <div class="bpcard" style="left:52px;top:290px;width:560px">
+    <div class="bpco">Chobani — protein / Greek yogurt</div>
+    <div class="bpr">Omnichannel + sampling → <b>+8pt awareness, 51% new buyers, $10.60 ROAS</b>. Lesson: recruit <b>new households</b> via retail media &amp; trial.</div>
+  </div>
+  <div class="bpcard" style="left:52px;top:364px;width:560px">
+    <div class="bpco">Halo Top — better-for-you ice cream</div>
+    <div class="bpr">Lead-retailer launch + in-store sampling → <b>#3 UK brand within 12 months</b>. Lesson: anchor on one retailer, drive <b>trial</b>.</div>
+  </div>
+  <div class="bplead" style="left:52px;top:440px;width:560px"><b>The playbook for us:</b> enter on a clear better-for-you proposition, lead with taste, launch with a lead retailer + sampling, and amplify through online / quick-commerce.</div>
+
+  <!-- RIGHT: adjacencies + impact -->
+  <div class="hbar2" style="left:652px;top:166px;width:576px">The adjacencies — and the prize</div>
+  <div class="chartlab" style="left:652px;top:214px;font-size:13px">Adjacencies we don't yet play in — UAE market CAGR 2021–26E</div>
+  <div class="hbwrap" style="left:652px;top:246px;width:576px">
+    <div class="hbrow" style="margin-bottom:14px"><div class="hblab">Plant-based milk</div><div class="hbtrack"><div class="hbfill" style="width:297px;background:var(--peri)"></div><div class="hbval" style="left:305px">+9.9%/yr</div></div></div>
+    <div class="hbrow" style="margin-bottom:14px"><div class="hblab">Sour-milk products</div><div class="hbtrack"><div class="hbfill" style="width:255px;background:var(--peri)"></div><div class="hbval" style="left:263px">+8.5%/yr</div></div></div>
+    <div class="hbrow" style="margin-bottom:14px"><div class="hblab">Flavoured milk drinks</div><div class="hbtrack"><div class="hbfill" style="width:204px;background:var(--peri2)"></div><div class="hbval" style="left:212px">+6.8%/yr</div></div></div>
+    <div class="hbrow" style="margin-bottom:14px"><div class="hblab">Drinking yogurt</div><div class="hbtrack"><div class="hbfill" style="width:186px;background:var(--peri2)"></div><div class="hbval" style="left:194px">+6.2%/yr</div></div></div>
+  </div>
+
+  <div style="position:absolute;left:652px;top:400px;width:576px;background:var(--lgrey);border-left:4px solid var(--peri);border-radius:2px;padding:12px 16px;font-size:13px;line-height:1.42">
+    All four grow faster than our categories, and we have <b style="color:var(--navy)">zero presence</b> — existing chilled distribution keeps entry low-cost.</div>
+
+  <div class="prize" style="left:652px;top:470px;width:576px;padding:16px 20px">
+    <div class="pz-v">+~AED 110M revenue</div>
+    <div class="pz-l">Follow a proven path, not invent one — Horizons 2–3.</div>
+  </div>
+
+  <div class="sowhat2"><span class="lab">So what:</span> These categories are large and fast-growing, and the winning formula is known — we follow a proven path, not invent one.</div>
+  <div class="src" style="width:1176px">Source: Euromonitor UAE retail value (2021–26E). Best-practice results: Oatly / Forsman &amp; Bodenfors; Chobani / Walmart Connect &amp; Snapchat; Halo Top / dunnhumby &amp; Shopkick case studies.</div>
+  <div class="pageno">6</div>
+</section>
+
+<!-- ========================= 7 — LEVER 5: NEW MARKETS ========================= -->
+<section class="slide">
+  <div class="crumb">Value creation  ›  <b>Lever 5 of 5 · New markets</b></div>
+  <h1 class="title">Lever 5 — Enter Tunisia, Egypt and Morocco first, in that order</h1>
+  <div class="subt" style="top:112px">Ranked on a 14-factor entry scorecard; KSA, UAE &amp; Qatar already served</div>
+  <div class="hrule" style="top:138px"></div>
+
+  <!-- LEFT: priority markets -->
+  <div class="hbar2" style="left:52px;top:166px;width:560px">The priority markets</div>
+  <div style="position:absolute;left:52px;top:216px;width:560px">
+    <div class="mcard" style="margin-bottom:22px;padding:16px 18px">
+      <div class="mhd" style="gap:12px">
+        <svg width="34" height="23" viewBox="0 0 30 20"><rect width="30" height="20" fill="#E70013"/><circle cx="15" cy="10" r="6" fill="#fff"/><circle cx="16.4" cy="10" r="4.6" fill="#E70013"/><circle cx="17.8" cy="10" r="3.5" fill="#fff"/></svg>
+        <span class="rbadge">1</span><span class="mname">Tunisia</span><span class="mrank">Score <b>77.3</b> · Rank <b>#1</b></span>
+      </div>
+      <div class="sdesc" style="margin-top:9px">Fastest-growing market (<b>+11.2%/yr</b>). Lead with <b>ice cream &amp; flavoured yoghurt</b>.</div>
+    </div>
+    <div class="mcard" style="margin-bottom:22px;padding:16px 18px">
+      <div class="mhd" style="gap:12px">
+        <svg width="34" height="23" viewBox="0 0 30 20"><rect width="30" height="6.67" fill="#CE1126"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><rect y="13.33" width="30" height="6.67" fill="#000"/><circle cx="15" cy="10" r="2.3" fill="#C09300"/></svg>
+        <span class="rbadge">2</span><span class="mname">Egypt</span><span class="mrank">Score <b>75.4</b> · Rank <b>#2</b></span>
+      </div>
+      <div class="sdesc" style="margin-top:9px">Best size-and-growth balance — largest unpenetrated base (<b>+7.0%/yr</b>).</div>
+    </div>
+    <div class="mcard" style="padding:16px 18px">
+      <div class="mhd" style="gap:12px">
+        <svg width="34" height="23" viewBox="0 0 30 20"><rect width="30" height="20" fill="#C1272D"/><polygon points="15,4.5 16.29,8.22 20.23,8.3 17.09,10.68 18.23,14.45 15,12.2 11.77,14.45 12.91,10.68 9.77,8.3 13.71,8.22" fill="none" stroke="#006233" stroke-width="1"/></svg>
+        <span class="rbadge">3</span><span class="mname">Morocco</span><span class="mrank">Score <b>60.4</b> · <b>#3 unpenetrated</b></span>
+      </div>
+      <div class="sdesc" style="margin-top:9px">Large, steady base (<b>+6.5%/yr</b>) — strong in ice cream &amp; flavoured yoghurt.</div>
+    </div>
+  </div>
+
+  <!-- RIGHT: the impact -->
+  <div class="hbar2" style="left:652px;top:166px;width:576px">The impact</div>
+  <div class="chartlab" style="left:652px;top:216px;font-size:13px">Revenue uplift by Year 5 — AED Mn (illustrative)</div>
+  <div class="hbwrap" style="left:652px;top:252px;width:576px">
+    <div class="hbrow" style="margin-bottom:20px"><div class="hblab">Egypt</div><div class="hbtrack"><div class="hbfill" style="width:308px;background:var(--navy)"></div><div class="hbval" style="left:316px">~AED 55M</div></div></div>
+    <div class="hbrow" style="margin-bottom:20px"><div class="hblab">Morocco</div><div class="hbtrack"><div class="hbfill" style="width:224px;background:var(--peri)"></div><div class="hbval" style="left:232px">~AED 40M</div></div></div>
+    <div class="hbrow" style="margin-bottom:20px"><div class="hblab">Tunisia</div><div class="hbtrack"><div class="hbfill" style="width:140px;background:var(--peri2)"></div><div class="hbval" style="left:148px">~AED 25M</div></div></div>
+  </div>
+
+  <div style="position:absolute;left:652px;top:400px;width:576px;background:var(--lgrey);border-left:4px solid var(--peri);border-radius:2px;padding:12px 16px;font-size:13px;line-height:1.42">
+    <b style="color:var(--navy)">Asset-light</b> distributor / export entry off existing plants — sequenced in scorecard order.</div>
+
+  <div class="prize" style="left:652px;top:470px;width:576px;padding:16px 20px">
+    <div class="pz-v">+~AED 120M revenue</div>
+    <div class="pz-l">Longer-horizon; sequence after the home-market turnaround (Horizon 3).</div>
+  </div>
+
+  <div class="sowhat2"><span class="lab">So what:</span> Our GCC markets are already served — the next growth comes from North Africa, led by Tunisia and Egypt.</div>
+  <div class="src" style="width:1176px">Source: Team market-entry scorecard (14-factor; scores B21:O34, ranking B37:H49) and portfolio-relevant dairy market size &amp; CAGR, 2022–26E. KSA, UAE &amp; Qatar excluded as already penetrated; impact split illustrative.</div>
+  <div class="pageno">7</div>
+</section>
+
+<!-- ========================= 8 — IMPLEMENTATION ROADMAP ========================= -->
+<section class="slide">
+  <div class="crumb">Value creation  ›  <b>Implementation roadmap</b></div>
+  <h1 class="title">A three-phase plan lifts EBITDA margin from 5.8% to ~16.5%, each phase funding the next</h1>
+  <div class="subt" style="top:112px">Three phases over five years: stop the bleed, build the engine, reach full potential</div>
+  <div class="hrule" style="top:138px"></div>
+
+  <div class="phase" style="left:250px;top:152px;width:316px"><span class="ph-k">HORIZON 1</span><span class="ph-t">Stop the bleed · 0–12m</span></div>
+  <div class="phase" style="left:574px;top:152px;width:322px"><span class="ph-k">HORIZON 2</span><span class="ph-t">Build the engine · 12–36m</span></div>
+  <div class="phase" style="left:904px;top:152px;width:324px"><span class="ph-k">HORIZON 3</span><span class="ph-t">Full potential · 36–60m</span></div>
+
+  <div class="band-sep" style="left:250px;top:152px;height:392px"></div>
+  <div class="band-sep" style="left:574px;top:152px;height:392px"></div>
+  <div class="band-sep" style="left:904px;top:152px;height:392px"></div>
+  <div class="band-sep" style="left:1228px;top:152px;height:392px"></div>
+
+  <div class="wslab" style="left:52px;top:214px">1 · Pricing &amp;<br>revenue mgmt</div>
+  <div class="rbar solid" style="left:254px;top:208px;width:308px">List-price recovery + promo reset</div>
+  <div class="rbar soft" style="left:578px;top:208px;width:314px">Price-pack architecture</div>
+
+  <div class="wslab" style="left:52px;top:266px">2 · Share recovery<br>(distribution+brand)</div>
+  <div class="rbar solid" style="left:254px;top:260px;width:308px">Fix availability; KSA &amp; Qatar listings</div>
+  <div class="rbar soft" style="left:578px;top:260px;width:646px">Rebuild UAE RTM; A&amp;M reset 0.6%→~3%; relaunch</div>
+
+  <div class="wslab" style="left:52px;top:318px">3 · Mix &amp;<br>premiumization</div>
+  <div class="rbar soft" style="left:578px;top:312px;width:314px">Scale organic &amp; flavoured; relaunch ice cream</div>
+  <div class="rbar soft2" style="left:908px;top:312px;width:316px">Premium mix embedded</div>
+
+  <div class="wslab" style="left:52px;top:370px">4 · New<br>categories</div>
+  <div class="rbar soft" style="left:578px;top:364px;width:314px">Pilot plant-based &amp; sour milk</div>
+  <div class="rbar soft2" style="left:908px;top:364px;width:316px">Scale adjacencies nationally</div>
+
+  <div class="wslab" style="left:52px;top:422px">5 · New<br>markets</div>
+  <div class="rbar soft2" style="left:908px;top:416px;width:316px">Scale KSA; enter Egypt &amp; Morocco</div>
+
+  <div class="mstone" style="left:254px;top:470px;width:308px"><span class="mt2">MILESTONE · YEAR 1</span>Break-even protected; S&amp;D −3pp; price recovered on commodity lines</div>
+  <div class="mstone" style="left:578px;top:470px;width:314px"><span class="mt2">MILESTONE · YEAR 3</span>EBITDA margin ~12%; UAE share stabilised; adjacencies piloted</div>
+  <div class="mstone" style="left:908px;top:470px;width:316px"><span class="mt2">MILESTONE · YEAR 5</span>Revenue ~AED 2.7bn; EBITDA margin ~16.5% (~AED 445M)</div>
+
+  <div class="kpi-strip" style="left:52px;top:556px;width:1176px">
+    <span style="font-weight:700;color:var(--ink)">EBITDA margin trajectory:</span>
+    <span style="margin-left:12px;color:var(--navy);font-weight:800;font-size:14px">5.8%</span>
+    <span style="margin:0 8px">→</span>
+    <span style="color:var(--peri);font-weight:800;font-size:14px">~12%</span>
+    <span style="margin:0 8px">→</span>
+    <span style="color:var(--navy);font-weight:800;font-size:14px">~16.5%</span>
+    <span style="margin-left:14px;font-style:italic">each horizon funds the investment of the next</span>
+  </div>
+
+  <div class="src">Source: Team value-creation plan; Dairyworks P&amp;L and peer benchmark; initiative economics from the value-creation model. Timeframes indicative.</div>
+  <div class="pageno">8</div>
+</section>
+
+</div>
+
+<!-- live-reload: polls this file's Last-Modified and reloads on change -->
+<script>
+(function(){
+  var last=null;
+  setInterval(function(){
+    fetch(location.pathname,{method:'HEAD',cache:'no-store'}).then(function(r){
+      var lm=r.headers.get('Last-Modified');
+      if(last && lm && lm!==last){ location.reload(); }
+      last=lm;
+    }).catch(function(){});
+  },1000);
+})();
+</script>
+</body>
+</html>

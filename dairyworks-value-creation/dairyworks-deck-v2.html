@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dairyworks — Value Creation (v2, team storyline)</title>
+<style>
+  :root{
+    --navy:#1F2A44; --navy2:#2C3A5E; --teal:#179C9C; --amber:#E29A2B;
+    --red:#C03A2B; --green:#2E8B57; --grey:#5B6370; --lgrey:#EDEFF2;
+    --mgrey:#D6DAE0; --dark:#232A36; --white:#fff; --blue:#2E6BB0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#4a4f57;font-family:'Segoe UI',Calibri,Arial,sans-serif;color:var(--dark)}
+  .deck{display:flex;flex-direction:column;align-items:center;gap:26px;padding:70px 10px 90px}
+  .slide{position:relative;width:1280px;height:720px;background:#fff;overflow:hidden;
+    box-shadow:0 10px 36px rgba(0,0,0,.45);flex:0 0 auto;}
+  @media (max-width:1340px){ .slide{transform:scale(calc((100vw - 24px)/1280));transform-origin:top center;
+    margin-bottom:calc((100vw - 24px)/1280 * 720 - 720px);} }
+  .kicker{position:absolute;left:52px;top:22px;font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--teal);text-transform:uppercase}
+  .pageno{position:absolute;right:40px;top:18px;font-size:13px;color:var(--mgrey)}
+  h1.title{position:absolute;left:52px;top:46px;width:1170px;font-size:25px;line-height:1.12;color:var(--navy);font-weight:800}
+  .subt{position:absolute;left:52px;top:120px;font-size:14px;font-style:italic;color:var(--grey)}
+  .rule{position:absolute;left:52px;top:146px;width:1176px;height:3px;background:var(--teal)}
+  .src{position:absolute;left:52px;bottom:22px;font-size:11px;color:var(--grey);width:1050px}
+  .mck{position:absolute;right:40px;bottom:22px;font-size:11px;color:var(--mgrey)}
+  .sowhat{position:absolute;left:52px;right:52px;background:var(--navy2);color:#fff;padding:14px 18px;font-size:16px;border-radius:2px}
+  .sowhat b{color:var(--teal)}
+  .card{background:#fff;border:1px solid var(--mgrey);border-radius:2px}
+  .panel{background:var(--lgrey);border-radius:2px}
+  .darkpanel{background:var(--navy);color:#fff;border-radius:2px}
+  .hbar{background:var(--navy);color:#fff;font-size:14px;font-weight:700;letter-spacing:.04em;padding:9px 14px;text-transform:uppercase}
+  ul.b{list-style:none}
+  ul.b li{position:relative;padding-left:16px;margin-bottom:9px;font-size:15px;line-height:1.3}
+  ul.b li:before{content:"–";position:absolute;left:0;color:var(--teal);font-weight:700}
+  ul.b.w li{color:#fff}
+  ul.b.w li:before{color:var(--teal)}
+  .b strong{font-weight:700}
+  .kpi{position:relative;background:var(--lgrey);border-left:6px solid var(--teal);padding:14px 16px;border-radius:2px}
+  .kpi .v{font-size:30px;font-weight:800;line-height:1}
+  .kpi .l{font-size:13px;color:var(--grey);margin-top:8px;line-height:1.2}
+  table.t{border-collapse:collapse;width:100%;font-size:14px}
+  table.t th{background:var(--navy);color:#fff;font-weight:700;padding:9px 10px;text-align:center;font-size:13px}
+  table.t th:first-child{text-align:left}
+  table.t td{padding:8px 10px;text-align:center;border-bottom:1px solid var(--mgrey)}
+  table.t td:first-child{text-align:left;font-weight:600}
+  table.t tr:nth-child(even) td{background:var(--lgrey)}
+  table.t tr.total td{background:var(--navy2);color:#fff;font-weight:700}
+  .dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:middle}
+  .d-red{background:var(--red)} .d-amb{background:var(--amber)} .d-grn{background:var(--green)} .d-blu{background:var(--blue)}
+  .nav{position:fixed;left:0;right:0;bottom:0;background:rgba(31,42,68,.96);color:#fff;
+    display:flex;align-items:center;justify-content:center;gap:16px;padding:10px;z-index:50;font-size:13px}
+  .nav button{background:var(--teal);color:var(--navy);border:0;font-weight:700;padding:6px 14px;border-radius:3px;cursor:pointer}
+  .nav .count{min-width:70px;text-align:center}
+  .tophint{position:fixed;top:10px;right:14px;color:#cfd4dc;font-size:12px;z-index:50}
+  .initnum{width:48px;height:48px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:23px;font-weight:800;color:#fff}
+  .target{background:var(--lgrey);border-radius:2px;padding:6px 10px;font-size:12.5px;font-weight:700}
+  /* plot helpers */
+  .plot{position:relative;background:var(--lgrey);border-left:2px solid var(--grey);border-bottom:2px solid var(--grey)}
+  .bub{position:absolute;border-radius:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;text-align:center;line-height:1.05;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+  .qline{position:absolute;background:var(--mgrey)}
+  .axlab{position:absolute;font-size:12px;color:var(--grey);font-weight:700}
+</style>
+</head>
+<body>
+<div class="tophint">Use ← / → to navigate</div>
+<div class="deck" id="deck">
+
+<!-- ===== 1 COVER ===== -->
+<section class="slide" style="background:var(--navy)">
+  <div style="position:absolute;left:0;top:0;width:14px;height:100%;background:var(--teal)"></div>
+  <div style="position:absolute;left:86px;top:150px;color:var(--teal);font-size:16px;font-weight:700;letter-spacing:.08em">DAIRYWORKS · THRIVE BOOTCAMP TEAM 3</div>
+  <div style="position:absolute;left:86px;top:200px;width:480px;height:5px;background:var(--teal)"></div>
+  <h1 style="position:absolute;left:84px;top:235px;width:1100px;color:#fff;font-size:58px;font-weight:800;line-height:1.05">What levers should Dairyworks pull to create value?</h1>
+  <div style="position:absolute;left:86px;top:420px;width:1100px;color:var(--mgrey);font-size:25px;line-height:1.3">A 5-year value creation plan — from a <b style="color:#fff">burning platform</b> to <b style="color:var(--teal)">~AED&nbsp;445M EBITDA</b></div>
+  <div style="position:absolute;left:86px;bottom:90px;color:var(--mgrey);font-size:15px">Problem-solving readout &nbsp;·&nbsp; v2 (team storyline) &nbsp;·&nbsp; FY2021 diagnostic base</div>
+  <div style="position:absolute;left:86px;bottom:56px;color:#fff;font-size:15px;font-weight:700">McKinsey &amp; Company</div>
+</section>
+
+<!-- ===== 2 INTRO: RECAP + PROBLEM STATEMENT ===== -->
+<section class="slide">
+  <div class="kicker">Intro · Recap &amp; problem statement</div><div class="pageno">1</div>
+  <h1 class="title">The mandate: find the levers to reverse a profit collapse and grow — framed as a SMART target</h1>
+  <div class="subt">Recap of the prompt, and the problem we are solving</div>
+  <div class="rule"></div>
+  <div style="position:absolute;left:52px;top:180px;width:560px;height:430px" class="panel">
+    <div class="hbar">Recap — the prompt from the pack</div>
+    <ul class="b" style="padding:16px 18px;font-size:15px">
+      <li><strong>Who:</strong> Dairyworks — UAE dairy player (milk, yogurt, ice cream), 30 years old, <strong>new CEO</strong></li>
+      <li><strong>Footprint:</strong> UAE (home), KSA, Qatar; 3 UAE plants</li>
+      <li><strong>Problem:</strong> performance is declining — profit has quietly collapsed</li>
+      <li><strong>The ask:</strong> a <strong>5-year value creation plan</strong> — full-potential revenue &amp; EBITDA, plus the strategic initiatives to get there</li>
+    </ul>
+  </div>
+  <div style="position:absolute;left:640px;top:180px;width:588px;height:430px;border-left:8px solid var(--teal)" class="darkpanel">
+    <div style="color:var(--teal);font-weight:700;font-size:15px;padding:18px 20px 4px">PROBLEM STATEMENT (SMART)</div>
+    <div style="padding:4px 20px 0;font-size:20px;color:#fff;line-height:1.4">
+      <em>"What levers should Dairyworks pull to grow revenue <b style="color:var(--teal)">~7%/yr</b> and lift EBITDA to <b style="color:var(--teal)">~AED&nbsp;445M (16.5% margin)</b> over the next 5 years?"</em>
+    </div>
+    <div style="padding:18px 20px 0;font-size:13px;color:var(--mgrey)">Target set as a <strong style="color:#fff">range</strong>, anchored between our own best-recent and the peer set:</div>
+    <div style="display:flex;gap:10px;padding:10px 20px">
+      <div style="flex:1;background:var(--navy2);border-radius:2px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--red)">5.8%</div><div style="font-size:11px;color:var(--mgrey)">today (FY21)</div></div>
+      <div style="flex:1;background:var(--navy2);border-radius:2px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--teal)">16.5%</div><div style="font-size:11px;color:var(--mgrey)">target (base)</div></div>
+      <div style="flex:1;background:var(--navy2);border-radius:2px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:800;color:#fff">17–27%</div><div style="font-size:11px;color:var(--mgrey)">peers</div></div>
+      <div style="flex:1;background:var(--navy2);border-radius:2px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:800;color:#fff">18.1%</div><div style="font-size:11px;color:var(--mgrey)">our 2017</div></div>
+    </div>
+  </div>
+  <div class="src">Source: Dairyworks case fact-pack; team problem-structuring.</div><div class="mck">McKinsey &amp; Company</div>
+</section>
+
+<!-- ===== 3 DIVIDER: STICK ===== -->
+<section class="slide" style="background:var(--navy)">
+  <div style="position:absolute;left:0;top:0;width:14px;height:100%;background:var(--red)"></div>
+  <div style="position:absolute;left:86px;top:270px;color:var(--red);font-size:16px;font-weight:700;letter-spacing:.08em">THE STICK</div>
+  <div style="position:absolute;left:84px;top:305px;width:1050px;color:#fff;font-size:50px;font-weight:800">The burning platform</div>
+  <div style="position:absolute;left:86px;top:385px;width:160px;height:5px;background:var(--red)"></div>
+  <div style="position:absolute;left:86px;top:415px;width:1000px;color:var(--mgrey);font-size:17px">Why we cannot stand still — the diagnostic: where profit went, and why</div>
+</section>
+
+<!-- ===== 4 DIAGNOSTIC: EBITDA DECLINE STACKED BAR ===== -->
+<section class="slide">
+  <div class="kicker">Burning platform · Diagnostic</div><div class="pageno">3</div>
+  <h1 class="title">EBITDA fell from 18.1% to 5.8% since 2017 — costs rose +9% while revenue fell −5%</h1>
+  <div class="subt">Revenue split into cost and EBITDA, AED mn, 2017–2021</div>
+  <div class="rule"></div>
+  <!-- stacked bars -->
+  <div style="position:absolute;left:60px;top:200px;width:720px;height:360px">
+    <div style="display:flex;align-items:flex-end;gap:40px;height:300px;padding-left:10px">
+      <!-- each year: stacked column COGS / S&D / A&M+G&A / EBITDA -->
+      <div style="width:95px;display:flex;flex-direction:column-reverse;height:281px">
+        <div style="height:166px;background:var(--navy)"></div>
+        <div style="height:48px;background:var(--amber)"></div>
+        <div style="height:16px;background:var(--grey)"></div>
+        <div style="height:51px;background:var(--green);position:relative"><span style="position:absolute;top:-20px;width:100%;text-align:center;font-size:13px;font-weight:700;color:var(--green)">362</span></div>
+      </div>
+      <div style="width:95px;display:flex;flex-direction:column-reverse;height:283px">
+        <div style="height:168px;background:var(--navy)"></div>
+        <div style="height:50px;background:var(--amber)"></div>
+        <div style="height:13px;background:var(--grey)"></div>
+        <div style="height:52px;background:var(--green);position:relative"><span style="position:absolute;top:-20px;width:100%;text-align:center;font-size:13px;font-weight:700;color:var(--green)">372</span></div>
+      </div>
+      <div style="width:95px;display:flex;flex-direction:column-reverse;height:281px">
+        <div style="height:171px;background:var(--navy)"></div>
+        <div style="height:53px;background:var(--amber)"></div>
+        <div style="height:14px;background:var(--grey)"></div>
+        <div style="height:43px;background:var(--green);position:relative"><span style="position:absolute;top:-20px;width:100%;text-align:center;font-size:13px;font-weight:700;color:var(--green)">307</span></div>
+      </div>
+      <div style="width:95px;display:flex;flex-direction:column-reverse;height:275px">
+        <div style="height:169px;background:var(--navy)"></div>
+        <div style="height:60px;background:var(--amber)"></div>
+        <div style="height:13px;background:var(--grey)"></div>
+        <div style="height:33px;background:var(--green);position:relative"><span style="position:absolute;top:-20px;width:100%;text-align:center;font-size:13px;font-weight:700;color:var(--green)">232</span></div>
+      </div>
+      <div style="width:95px;display:flex;flex-direction:column-reverse;height:267px">
+        <div style="height:172px;background:var(--navy)"></div>
+        <div style="height:66px;background:var(--red)"></div>
+        <div style="height:13px;background:var(--grey)"></div>
+        <div style="height:16px;background:var(--green);position:relative"><span style="position:absolute;top:-20px;width:100%;text-align:center;font-size:13px;font-weight:800;color:var(--red)">111</span></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:40px;padding-left:10px;margin-top:8px">
+      <span style="width:95px;text-align:center;font-size:13px;font-weight:700">2017</span>
+      <span style="width:95px;text-align:center;font-size:13px;font-weight:700">2018</span>
+      <span style="width:95px;text-align:center;font-size:13px;font-weight:700">2019</span>
+      <span style="width:95px;text-align:center;font-size:13px;font-weight:700">2020</span>
+      <span style="width:95px;text-align:center;font-size:13px;font-weight:700">2021</span>
+    </div>
+    <div style="display:flex;gap:16px;font-size:12px;margin-top:14px;padding-left:10px">
+      <span><i style="display:inline-block;width:12px;height:12px;background:var(--navy);border-radius:2px"></i> COGS</span>
+      <span><i style="display:inline-block;width:12px;height:12px;background:var(--amber);border-radius:2px"></i> S&amp;D</span>
+      <span><i style="display:inline-block;width:12px;height:12px;background:var(--grey);border-radius:2px"></i> A&amp;M + G&amp;A</span>
+      <span><i style="display:inline-block;width:12px;height:12px;background:var(--green);border-radius:2px"></i> EBITDA</span>
+    </div>
+  </div>
+  <!-- right rail -->
+  <div style="position:absolute;left:810px;top:200px;width:418px;height:300px" class="panel">
+    <div class="hbar">The scissors</div>
+    <ul class="b" style="padding:14px 16px">
+      <li><strong>Revenue −5%</strong> (AED 2,000M → 1,900M) — and volume down far more (−13%)</li>
+      <li><strong>Operating cost +9%</strong> (AED 1,638M → 1,790M) — driven by S&amp;D and COGS</li>
+      <li><strong>EBITDA −69%</strong> (AED 362M → 111M); margin 18.1% → 5.8%; EBIT just 0.6%</li>
+    </ul>
+  </div>
+  <div style="position:absolute;left:810px;top:520px;width:418px;background:var(--red);color:#fff;text-align:center;font-weight:700;padding:14px;border-radius:2px">Falling revenue + rising cost = a near-break-even business</div>
+  <div class="src">Source: Dairyworks P&amp;L 2017–2021 (revenue, COGS, S&amp;D, A&amp;M, G&amp;A, EBITDA).</div><div class="mck">McKinsey &amp; Company</div>
+</section>
+
+<!-- ===== 5 COST DEEP DIVE ===== -->
+<section class="slide">
+  <div class="kicker">Burning platform · Cost deep dive</div><div class="pageno">4</div>
+  <h1 class="title">Two cost lines drove the collapse — S&amp;D exploded above peers, while COGS crept up with industry inflation</h1>
+  <div class="subt">Cost lines as % of revenue vs peers, 2017→2021</div>
+  <div class="rule"></div>
+  <div style="position:absolute;left:52px;top:185px;width:660px">
+    <table class="t">
+      <tr><th>Cost line</th><th>2017</th><th>2021</th><th>Δ (pp)</th><th>Peer range '21</th><th>Signal</th></tr>
+      <tr><td>S&amp;D</td><td>17.0%</td><td>24.9%</td><td style="color:var(--red);font-weight:700">+7.9</td><td>14–18%</td><td><span class="dot d-red"></span>Way above peers</td></tr>
+      <tr><td>COGS</td><td>59.3%</td><td>64.5%</td><td>+5.2</td><td>56–64%</td><td><span class="dot d-amb"></span>Inflation + scale</td></tr>
+      <tr><td>A&amp;M</td><td>0.6%</td><td>0.6%</td><td>0.0</td><td>2–3%</td><td><span class="dot d-blu"></span>Under-spend</td></tr>
+      <tr><td>G&amp;A</td><td>5.0%</td><td>4.2%</td><td style="color:var(--green)">−0.8</td><td>1–3%</td><td><span class="dot d-grn"></span>OK</td></tr>
+      <tr class="total"><td>EBITDA</td><td>18.1%</td><td>5.8%</td><td>−12.3</td><td>17–27%</td><td></td></tr>
+    </table>
+    <div style="font-size:12px;color:var(--grey);margin-top:8px">Benchmark: Almarai, NADEC, SADAFCO (2021).</div>
+  </div>
+  <div style="position:absolute;left:740px;top:185px;width:488px;height:360px" class="panel">
+    <div class="hbar">What the benchmark tells us</div>
+    <ul class="b" style="padding:14px 16px;font-size:14px">
+      <li><strong>S&amp;D is the smoking gun:</strong> +7.9pp while every peer <em>held or improved</em> — part inefficiency (outsourced KSA/Qatar), part deleverage on falling volume</li>
+      <li><strong>COGS is mostly exogenous:</strong> every peer's COGS rose too (Almarai +10.3pp, worse than us) — global dairy-input &amp; energy inflation; our controllable share is scale/plants</li>
+      <li><strong>A&amp;M inverted:</strong> we starve demand (0.6%) while over-paying to supply</li>
+    </ul>
+  </div>
+  <div class="sowhat" style="top:566px"><b>So what:</b> The addressable prize is <b>S&amp;D first</b>, then scale-driven COGS — not price. ~half the 12.3pp loss is self-inflicted and fully fixable.</div>
+  <div class="src">Source: Dairyworks &amp; peer P&amp;Ls, 2017–2021 (% of revenue).</div><div class="mck">McKinsey &amp; Company</div>
+</section>
+
+<!-- ===== 6 REVENUE DEEP DIVE ===== -->
+<section class="slide">
+  <div class="kicker">Burning platform · Revenue deep dive</div><div class="pageno">5</div>
+  <h1 class="title">Revenue is weak for two reasons — we are losing share behind a weak brand, and our mix is drifting the wrong way</h1>
+  <div class="subt">Volume, share, brand and product mix, 2017–2021</div>
+  <div class="rule"></div>
+  <div style="position:absolute;left:52px;top:180px;width:575px;height:360px;border-left:7px solid var(--red)" class="darkpanel">
+    <div style="color:var(--red);font-weight:700;font-size:14px;padding:16px 18px 2px">1 · DECLINING SHARE &amp; WEAK BRAND</div>
+    <ul class="b w" style="padding:6px 18px;font-size:14px">
+      <li><strong>Volume −13%</strong> (313→272kt) while markets grew ~5–8%/yr — price (+10%) masked a real volume/share loss</li>
+      <li><strong>Losing share</strong> where it counts: UAE milk and ice cream (our home market is −3%/yr)</li>
+      <li><strong>Weak brand (2019 Nielsen):</strong> only 1-in-5 recognize us, 1-in-10 actively seek us — demand isn't being pulled</li>
+    </ul>
+  </div>
+  <div style="position:absolute;left:650px;top:180px;width:578px;height:360px;border-left:7px solid var(--amber)" class="panel">
+    <div class="hbar" style="background:var(--amber);color:var(--navy)">2 · INEFFICIENT PRODUCT MIX</div>
+    <table class="t" style="margin:8px 0">
+      <tr><th>Category</th><th>Rev CAGR</th><th>GP% '21</th></tr>
+      <tr><td>Milk (57% of rev)</td><td style="color:var(--red)">−1.7%</td><td>35%</td></tr>
+      <tr><td>Yogurt (31%)</td><td style="color:var(--green)">+4.2%</td><td>35%</td></tr>
+      <tr><td>Ice cream (12%)</td><td style="color:var(--red)">−9.5%</td><td style="font-weight:700">40%</td></tr>
+    </table>
+    <div style="padding:2px 16px;font-size:13.5px;color:var(--dark)">Mix is moving <strong>away</strong> from value: the commodity core is priced into decline, and the <strong>highest-margin category (ice cream) is shrinking fastest</strong>.</div>
+  </div>
+  <div class="sowhat" style="top:566px"><b>So what:</b> The revenue problem is <b>self-inflicted too</b> — fix distribution + brand to win back volume, and rebalance the mix toward premium/health. This sets up the opportunity.</div>
+  <div class="src">Source: Dairyworks P&amp;L; product &amp; geography sales/GP 2017–2021; 2019 Nielsen (n=1,000); Euromonitor.</div><div class="mck">McKinsey &amp; Company</div>
+</section>
+
+<!-- ===== 7 DIVIDER: CARROT ===== -->
+<section class="slide" style="background:var(--navy)">
+  <div style="position:absolute;left:0;top:0;width:14px;height:100%;background:var(--teal)"></div>
+  <div style="position:absolute;left:86px;top:270px;color:var(--teal);font-size:16px;font-weight:700;letter-spacing:.08em">THE CARROT</div>
+  <div style="position:absolute;left:84px;top:305px;width:1050px;color:#fff;font-size:50px;font-weight:800">The opportunity &amp; the plan</div>
+  <div style="position:absolute;left:86px;top:385px;width:160px;height:5px;background:var(--teal)"></div>
+  <div style="position:absolute;left:86px;top:415px;width:1000px;color:var(--mgrey);font-size:17px">Where the growth is, where we can win, and the initiatives to capture ~AED 445M EBITDA</div>
+</section>
+
+<!-- ===== 8 MARKET ANALYSIS: TRENDS ===== -->
+<section class="slide">
+  <div class="kicker">Opportunity · Market analysis</div><div class="pageno">6</div>
+  <h1 class="title">The market is a tailwind — GCC dairy is large, accelerating to ~7%/yr, and premiumizing</h1>
+  <div class="subt">Core dairy market (Euromonitor retail value RSP), growth and trends</div>
+  <div class="rule"></div>
+  <div style="position:absolute;left:52px;top:185px;width:620px">
+    <table class="t">
+      <tr><th>Category (UAE, USD mn RSP)</th><th>2021</th><th>2026E</th><th>CAGR '17–21</th><th>CAGR '21–26</th></tr>
+      <tr><td>Milk</td><td>300</td><td>443</td><td>+3.6%</td><td style="color:var(--green);font-weight:700">+8.1%</td></tr>
+      <tr><td>Yogurt (all)</td><td>307</td><td>435</td><td>+4.1%</td><td style="color:var(--green)">+7.2%</td></tr>
+      <tr><td>Sour milk</td><td>172</td><td>258</td><td>+3.0%</td><td style="color:var(--green);font-weight:700">+8.5%</td></tr>
+      <tr><td>Ice cream</td><td>108</td><td>131</td><td>−0.5%</td><td>+3.8%</td></tr>
+      <tr><td>Plant-based milk</td><td>18</td><td>30</td><td>+8.2%</td><td style="color:var(--green);font-weight:700">+9.9%</td></tr>
+      <tr class="total"><td>Total core dairy</td><td>1,277</td><td>1,772</td><td>+2.4%</td><td>+6.8%</td></tr>
+    </table>
+  </div>
+  <div style="position:absolute;left:700px;top:185px;width:528px;height:360px" class="darkpanel">
+    <div class="hbar">Trends overall</div>
+    <ul class="b w" style="padding:14px 16px;font-size:14px">
+      <li><strong>Structural:</strong> population &amp; income growth, urbanization, foodservice recovery</li>
+      <li><strong>Consumer:</strong> health / high-protein, premiumization, organic, plant-based</li>
+      <li><strong>Channel:</strong> e-commerce &amp; quick-commerce rising; modern-trade consolidation</li>
+      <li><strong>Acceleration:</strong> growth roughly <em>triples</em> vs the last 5 years (2.4%→6.8%/yr)</li>
+    </ul>
+  </div>
+  <div class="sowhat" style="top:566px"><b>So what:</b> Demand is not the problem — the market is growing and premiumizing. The fastest pockets (milk, sour milk, plant-based, yogurt) are exactly where we should play.</div>
+  <div class="src">Source: Euromonitor retail value (RSP), UAE, 2017–2026.</div><div class="mck">McKinsey &amp; Company</div>
+</section>
+
+<!-- ===== 9 WHAT'S DOING WELL — MATRIX ===== -->
+<section class="slide">
+  <div class="kicker">Opportunity · Where to play</div><div class="pageno">7</div>
+  <h1 class="title">Mapping our portfolio on margin vs growth shows clear winners to scale and a tail to fix or exit</h1>
+  <div class="subt">Dairyworks products (●) and geographies (◆) by gross margin and revenue growth, 2017–2021</div>
+  <div class="rule"></div>
+  <!-- plot -->
+  <div class="plot" style="position:absolute;left:150px;top:190px;width:560px;height:320px">
+    <!-- quadrant lines -->
+    <div class="qline" style="left:206px;top:0;width:2px;height:320px"></div>
+    <div class="qline" style="left:0;top:168px;width:560px;height:2px"></div>
+    <!-- quadrant labels -->
+    <div style="position:absolute;left:300px;top:8px;font-size:12px;font-weight:700;color:var(--green)">SCALE (grow + high margin)</div>
+    <div style="position:absolute;left:12px;top:8px;font-size:12px;font-weight:700;color:var(--amber)">FIX / RELAUNCH</div>
+    <div style="position:absolute;left:12px;top:296px;font-size:12px;font-weight:700;color:var(--red)">RATIONALIZE</div>
+    <div style="position:absolute;left:330px;top:296px;font-size:12px;font-weight:700;color:var(--grey)">GROW MARGIN</div>
+    <!-- bubbles: products -->
+    <div class="bub" style="left:378px;top:102px;width:74px;height:74px;background:var(--green)">Organic<br>milk</div>
+    <div class="bub" style="left:529px;top:102px;width:78px;height:78px;background:var(--green)">Flavoured<br>yogurt</div>
+    <div class="bub" style="left:60px;top:102px;width:70px;height:70px;background:var(--amber)">Ice<br>cream</div>
+    <div class="bub" style="left:126px;top:267px;width:58px;height:58px;background:var(--red)">Std<br>yogurt</div>
+    <div class="bub" style="left:60px;top:267px;width:64px;height:64px;background:var(--red)">Std<br>milk</div>
+    <!-- bubbles: geographies (diamonds via rotation) -->
+    <div class="bub" style="left:150px;top:185px;width:42px;height:42px;background:var(--navy2);border-radius:4px">UAE</div>
+    <div class="bub" style="left:234px;top:168px;width:38px;height:38px;background:var(--navy2);border-radius:4px">KSA</div>
+    <div class="bub" style="left:221px;top:185px;width:40px;height:40px;background:var(--navy2);border-radius:4px">Qatar</div>
+    <!-- axis labels -->
+    <div class="axlab" style="left:200px;top:328px">Revenue growth (CAGR) →</div>
+    <div class="axlab" style="left:-150px;top:150px;transform:rotate(-90deg);transform-origin:left">Gross margin (GP%) →</div>
+  </div>
+  <div style="position:absolute;left:770px;top:190px;width:458px;height:340px" class="panel">
+    <div class="hbar">Read-across (color = fit with our goals)</div>
+    <ul class="b" style="padding:14px 16px;font-size:14px">
+      <li><span class="dot d-grn"></span><strong>Scale:</strong> organic milk &amp; flavoured yogurt — high margin <em>and</em> growing; ~43% of revenue, under-exploited</li>
+      <li><span class="dot d-amb"></span><strong>Fix/relaunch:</strong> ice cream — highest GP (40%) but −9.5%/yr; availability neglect, not a pricing choice</li>
+      <li><span class="dot d-red"></span><strong>Rationalize:</strong> standard milk &amp; yogurt — low margin, declining</li>
+      <li><strong>Geographies:</strong> UAE drifting left (declining home market); KSA/Qatar flat-to-up — share headroom</li>
+    </ul>
+  </div>
+  <div class="sowhat" style="top:566px;font-size:14px"><b>So what:</b> Focus investment on the green quadrant (scale), relaunch ice cream, and prune the red tail — this is where margin and growth align with the market.</div>
+  <div class="src">Source: Dairyworks product &amp; geography sales/GP 2017–2021. Bubble size ≈ revenue.</div><div class="mck">McKinsey &amp; Company</div>
+</section>
+
+<!-- ===== 10 COMPETITIVE MARKET ===== -->
+<section class="slide">
+  <div class="kicker">Opportunity · Competitive market</div><div class="pageno">8</div>
+  <h1 class="title">Peers earn 3–5× our margin — proving the prize is real, and showing exactly which levers win</h1>
+  <div class="subt">Peer benchmark, 2021 (% of revenue)</div>
+  <div class="rule"></div>
+  <div style="position:absolute;left:52px;top:195px;width:540px">
+    <div style="font-size:16px;font-weight:700;color:var(--navy);text-align:center;margin-bottom:14px">EBITDA margin, 2021 (%)</div>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:center;gap:10px"><span style="width:90px;text-align:right;font-size:14px">Almarai</span><div style="height:28px;width:100%;background:var(--teal)"></div><span style="font-weight:700">27.0%</span></div>
+      <div style="display:flex;align-items:center;gap:10px"><span style="width:90px;text-align:right;font-size:14px">NADEC</span><div style="height:28px;width:71%;background:var(--teal)"></div><span style="font-weight:700">19.2%</span></div>
+      <div style="display:flex;align-items:center;gap:10px"><span style="width:90px;text-align:right;font-size:14px">SADAFCO</span><div style="height:28px;width:63%;background:var(--teal)"></div><span style="font-weight:700">17.0%</span></div>
+      <div style="display:flex;align-items:center;gap:10px"><span style="width:90px;text-align:right;font-size:14px;font-weight:700">Dairyworks</span><div style="height:28px;width:21%;background:var(--red)"></div><span style="font-weight:700">5.8%</span></div>
+    </div>
+  </div>
+  <div style="position:absolute;left:630px;top:185px;width:598px">
+    <table class="t">
+      <tr><th>Company</th><th>COGS</th><th>S&amp;D</th><th>A&amp;M</th><th>EBITDA</th></tr>
+      <tr><td>Dairyworks</td><td>64.5%</td><td>24.9%</td><td>0.6%</td><td>5.8%</td></tr>
+      <tr><td>SADAFCO</td><td>64.0%</td><td>14.2%</td><td>2.2%</td><td>17.0%</td></tr>
+      <tr><td>NADEC</td><td>57.0%</td><td>18.0%</td><td>2.8%</td><td>19.2%</td></tr>
+      <tr><td>Almarai</td><td>55.8%</td><td>14.1%</td><td>2.0%</td><td>27.0%</td></tr>
+    </table>
+    <div class="panel" style="margin-top:16px;padding:12px 14px">
+      <ul class="b" style="font-size:13px"><li><strong>Distribution reach + brand + scale</strong> is the basis of competition — exactly our gaps</li><li>Almarai dominant (~40% KSA); fair comparator is SADAFCO (17%) at our scale</li><li>The gap is <strong>addressable</strong> (S&amp;D, brand) — not just scale (COGS)</li></ul>
+    </div>
+  </div>
+  <div class="sowhat" style="top:566px"><b>So what:</b> The peer set both <b>proves the target is achievable</b> and tells us the winning levers: fix distribution, invest in brand, premiumize the mix.</div>
+  <div class="src">Source: Peer P&amp;Ls (Almarai, NADEC, SADAFCO) and Dairyworks, 2021.</div><div class="mck">McKinsey &amp; Company</div>
+</section>
+
+<!-- ===== 11 PRIORITIZATION QUADRANT ===== -->
+<section class="slide">
+  <div class="kicker">The plan · Prioritization</div><div class="pageno">9</div>
+  <h1 class="title">Four initiatives, sequenced by impact and feasibility — distribution comes first as the biggest, fastest lever</h1>
+  <div class="subt">Initiative prioritization: EBITDA impact vs ease / speed of execution</div>
+  <div class="rule"></div>
+  <!-- plot -->
+  <div class="plot" style="position:absolute;left:150px;top:190px;width:560px;height:320px">
+    <div class="qline" style="left:280px;top:0;width:2px;height:320px"></div>
+    <div class="qline" style="left:0;top:140px;width:560px;height:2px"></div>
+    <div style="position:absolute;left:300px;top:8px;font-size:12px;font-weight:700;color:var(--green)">DO FIRST (high impact, easier)</div>
+    <div style="position:absolute;left:12px;top:8px;font-size:12px;font-weight:700;color:var(--amber)">BIG BETS (high impact, harder)</div>
+    <div class="bub" style="left:400px;top:74px;width:92px;height:92px;background:var(--teal)">1 Distri-<br>bution</div>
+    <div class="bub" style="left:164px;top:76px;width:84px;height:84px;background:var(--amber)">2 Cost &amp;<br>mfg</div>
+    <div class="bub" style="left:308px;top:110px;width:80px;height:80px;background:var(--green)">3 Port-<br>folio</div>
+    <div class="bub" style="left:300px;top:168px;width:68px;height:68px;background:var(--red)">4 Brand</div>
+    <div class="axlab" style="left:210px;top:328px">Ease / speed of execution →</div>
+    <div class="axlab" style="left:-90px;top:150px;transform:rotate(-90deg);transform-origin:left">EBITDA impact →</div>
+  </div>
+  <div style="position:absolute;left:770px;top:190px;width:458px;height:340px" class="panel">
+    <div class="hbar">Sequencing logic</div>
+    <ul class="b" style="padding:14px 16px;font-size:14px">
+      <li><strong>1 Distribution</strong> — biggest lever (+8.4pp), low-capital self-help → start now</li>
+      <li><strong>2 Cost &amp; mfg</strong> — big but capex-heavy and slower → build in H2</li>
+      <li><strong>3 Portfolio</strong> — high impact, medium ease → scale winners early</li>
+      <li><strong>4 Brand</strong> — enabler; medium impact, takes time to compound → fund through</li>
+    </ul>
+    <div class="target" style="margin:4px 16px">Full list of initiatives → next slide (value-creation pillars)</div>
+  </div>
+  <div class="src">Source: Team prioritization of diagnostic findings; bubble size ≈ EBITDA impact.</div><div class="mck">McKinsey &amp; Company</div>
+</section>
+
+<!-- ===== 12 VALUE CREATION WATERFALL ===== -->
+<section class="slide">
+  <div class="kicker">The plan · Value creation summary</div><div class="pageno">10</div>
+  <h1 class="title">The four pillars bridge EBITDA margin from 5.8% to ~16.5% — and EBITDA from AED 111M to ~AED 445M</h1>
+  <div class="subt">Value creation waterfall, FY2021 base to Year-5 full potential (base case)</div>
+  <div class="rule"></div>
+  <!-- waterfall -->
+  <div style="position:absolute;left:60px;top:200px;width:760px;height:340px">
+    <div style="position:relative;height:300px;border-bottom:2px solid var(--grey)">
+      <!-- start 5.8 -->
+      <div style="position:absolute;left:20px;bottom:0;width:92px;height:87px;background:var(--navy)"></div>
+      <div style="position:absolute;left:20px;bottom:91px;width:92px;text-align:center;font-size:13px;font-weight:700">5.8%</div>
+      <!-- +8.4 S&D -->
+      <div style="position:absolute;left:162px;bottom:87px;width:92px;height:126px;background:var(--teal)"></div>
+      <div style="position:absolute;left:162px;bottom:217px;width:92px;text-align:center;font-size:13px;font-weight:700;color:var(--teal)">+8.4</div>
+      <!-- +5.0 GM -->
+      <div style="position:absolute;left:304px;bottom:213px;width:92px;height:75px;background:var(--teal)"></div>
+      <div style="position:absolute;left:304px;bottom:292px;width:92px;text-align:center;font-size:13px;font-weight:700;color:var(--teal)">+5.0</div>
+      <!-- -2.7 brand -->
+      <div style="position:absolute;left:446px;bottom:247px;width:92px;height:41px;background:var(--red)"></div>
+      <div style="position:absolute;left:446px;bottom:292px;width:92px;text-align:center;font-size:13px;font-weight:700;color:var(--red)">−2.7</div>
+      <!-- end 16.5 -->
+      <div style="position:absolute;left:588px;bottom:0;width:92px;height:247px;background:var(--green)"></div>
+      <div style="position:absolute;left:588px;bottom:251px;width:92px;text-align:center;font-size:14px;font-weight:800;color:var(--green)">16.5%</div>
+    </div>
+    <div style="display:flex;margin-top:8px;font-size:12px;font-weight:600;color:var(--dark)">
+      <span style="width:112px;text-align:center">FY21</span>
+      <span style="width:142px;text-align:center">1 Distribution<br>(S&amp;D)</span>
+      <span style="width:142px;text-align:center">2+3 Cost &amp; mix<br>(net)</span>
+      <span style="width:142px;text-align:center">4 Brand<br>reinvest</span>
+      <span style="width:120px;text-align:center">Year 5 FP</span>
+    </div>
+  </div>
+  <div style="position:absolute;left:850px;top:200px;width:378px;height:300px" class="panel">
+    <div class="hbar">The four value-creation pillars</div>
+    <ul class="b" style="padding:12px 16px;font-size:13.5px">
+      <li><strong>1 Distribution turnaround:</strong> +8.4pp</li>
+      <li><strong>2 Cost &amp; manufacturing:</strong> within +5.0pp</li>
+      <li><strong>3 Portfolio premiumization:</strong> +rev &amp; mix (within +5.0pp)</li>
+      <li><strong>4 Brand &amp; demand reset:</strong> −2.7pp invest (enables revenue)</li>
+    </ul>
+    <div style="padding:4px 16px;font-size:12.5px;color:var(--grey)">Range: 12.5% / 16.5% / 18.3% → ~AED 340–495M. Even downside ≈ 3× FY21.</div>
+  </div>
+  <div style="position:absolute;left:52px;right:52px;top:560px;background:var(--navy);color:#fff;padding:13px 18px;border-radius:2px;font-size:15px"><b style="color:var(--teal)">Prize:</b> ~AED 2,700M revenue and ~AED 445M EBITDA at Year 5 — ~4× the FY21 level (+AED 335M).</div>
+  <div class="src">Source: Team value creation model; Dairyworks P&amp;L; peer benchmark; Euromonitor.</div><div class="mck">McKinsey &amp; Company</div>
+</section>
+
+<!-- ===== 13 PILLAR DEEP DIVE ===== -->
+<section class="slide">
+  <div class="kicker">The plan · Deep dive into each pillar</div><div class="pageno">11</div>
+  <h1 class="title">Each pillar, its primary lever and target impact — a coherent, largely self-funding system</h1>
+  <div class="subt">The four value-creation pillars in detail</div>
+  <div class="rule"></div>
+  <div style="position:absolute;left:52px;top:176px;display:grid;grid-template-columns:1fr 1fr;gap:16px;width:1176px">
+    <div class="card" style="height:210px;border-left:8px solid var(--teal);padding:16px;display:flex;gap:14px">
+      <div class="initnum" style="background:var(--teal)">1</div>
+      <div><div style="font-weight:800;color:var(--navy);font-size:16px">DISTRIBUTION TURNAROUND</div>
+      <div style="font-style:italic;color:var(--teal);font-size:12.5px;margin:2px 0 6px">Largest, fastest lever</div>
+      <ul class="b" style="font-size:13.5px"><li>Renegotiate / insource KSA &amp; Qatar networks</li><li>Rebuild UAE route-to-market; fund trade spend for share</li></ul>
+      <div class="target" style="margin-top:6px">S&amp;D 24.9% → ~16.5% net · <span style="color:var(--teal)">+8.4pp</span></div></div>
+    </div>
+    <div class="card" style="height:210px;border-left:8px solid var(--amber);padding:16px;display:flex;gap:14px">
+      <div class="initnum" style="background:var(--amber)">2</div>
+      <div><div style="font-weight:800;color:var(--navy);font-size:16px">COST &amp; MANUFACTURING</div>
+      <div style="font-style:italic;color:var(--amber);font-size:12.5px;margin:2px 0 6px">Modernize &amp; scale</div>
+      <ul class="b" style="font-size:13.5px"><li>Upgrade 3 UAE plants (capex ~AED 200–350M)</li><li>Centralize procurement; capture scale</li></ul>
+      <div class="target" style="margin-top:6px">COGS 64.5% → ~59.5% · <span style="color:var(--amber)">+5.0pp with mix</span></div></div>
+    </div>
+    <div class="card" style="height:210px;border-left:8px solid var(--green);padding:16px;display:flex;gap:14px">
+      <div class="initnum" style="background:var(--green)">3</div>
+      <div><div style="font-weight:800;color:var(--navy);font-size:16px">PORTFOLIO PREMIUMIZATION</div>
+      <div style="font-style:italic;color:var(--green);font-size:12.5px;margin:2px 0 6px">Mix to premium / health</div>
+      <ul class="b" style="font-size:13.5px"><li>Scale organic milk &amp; flavoured yogurt; relaunch ice cream</li><li>Rationalize commodity tail; enter plant-based</li></ul>
+      <div class="target" style="margin-top:6px">+~AED 300M revenue · <span style="color:var(--green)">richer mix</span></div></div>
+    </div>
+    <div class="card" style="height:210px;border-left:8px solid var(--red);padding:16px;display:flex;gap:14px">
+      <div class="initnum" style="background:var(--red)">4</div>
+      <div><div style="font-weight:800;color:var(--navy);font-size:16px">BRAND &amp; DEMAND RESET</div>
+      <div style="font-style:italic;color:var(--red);font-size:12.5px;margin:2px 0 6px">Fix the awareness gap</div>
+      <ul class="b" style="font-size:13.5px"><li>Step up A&amp;M 0.6% → 3.3% (challenger level)</li><li>Reposition to pull premium volume</li></ul>
+      <div class="target" style="margin-top:6px">−2.7pp invest · <span style="color:var(--red)">enables the revenue bridge</span></div></div>
+    </div>
+  </div>
+  <div class="src">Source: Team synthesis of diagnostic findings; cost structure, portfolio and peer benchmark.</div><div class="mck">McKinsey &amp; Company</div>
+</section>
+
+<!-- ===== 14 ROADMAP ===== -->
+<section class="slide">
+  <div class="kicker">The plan · Roadmap</div><div class="pageno">12</div>
+  <h1 class="title">A three-horizon roadmap — stop the bleed, build the engine, reach full potential — each self-funds the next</h1>
+  <div class="subt">How we take it forward, Year 1 to Year 5</div>
+  <div class="rule"></div>
+  <div style="position:absolute;left:52px;top:180px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;width:1176px">
+    <div class="card" style="height:430px">
+      <div style="background:var(--navy);color:#fff;padding:14px 18px"><div style="color:var(--teal);font-weight:700;font-size:13px">HORIZON 1</div><div style="font-size:20px;font-weight:800">Stop the bleed</div><div style="font-size:14px">0–12 months</div></div>
+      <ul class="b" style="padding:14px 18px;font-size:14px"><li>Renegotiate KSA &amp; Qatar distribution</li><li>Procurement quick wins; cut loss-making SKUs</li><li>Brand relaunch brief</li></ul>
+      <div class="panel" style="margin:6px 18px;padding:10px 12px;font-size:13px;font-weight:700;color:var(--navy)">Milestone: S&amp;D −3pp; break-even protected</div>
+    </div>
+    <div class="card" style="height:430px">
+      <div style="background:var(--navy2);color:#fff;padding:14px 18px"><div style="color:var(--teal);font-weight:700;font-size:13px">HORIZON 2</div><div style="font-size:20px;font-weight:800">Build the engine</div><div style="font-size:14px">12–36 months</div></div>
+      <ul class="b" style="padding:14px 18px;font-size:14px"><li>Plant modernization capex</li><li>Scale organic milk &amp; flavoured yogurt; KSA offensive</li><li>National brand campaign</li></ul>
+      <div class="panel" style="margin:6px 18px;padding:10px 12px;font-size:13px;font-weight:700;color:var(--navy)">Milestone: EBITDA ~12%; KSA 2%→4%</div>
+    </div>
+    <div class="card" style="height:430px">
+      <div style="background:var(--teal);color:#fff;padding:14px 18px"><div style="color:var(--navy);font-weight:700;font-size:13px">HORIZON 3</div><div style="font-size:20px;font-weight:800">Full potential</div><div style="font-size:14px">36–60 months</div></div>
+      <ul class="b" style="padding:14px 18px;font-size:14px"><li>Enter plant-based &amp; functional dairy</li><li>Lead modern &amp; online channels</li><li>Embed premium mix</li></ul>
+      <div class="panel" style="margin:6px 18px;padding:10px 12px;font-size:13px;font-weight:700;color:var(--navy)">Milestone: Rev ~AED 2,700M; EBITDA ~16.5%</div>
+    </div>
+  </div>
+  <div class="src">Source: Team implementation plan; initiative economics from the value creation model.</div><div class="mck">McKinsey &amp; Company</div>
+</section>
+
+<!-- ===== 15 NEXT STEPS ===== -->
+<section class="slide" style="background:var(--navy)">
+  <div style="position:absolute;left:0;top:0;width:14px;height:100%;background:var(--teal)"></div>
+  <div style="position:absolute;left:84px;top:60px;color:var(--teal);font-size:16px;font-weight:700;letter-spacing:.06em">NEXT STEPS · QUESTIONS · INPUT REQUIRED</div>
+  <h1 style="position:absolute;left:82px;top:96px;width:1080px;color:#fff;font-size:34px;font-weight:800">How we take it forward — and what we need from you</h1>
+  <div style="position:absolute;left:84px;top:160px;width:480px;height:5px;background:var(--teal)"></div>
+  <div style="position:absolute;left:84px;top:195px;width:560px">
+    <div style="color:var(--teal);font-weight:700;font-size:15px;margin-bottom:10px">NEXT STEPS</div>
+    <ul class="b w" style="font-size:15.5px">
+      <li>Confirm the full-potential target range and the four-pillar plan</li>
+      <li>Launch Horizon-1 self-help: distribution renegotiation + procurement quick wins</li>
+      <li>Scope plant-modernization capex and KSA make-vs-buy in diligence</li>
+    </ul>
+  </div>
+  <div style="position:absolute;left:680px;top:195px;width:520px">
+    <div style="color:var(--amber);font-weight:700;font-size:15px;margin-bottom:10px">QUESTIONS / INPUT REQUIRED</div>
+    <ul class="b w" style="font-size:15.5px">
+      <li>Distribution: insource vs renegotiate KSA/Qatar — make-vs-buy &amp; transition risk?</li>
+      <li>Ice cream: relaunch or exit the highest-GP, fastest-declining category?</li>
+      <li>Growth: is KSA recovery organic from ~2%, or do we need M&amp;A/partnership?</li>
+      <li>Capex envelope &amp; payback; A&amp;M ramp that actually moves awareness?</li>
+    </ul>
+  </div>
+  <div style="position:absolute;left:84px;right:84px;bottom:56px;background:var(--teal);color:var(--navy);text-align:center;font-weight:700;font-size:17px;padding:15px;border-radius:2px">From burning platform to ~AED 445M EBITDA (~4×) — the levers are operational, peer-proven, and largely self-funding</div>
+</section>
+
+<!-- ===== APPENDIX DIVIDER ===== -->
+<section class="slide" style="background:var(--navy)">
+  <div style="position:absolute;left:0;top:0;width:14px;height:100%;background:var(--teal)"></div>
+  <div style="position:absolute;left:84px;top:296px;color:var(--teal);font-size:16px;font-weight:700;letter-spacing:.08em">APPENDIX</div>
+  <h1 style="position:absolute;left:82px;top:326px;width:1050px;color:#fff;font-size:44px;font-weight:800">Cost levers &amp; make-vs-buy</h1>
+  <div style="position:absolute;left:84px;top:408px;width:220px;height:5px;background:var(--teal)"></div>
+  <div style="position:absolute;left:84px;top:438px;color:#cfd4dc;font-size:16px;width:900px">Deep-dive requested by the team — quantification of the cost prize, GCC proof points, and the facilities decision</div>
+</section>
+
+<!-- ===== A1 COST LEVERS + QUANTIFICATION ===== -->
+<section class="slide">
+  <div class="kicker">Appendix · Cost levers</div><div class="pageno">A1</div>
+  <h1 class="title">Two levers carry the cost case — S&amp;D and COGS — worth ~AED 275–300M/yr by Year 5</h1>
+  <div class="subt">Cost-reduction potential vs peer benchmark; method = gap to peer (pp of revenue) × revenue, cross-checked vs unit-cost history</div>
+  <div class="rule"></div>
+  <!-- LEFT: lever table -->
+  <div style="position:absolute;left:52px;top:170px;width:556px">
+    <table class="t">
+      <tr><th>Cost line</th><th>FY21</th><th>Peer</th><th>Δpp</th><th>AED M/yr</th></tr>
+      <tr><td>S&amp;D / distribution</td><td>24.9%</td><td>14–18%</td><td style="color:var(--green);font-weight:700">−8.4</td><td style="font-weight:700">~160</td></tr>
+      <tr><td>COGS / manufacturing</td><td>64.5%</td><td>56–64%</td><td style="color:var(--green);font-weight:700">−5.0</td><td style="font-weight:700">~95</td></tr>
+      <tr><td>G&amp;A</td><td>4.2%</td><td>1–3%</td><td style="color:var(--green);font-weight:700">−1.0</td><td>~20</td></tr>
+      <tr class="total"><td>Cost-out run-rate (Y5)</td><td></td><td></td><td>−14.4</td><td>~275</td></tr>
+    </table>
+    <div class="kpi" style="margin-top:14px;border-left-color:var(--red)">
+      <div class="v" style="color:var(--red);font-size:24px">A&amp;M +2.4pp</div>
+      <div class="l">A&amp;M (0.6% → ~3%) is the one line we <b>raise</b> — brand/growth investment, not a cost cut</div>
+    </div>
+  </div>
+  <!-- RIGHT: phasing chart -->
+  <div style="position:absolute;left:642px;top:170px;width:586px">
+    <div class="hbar">Cost-out ramp — run-rate (AED M/yr)</div>
+    <div style="position:relative;height:286px;background:var(--lgrey);border-left:2px solid var(--grey);border-bottom:2px solid var(--grey);margin-top:6px">
+      <div style="position:absolute;left:0;right:0;bottom:0;height:260px;display:flex;justify-content:space-around;align-items:flex-end;padding:0 14px">
+        <div style="width:72px;display:flex;flex-direction:column-reverse;align-items:center">
+          <div style="width:72px;height:44px;background:var(--teal)"></div>
+          <div style="width:72px;height:8px;background:var(--navy)"></div>
+          <div style="width:72px;height:4px;background:var(--amber)"></div>
+          <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:3px">70</div>
+        </div>
+        <div style="width:72px;display:flex;flex-direction:column-reverse;align-items:center">
+          <div style="width:72px;height:88px;background:var(--teal)"></div>
+          <div style="width:72px;height:24px;background:var(--navy)"></div>
+          <div style="width:72px;height:12px;background:var(--amber)"></div>
+          <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:3px">155</div>
+        </div>
+        <div style="width:72px;display:flex;flex-direction:column-reverse;align-items:center">
+          <div style="width:72px;height:120px;background:var(--teal)"></div>
+          <div style="width:72px;height:44px;background:var(--navy)"></div>
+          <div style="width:72px;height:16px;background:var(--amber)"></div>
+          <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:3px">225</div>
+        </div>
+        <div style="width:72px;display:flex;flex-direction:column-reverse;align-items:center">
+          <div style="width:72px;height:132px;background:var(--teal)"></div>
+          <div style="width:72px;height:64px;background:var(--navy)"></div>
+          <div style="width:72px;height:16px;background:var(--amber)"></div>
+          <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:3px">265</div>
+        </div>
+        <div style="width:72px;display:flex;flex-direction:column-reverse;align-items:center">
+          <div style="width:72px;height:140px;background:var(--teal)"></div>
+          <div style="width:72px;height:80px;background:var(--navy)"></div>
+          <div style="width:72px;height:16px;background:var(--amber)"></div>
+          <div style="font-size:12px;font-weight:800;color:var(--green);margin-bottom:3px">295</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-around;padding:4px 14px 0;font-size:12.5px;color:var(--grey);font-weight:700">
+      <span>Y1</span><span>Y2</span><span>Y3</span><span>Y4</span><span>Y5</span>
+    </div>
+    <div style="margin-top:8px;font-size:12.5px;color:var(--grey)">
+      <span class="dot d-blu" style="background:var(--teal)"></span>S&amp;D (fast, low-capex)&nbsp;&nbsp;
+      <span class="dot" style="background:var(--navy)"></span>COGS/mfg (slower, capex)&nbsp;&nbsp;
+      <span class="dot d-amb"></span>G&amp;A
+    </div>
+  </div>
+  <div class="sowhat" style="top:566px">So what: <b>~half</b> the S&amp;D fix is simply reversing the <b>+61% cost-to-serve deleverage</b> (AED 1,086→1,746/ton) by winning volume back — so distribution and growth are the <b>same lever</b>. ~AED 0.9–1.0B cumulative over 5 years.</div>
+  <div class="src">Source: Dairyworks P&amp;L 2017–21; peer P&amp;Ls (Almarai, NADEC, SADAFCO) 2021. Figures modeled — no plant-/channel-level cost data in the pack.</div><div class="mck">McKinsey &amp; Company</div>
+</section>
+
+<!-- ===== A2 MAKE VS BUY + GCC PROOF ===== -->
+<section class="slide">
+  <div class="kicker">Appendix · Make-vs-buy</div><div class="pageno">A2</div>
+  <h1 class="title">Own the scaled core, buy/co-pack the rest — a route GCC peers have already proven</h1>
+  <div class="subt">Three GCC proof points, and a make-vs-buy rule by geography/category given our old plants and scarce expansion land</div>
+  <div class="rule"></div>
+  <!-- LEFT: peer proof cards -->
+  <div style="position:absolute;left:52px;top:170px;width:556px">
+    <div class="card" style="margin-bottom:12px">
+      <div class="hbar">SADAFCO — distribution <span style="color:var(--teal)">(worked)</span></div>
+      <ul class="b" style="padding:11px 14px;font-size:13.5px"><li>Hub-and-spoke: 3 DCs + ~20 depots, ~1,000 trucks; route optimization <b>−39% distance</b>; daily pull replenishment</li><li>Moved to <b>3PL distributor</b> in Kuwait/Bahrain/Qatar "for growth &amp; cost savings" → <b>~14% S&amp;D, ~17% EBITDA at our scale</b></li></ul>
+    </div>
+    <div class="card" style="margin-bottom:12px">
+      <div class="hbar">Almarai — COGS &amp; vertical integration</div>
+      <ul class="b" style="padding:11px 14px;font-size:13.5px"><li>SAP planning, central procurement + hedging; OP +15% vs rev +9% on efficiency; capex normalizing 20%→7–8%</li><li>CFO: integration only pays <b>at scale</b> — sub-scale players should "buy as needed" → points us <b>asset-light</b></li></ul>
+    </div>
+    <div class="card">
+      <div class="hbar">Baladna (Qatar) — white-label <span style="color:var(--teal)">(live)</span></div>
+      <ul class="b" style="padding:11px 14px;font-size:13.5px"><li>Co-packs private label + makes <b>Bel's La Vache Qui Rit locally</b> since 2023; "cost/litre improved over target"</li><li>Plant 3 (~800K L/day) at only <b>50–60% utilization</b> → real spare capacity a partner could tap</li></ul>
+    </div>
+  </div>
+  <!-- RIGHT: make-vs-buy matrix -->
+  <div style="position:absolute;left:642px;top:170px;width:586px">
+    <div class="hbar">Make-vs-buy — by geography / category</div>
+    <table class="t" style="margin-top:6px">
+      <tr><th>Option</th><th>Best for</th><th>Trade-off</th></tr>
+      <tr><td>Own + modernize</td><td>UAE core milk &amp; yogurt (scaled)</td><td>Capex ~AED 200–350M</td></tr>
+      <tr><td>UAE hub → export</td><td>UHT &amp; frozen (ice cream) only</td><td>Needs top-tier cold chain</td></tr>
+      <tr><td>White-label / co-pack</td><td>Sub-scale Qatar (e.g. Baladna)</td><td>Margin share; less IP control</td></tr>
+      <tr><td>3PL / distributor</td><td>KSA/Qatar secondary distribution</td><td>Lower control</td></tr>
+      <tr><td>Lease</td><td>Depots &amp; warehousing</td><td>Not production lines</td></tr>
+    </table>
+    <div class="darkpanel" style="margin-top:14px;padding:13px 16px;font-size:14px">
+      <b style="color:var(--teal)">Rule of thumb:</b> <b>own</b> where we're scaled (UAE) · <b>co-pack</b> where sub-scale (Qatar, ice-cream peaks, niche SKUs) · <b>3PL</b> where the network is thin (KSA/Qatar) — focuses CAPEX and de-risks old facilities
+    </div>
+  </div>
+  <div class="src">Source: SADAFCO, Almarai &amp; Baladna annual reports/investor materials 2020–2025; team synthesis. Fresh-dairy shelf-life limits cross-border export to UHT/frozen.</div><div class="mck">McKinsey &amp; Company</div>
+</section>
+
+</div>
+
+<div class="nav">
+  <button onclick="go(-1)">◀ Prev</button>
+  <span class="count"><span id="cur">1</span> / <span id="tot">15</span></span>
+  <button onclick="go(1)">Next ▶</button>
+  <span style="margin-left:20px;color:#9aa3b2">Dairyworks · Value Creation v2 (team storyline)</span>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  document.getElementById('tot').textContent = slides.length;
+  let i = 0;
+  function show(n){ i=Math.max(0,Math.min(slides.length-1,n));
+    slides[i].scrollIntoView({behavior:'smooth',block:'center'});
+    document.getElementById('cur').textContent=i+1; }
+  function go(d){ show(i+d); }
+  window.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(1);}
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(-1);}
+    if(e.key==='Home')show(0); if(e.key==='End')show(slides.length-1);
+  });
+  const io=new IntersectionObserver((ents)=>{ents.forEach(en=>{if(en.isIntersecting){
+    i=slides.indexOf(en.target);document.getElementById('cur').textContent=i+1;}});},{threshold:0.6});
+  slides.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>
