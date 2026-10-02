@@ -82,6 +82,30 @@
   .peritxt{color:var(--peri);font-weight:700}
   .navytxt{color:var(--navy);font-weight:700}
 
+  /* ---- lever double-click cards ---- */
+  .lcard{position:absolute;top:158px;width:276px;height:330px;border:1px solid var(--line);
+    border-radius:3px;overflow:hidden;background:#fff}
+  .lhead{background:var(--navy);color:#fff;padding:10px 13px 12px}
+  .lhead .ln{font-size:10.5px;letter-spacing:.07em;font-weight:700;opacity:.82}
+  .lhead .lt{font-family:var(--serif);font-size:15px;font-weight:700;line-height:1.15;margin-top:3px}
+  .limpact{display:inline-block;margin-top:9px;background:#fff;color:var(--navy);
+    font-weight:800;font-size:13px;border-radius:12px;padding:3px 11px}
+  ul.lev{list-style:none;padding:12px 13px 0}
+  ul.lev li{position:relative;padding-left:14px;margin-bottom:10px;font-size:12.5px;line-height:1.32;color:var(--ink)}
+  ul.lev li:before{content:"";position:absolute;left:0;top:6px;width:5px;height:5px;border-radius:50%;background:var(--peri)}
+  .lproof{position:absolute;bottom:0;left:0;right:0;background:var(--lgrey);padding:9px 13px;
+    font-size:11px;color:var(--ink);line-height:1.32;border-top:1px solid var(--line)}
+  .lproof b{color:var(--navy)}
+  /* ---- revenue build bar ---- */
+  .build{position:absolute;display:flex;align-items:stretch;height:34px}
+  .bseg{height:100%;display:flex;align-items:center;justify-content:center;color:#fff;
+    font-size:12px;font-weight:700;border-right:1px solid #fff}
+  .bseg.base{background:var(--navy)}
+  .bseg.inc{background:var(--peri)}
+  .bseg.inc2{background:var(--peri2)}
+  .blab{position:absolute;font-size:11px;color:var(--grey);text-align:center;line-height:1.2}
+  .btot{position:absolute;font-weight:800;color:var(--navy);font-size:15px}
+
   /* ---- roadmap ---- */
   .phase{position:absolute;height:46px;background:var(--navy);color:#fff;border-radius:3px;
     display:flex;flex-direction:column;align-items:center;justify-content:center}
@@ -105,9 +129,9 @@
 
 <!-- ========================= SLIDE 1 — REVENUE ========================= -->
 <section class="slide">
-  <div class="crumb">Current state assessment  ›  <b>Revenue levers</b></div>
-  <h1 class="title">Revenue is down ~1% a year since 2017 — entirely volume, with no price taken in five years; premiumization is the one lever already working</h1>
-  <div class="subt" style="top:112px">Dairyworks revenue by portfolio tier, and where the recoverable growth sits, 2017–2021</div>
+  <div class="crumb">Value creation  ›  <b>Revenue growth</b></div>
+  <h1 class="title">The revenue upside is real — premium already compounds at +12% a year, and we have taken zero price in five years</h1>
+  <div class="subt" style="top:112px">Revenue by portfolio tier and the embedded upside, 2017–2021 baseline</div>
   <div class="hrule" style="top:138px"></div>
 
   <!-- legend -->
@@ -195,9 +219,97 @@
   <div class="pageno">1</div>
 </section>
 
-<!-- ========================= SLIDE 2 — ROADMAP ========================= -->
+<!-- ================= SLIDE 2 — REVENUE LEVERS DOUBLE-CLICK ================= -->
 <section class="slide">
-  <div class="crumb">The plan  ›  <b>Roadmap</b></div>
+  <div class="crumb">Value creation  ›  <b>Revenue levers</b></div>
+  <h1 class="title">Double-clicking the four revenue levers — each with its moves, its proof, and its prize, building to ~AED 2.7bn</h1>
+  <div class="subt" style="top:112px">The specific initiatives behind each lever and the revenue they unlock, FY21 baseline → Year 5</div>
+  <div class="hrule" style="top:138px"></div>
+
+  <!-- Lever 1 -->
+  <div class="lcard" style="left:52px">
+    <div class="lhead">
+      <div class="ln">LEVER 1</div>
+      <div class="lt">Pricing &amp; revenue management</div>
+      <span class="limpact">+~AED 200M</span>
+    </div>
+    <ul class="lev">
+      <li>Recover list price on commodity lines (milk, yogurt, ice cream)</li>
+      <li>Build premium price ladders &amp; price-pack architecture</li>
+      <li>Rationalize trade spend — manage <i>net</i> price within S&amp;D</li>
+    </ul>
+    <div class="lproof"><b>Proof:</b> price per SKU unchanged 2017–21 while commodity GP% fell 40%→30% — pure, fast, recoverable margin.</div>
+  </div>
+
+  <!-- Lever 2 -->
+  <div class="lcard" style="left:352px">
+    <div class="lhead">
+      <div class="ln">LEVER 2</div>
+      <div class="lt">Share recovery — distribution &amp; brand</div>
+      <span class="limpact">+~AED 300M</span>
+    </div>
+    <ul class="lev">
+      <li>Rebuild UAE route-to-market; fix on-shelf availability</li>
+      <li>A&amp;M reset 0.6%→~3%; relaunch to lift 1-in-5 recognition</li>
+      <li>Win back KSA &amp; Qatar listings and distribution</li>
+    </ul>
+    <div class="lproof"><b>Proof:</b> our volume fell ~5–13%/yr while the market grew ~4%/yr — the largest recoverable pool.</div>
+  </div>
+
+  <!-- Lever 3 -->
+  <div class="lcard" style="left:652px">
+    <div class="lhead">
+      <div class="ln">LEVER 3</div>
+      <div class="lt">Mix &amp; premiumization</div>
+      <span class="limpact">+~AED 150M</span>
+    </div>
+    <ul class="lev">
+      <li>Scale organic milk (+9%/yr) &amp; flavoured yogurt (+17%/yr)</li>
+      <li>Relaunch &amp; premiumize ice cream — highest GP, fastest decline</li>
+      <li>Manage the commodity tail deliberately for cash</li>
+    </ul>
+    <div class="lproof"><b>Proof:</b> premium already grew 26%→43% of revenue at 40% GP — a proven, margin-accretive shift.</div>
+  </div>
+
+  <!-- Lever 4 -->
+  <div class="lcard" style="left:952px">
+    <div class="lhead">
+      <div class="ln">LEVER 4</div>
+      <div class="lt">New categories &amp; channels</div>
+      <span class="limpact">+~AED 150M</span>
+    </div>
+    <ul class="lev">
+      <li>Enter plant-based (+10%/yr) &amp; sour-milk (+8.5%/yr) adjacencies</li>
+      <li>Add on-the-go single-serve &amp; multipack formats</li>
+      <li>Lead modern-trade and e-/quick-commerce channels</li>
+    </ul>
+    <div class="lproof"><b>Proof:</b> high-growth pockets we are absent from today; channel shift lifts both reach and cost-to-serve.</div>
+  </div>
+
+  <!-- revenue build bar -->
+  <div class="chartlab" style="left:52px;top:508px;font-size:14px">Revenue build, AED Mn (FY21 → Year 5)</div>
+  <div class="build" style="left:52px;top:536px;width:1000px">
+    <div class="bseg base"  style="width:690px">1,900</div>
+    <div class="bseg inc"   style="width:73px">+200</div>
+    <div class="bseg inc"   style="width:109px">+300</div>
+    <div class="bseg inc2"  style="width:54px">+150</div>
+    <div class="bseg inc2"  style="width:54px">+150</div>
+  </div>
+  <div class="btot" style="left:1066px;top:540px">→ ~AED 2,700M</div>
+  <div class="blab" style="left:52px;top:574px;width:690px">FY21 baseline</div>
+  <div class="blab" style="left:745px;top:574px;width:73px">1 Price</div>
+  <div class="blab" style="left:818px;top:574px;width:109px">2 Share</div>
+  <div class="blab" style="left:927px;top:574px;width:54px">3 Mix</div>
+  <div class="blab" style="left:981px;top:574px;width:70px">4 New</div>
+  <div class="btot" style="left:1066px;top:572px;font-size:11px;font-weight:400;color:var(--grey)">~+7%/yr</div>
+
+  <div class="src">Impact ranges are illustrative, from the team value-creation model. Source: Dairyworks product &amp; geography sales and GP (2017–2021); Euromonitor UAE retail value; peer benchmark.</div>
+  <div class="pageno">2</div>
+</section>
+
+<!-- ========================= SLIDE 3 — ROADMAP ========================= -->
+<section class="slide">
+  <div class="crumb">Value creation  ›  <b>Implementation roadmap</b></div>
   <h1 class="title">A three-horizon roadmap turns the levers into value — each phase self-funds the next, lifting EBITDA margin from 5.8% to ~16.5%</h1>
   <div class="subt" style="top:112px">Sequenced workstreams across five years: stop the bleed, build the engine, reach full potential</div>
   <div class="hrule" style="top:138px"></div>
@@ -254,7 +366,7 @@
   </div>
 
   <div class="src">Source: Team value-creation plan; Dairyworks P&amp;L and peer benchmark; initiative economics from the value-creation model. Timeframes indicative.</div>
-  <div class="pageno">2</div>
+  <div class="pageno">3</div>
 </section>
 
 </div>
